@@ -1,6 +1,7 @@
 # CieloTickets
 
 [![CI](https://github.com/AmanddaLuz/CieloTicketsCase/actions/workflows/ci.yml/badge.svg)](https://github.com/AmanddaLuz/CieloTicketsCase/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AmanddaLuz_CieloTicketsCase&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=AmanddaLuz_CieloTicketsCase)
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-7F52FF)
 ![Android](https://img.shields.io/badge/Android-API%2024%2B-3DDC84)
 ![Coverage](https://img.shields.io/badge/coverage-%E2%89%A575%25-0061A4)
@@ -296,6 +297,24 @@ Pull Requests para `develop` e `main`:
 - build do APK de debug;
 - publicação dos relatórios como artefatos.
 
+### SonarCloud
+
+O workflow
+[`sonarcloud.yml`](.github/workflows/sonarcloud.yml) envia análise de código,
+Lint, Detekt, testes e cobertura Kover para:
+
+<https://sonarcloud.io/project/overview?id=AmanddaLuz_CieloTicketsCase>
+
+Para ativá-lo:
+
+1. importe `AmanddaLuz/CieloTicketsCase` na organização `amnddaluz` do
+   SonarCloud;
+2. gere um token em **My Account > Security**;
+3. no GitHub, abra **Settings > Secrets and variables > Actions**;
+4. crie o secret `SONAR_TOKEN`.
+
+O token nunca deve ser adicionado ao repositório ou ao `local.properties`.
+
 ## GitFlow
 
 - `main`: releases;
@@ -309,6 +328,21 @@ Pull Requests para `develop` e `main`:
 com checks obrigatórios e conversas resolvidas.
 
 Consulte [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+### Versão e tag automática
+
+A versão deve ser alterada em uma branch `release/*` ou `feature/*`, entrar por
+PR em `develop` e depois por um PR de `develop` para `main`.
+
+Após o merge na `main`, o workflow
+[`release-tag.yml`](.github/workflows/release-tag.yml):
+
+1. lê o arquivo `VERSION`;
+2. valida o formato Semantic Versioning;
+3. cria a tag anotada `v<versão>`;
+4. publica a tag somente se ela ainda não existir.
+
+Não é necessário criar commits ou tags diretamente nas branches protegidas.
 
 ## Decisões e trade-offs
 

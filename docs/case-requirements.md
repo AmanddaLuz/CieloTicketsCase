@@ -32,6 +32,8 @@ Fonte auditada: `Case_Android.pdf`, disponibilizado com o desafio técnico.
 | Harness com prompts e restrições | Atendido | `docs/agent-harness/final-delivery.md` |
 | Harness com resultados | Atendido | registros por fase em `docs/agent-harness/` |
 | Repositório público | Atendido | `https://github.com/AmanddaLuz/CieloTicketsCase` |
+| Análise contínua de qualidade | Atendido | `.github/workflows/sonarcloud.yml` |
+| Tag de release sem commit direto | Atendido | `.github/workflows/release-tag.yml` |
 
 ## Requisitos adicionais implementados
 
