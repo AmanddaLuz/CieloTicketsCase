@@ -1,6 +1,6 @@
 # SDD project plan
 
-**Status:** XML UI foundation completed
+**Status:** Catalog and cart completed
 **Repository:** `AmanddaLuz/CieloTicketsCase`  
 **UI:** Native XML with ViewBinding
 
@@ -13,7 +13,7 @@
 | 2. Data | Completed: local catalog and relational Room persistence adapters |
 | 3. Payment | Completed: Cielo gateway, durable callback and persistent state machine |
 | 4. UI foundation | Completed: navigation, binding lifecycle and reusable state components |
-| 5. Catalog and cart | Events list, quantity controls and generic cart BottomSheet |
+| 5. Catalog and cart | Completed: events list, quantity controls and reusable cart BottomSheet |
 | 6. Checkout | Single-flight payment orchestration and terminal outcomes |
 | 7. History and receipt | Persisted sales, receipt and approved QR Code |
 | 8. Hardening | Instrumented tests, emulator validation and final documentation |

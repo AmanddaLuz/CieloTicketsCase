@@ -12,4 +12,19 @@
     <string name="catalog_next_message">A lista de eventos e o carrinho serão conectados na próxima etapa.</string>
     <string name="history_next_title">Histórico preparado</string>
     <string name="history_next_message">As vendas persistidas serão exibidas na etapa de histórico e recibo.</string>
+    <string name="loading_events">Carregando eventos…</string>
+    <string name="empty_events_title">Nenhum evento disponível</string>
+    <string name="empty_events_message">Não há ingressos disponíveis no momento.</string>
+    <string name="view_cart">Ver carrinho</string>
+    <string name="your_cart">Seu carrinho</string>
+    <string name="clear_cart">Limpar</string>
+    <string name="total">Total</string>
+    <string name="pay_with_cielo">Pagar com Cielo</string>
+    <string name="plus_symbol">+</string>
+    <string name="minus_symbol">−</string>
+    <string name="subtotal_value">Subtotal: %1$s</string>
+    <string name="add_ticket_for">Adicionar ingresso para %1$s</string>
+    <string name="remove_ticket_for">Remover ingresso de %1$s</string>
+    <string name="cart_changed_error">O carrinho mudou. Revise os itens e tente novamente.</string>
+    <string name="cart_amount_overflow_error">Não foi possível calcular o total do carrinho.</string>
 </resources>
