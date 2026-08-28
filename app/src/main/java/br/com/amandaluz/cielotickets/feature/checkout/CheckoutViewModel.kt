@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.amandaluz.cielotickets.domain.gateway.PaymentResult
 import br.com.amandaluz.cielotickets.domain.gateway.PaymentResultObserver
 import br.com.amandaluz.cielotickets.domain.model.Cart
+import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.usecase.CreatePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.domain.usecase.SavePurchaseAttemptUseCase
@@ -64,9 +65,19 @@ class CheckoutViewModel(
     }
 
     fun reset() {
-        if (mutableUiState.value.phase in ACTIVE_PHASES) return
+        if (mutableUiState.value.phase in ACTIVE_PHASES ||
+            mutableUiState.value.receiptNavigationPending
+        ) {
+            return
+        }
         currentAttempt = null
         mutableUiState.value = CheckoutUiState()
+    }
+
+    fun consumeReceiptNavigation() {
+        mutableUiState.value = mutableUiState.value.copy(
+            receiptNavigationPending = false,
+        )
     }
 
     override fun onCleared() {
@@ -129,6 +140,8 @@ class CheckoutViewModel(
                             reference = attempt.reference,
                             terminalStatus = result.status,
                             callbackMessage = result.errorMessage,
+                            receiptNavigationPending =
+                                result.status == PaymentStatus.APPROVED,
                         )
                     }
                     is UpdatePurchaseStatusUseCase.Result.NotFound,

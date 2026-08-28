@@ -34,10 +34,41 @@
     <string name="checkout_denied_title">Pagamento negado</string>
     <string name="checkout_denied_message">A Cielo não aprovou este pagamento.</string>
     <string name="checkout_cancelled_title">Pagamento cancelado</string>
-    <string name="checkout_cancelled_message">O pagamento foi cancelado na Cielo.</string>
-    <string name="checkout_error_title">Não foi possível concluir</string>
+    <string name="checkout_cancelled_message">Você cancelou o pagamento. Nenhuma cobrança foi concluída.</string>
+    <string name="checkout_error_title">Erro no pagamento</string>
     <string name="checkout_callback_error_message">A Cielo retornou um erro para este pagamento.</string>
     <string name="checkout_app_unavailable">O app Cielo não está disponível neste dispositivo.</string>
     <string name="checkout_credentials_missing">As credenciais da Cielo não estão configuradas.</string>
     <string name="checkout_technical_error">O pagamento não pôde ser processado. Revise o carrinho e tente novamente.</string>
+    <string name="close">Fechar</string>
+    <string name="loading_history">Carregando histórico…</string>
+    <string name="empty_history_title">Nenhuma venda registrada</string>
+    <string name="empty_history_message">As tentativas de pagamento aparecerão aqui.</string>
+    <string name="empty_filtered_history_title">Nenhum resultado neste status</string>
+    <string name="empty_filtered_history_message">Selecione outro filtro para consultar o histórico.</string>
+    <string name="filter_all">Todos</string>
+    <string name="status_created">Criado</string>
+    <string name="status_processing">Processando</string>
+    <string name="status_approved">Aprovado</string>
+    <string name="status_denied">Negado</string>
+    <string name="status_cancelled">Cancelado</string>
+    <string name="status_error">Erro</string>
+    <string name="receipt_title">Recibo</string>
+    <string name="loading_receipt">Carregando recibo…</string>
+    <string name="receipt_not_found_title">Recibo não encontrado</string>
+    <string name="receipt_not_found_message">Esta compra não está disponível no histórico local.</string>
+    <string name="reference_label">Referência</string>
+    <string name="unit_price_value">Unitário: %1$s</string>
+    <string name="ticket_qr_title">QR Code do ingresso</string>
+    <string name="ticket_qr_message">Apresente este código na entrada do evento.</string>
+    <string name="ticket_qr_content_description">QR Code do ingresso aprovado</string>
+
+    <plurals name="event_count">
+        <item quantity="one">%d evento</item>
+        <item quantity="other">%d eventos</item>
+    </plurals>
+    <plurals name="ticket_count">
+        <item quantity="one">%d ingresso</item>
+        <item quantity="other">%d ingressos</item>
+    </plurals>
 </resources>

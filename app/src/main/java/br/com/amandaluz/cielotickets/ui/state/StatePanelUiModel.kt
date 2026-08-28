@@ -1,5 +1,6 @@
 package br.com.amandaluz.cielotickets.ui.state
 
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 
 sealed interface StatePanelUiModel {
@@ -10,6 +11,6 @@ sealed interface StatePanelUiModel {
         val message: String,
         @DrawableRes val iconRes: Int,
         val actionLabel: String? = null,
+        @ColorRes val iconTintRes: Int? = null,
     ) : StatePanelUiModel
 }
-

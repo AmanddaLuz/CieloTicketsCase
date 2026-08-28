@@ -20,28 +20,28 @@
     <fragment
         android:id="@+id/eventsFragment"
         android:name="br.com.amandaluz.cielotickets.feature.events.EventsFragment"
-        android:label="@string/events_title" />
+        android:label="@string/events_title">
+        <action
+            android:id="@+id/action_events_to_receipt"
+            app:destination="@id/receiptFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/historyFragment"
-        android:name="br.com.amandaluz.cielotickets.feature.common.FeaturePlaceholderFragment"
+        android:name="br.com.amandaluz.cielotickets.feature.history.HistoryFragment"
         android:label="@string/history_title">
+        <action
+            android:id="@+id/action_history_to_receipt"
+            app:destination="@id/receiptFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/receiptFragment"
+        android:name="br.com.amandaluz.cielotickets.feature.receipt.ReceiptFragment"
+        android:label="@string/receipt_title">
         <argument
-            android:name="titleRes"
-            android:defaultValue="@string/history_title"
-            app:argType="reference" />
-        <argument
-            android:name="stateTitleRes"
-            android:defaultValue="@string/history_next_title"
-            app:argType="reference" />
-        <argument
-            android:name="stateMessageRes"
-            android:defaultValue="@string/history_next_message"
-            app:argType="reference" />
-        <argument
-            android:name="iconRes"
-            android:defaultValue="@drawable/ic_history"
-            app:argType="reference" />
+            android:name="reference"
+            app:argType="string" />
     </fragment>
 
 </navigation>

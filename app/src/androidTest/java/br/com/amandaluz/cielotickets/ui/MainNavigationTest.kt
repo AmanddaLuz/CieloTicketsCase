@@ -1,6 +1,8 @@
 package br.com.amandaluz.cielotickets.ui
 
+import android.view.View
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
@@ -12,6 +14,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.amandaluz.cielotickets.MainActivity
 import br.com.amandaluz.cielotickets.R
+import br.com.amandaluz.cielotickets.CieloTicketsApplication
+import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
+import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
+import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
 import org.junit.Assert.assertTrue
@@ -71,7 +78,7 @@ class MainNavigationTest {
     }
 
     @Test
-    fun startsCheckoutFromValidatedCart() {
+    fun exposesCheckoutForValidatedCart() {
         ActivityScenario.launch(MainActivity::class.java).use {
             onView(withId(R.id.sellButton)).perform(click())
             onView(
@@ -83,12 +90,6 @@ class MainNavigationTest {
 
             onView(withId(R.id.checkoutButton))
                 .check(matches(isDisplayed()))
-                .perform(click())
-
-            onView(withText(R.string.checkout_error_title))
-                .check(matches(isDisplayed()))
-            onView(withText(R.string.checkout_credentials_missing))
-                .check(matches(isDisplayed()))
         }
     }
 
@@ -98,7 +99,60 @@ class MainNavigationTest {
             onView(withId(R.id.historyButton)).perform(click())
 
             onView(withText(R.string.history_title)).check(matches(isDisplayed()))
-            onView(withText(R.string.history_next_title)).check(matches(isDisplayed()))
+            onView(withId(R.id.statusFilters)).check(matches(isDisplayed()))
+            onView(withText(R.string.filter_all)).check(matches(isDisplayed()))
         }
     }
+
+    @Test
+    fun opensApprovedReceiptWithQrCodeFromHistory() {
+        val eventName = "Test Event ${System.nanoTime()}"
+        insertApprovedAttempt(eventName)
+
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            onView(withId(R.id.historyButton)).perform(click())
+            onView(withText(eventName)).perform(click())
+
+            onView(withText(R.string.receipt_title)).check(matches(isDisplayed()))
+            onView(withText(R.string.status_approved)).check(matches(isDisplayed()))
+            onView(
+                withContentDescription(R.string.ticket_qr_content_description),
+            ).check(matches(isDisplayed()))
+
+            scenario.onActivity { activity ->
+                val content = activity.findViewById<View>(R.id.receiptContent)
+                val status = activity.findViewById<View>(R.id.receiptStatus)
+                val total = activity.findViewById<View>(R.id.receiptTotal)
+                val expectedCenter = content.width / 2
+                assertTrue(kotlin.math.abs(status.centerX() - expectedCenter) <= 2)
+                assertTrue(kotlin.math.abs(total.centerX() - expectedCenter) <= 2)
+            }
+        }
+    }
+
+    private fun insertApprovedAttempt(eventName: String) {
+        val application = ApplicationProvider.getApplicationContext<
+            CieloTicketsApplication
+        >()
+        val timestamp = System.currentTimeMillis()
+        val attempt = PurchaseAttempt.restore(
+            reference = "instrumented-$timestamp",
+            items = listOf(
+                PurchaseItem(
+                    eventId = "instrumented-event-$timestamp",
+                    eventName = eventName,
+                    quantity = 1,
+                    unitPriceInCents = 1_000L,
+                ),
+            ),
+            status = PaymentStatus.APPROVED,
+            createdAt = timestamp,
+            updatedAt = timestamp,
+        )
+        runBlocking {
+            application.appContainer.purchaseRepository.insert(attempt)
+        }
+    }
+
+    private fun View.centerX(): Int = left + (width / 2)
 }

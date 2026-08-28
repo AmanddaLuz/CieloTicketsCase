@@ -105,3 +105,19 @@ See `../specs/catalog-cart-spec.md` and ADR 0007.
   rebuilding totals or changing payment status itself.
 
 See `../specs/checkout-spec.md` and ADR 0008.
+
+## History and receipt presentation
+
+- `HistoryViewModel` combines the persisted history stream with a
+  presentation-only status filter.
+- `HistoryFragment` keeps the filter at the beginning of the page and navigates
+  with only a purchase reference.
+- `GetPurchaseAttemptUseCaseImpl` reloads the canonical persisted snapshot for
+  `ReceiptViewModel`.
+- `ReceiptUiMapper` maps every purchase item and exact domain total.
+- `BuildTicketQrContentUseCaseImpl` returns an opaque reference payload only for
+  approved attempts.
+- `QrCodeBitmapRenderer` contains the Android/ZXing rendering detail; the
+  Fragment only displays the resulting image.
+
+See `../specs/history-receipt-spec.md` and ADR 0009.

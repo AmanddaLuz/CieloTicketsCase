@@ -75,7 +75,8 @@
     <br.com.amandaluz.cielotickets.ui.state.StatePanelView
         android:id="@+id/checkoutState"
         android:layout_width="0dp"
-        android:layout_height="360dp"
+        android:layout_height="380dp"
+        android:background="@drawable/bg_checkout_result"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

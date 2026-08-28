@@ -1,6 +1,6 @@
 # SDD project plan
 
-**Status:** Checkout completed
+**Status:** History and receipt completed
 **Repository:** `AmanddaLuz/CieloTicketsCase`  
 **UI:** Native XML with ViewBinding
 
@@ -15,7 +15,7 @@
 | 4. UI foundation | Completed: navigation, binding lifecycle and reusable state components |
 | 5. Catalog and cart | Completed: events list, quantity controls and reusable cart BottomSheet |
 | 6. Checkout | Completed: persist-before-pay orchestration and terminal outcomes |
-| 7. History and receipt | Persisted sales, receipt and approved QR Code |
+| 7. History and receipt | Completed: status-filtered sales, persisted receipt and approved QR Code |
 | 8. Hardening | Instrumented tests, emulator validation and final documentation |
 
 Each phase uses a short-lived branch from `develop`. A phase is complete only

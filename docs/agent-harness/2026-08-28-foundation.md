@@ -73,3 +73,27 @@ the feature ViewModel exists to avoid a return-to-app lifecycle race. Clear the
 cart only after a terminal callback is persisted; preserve it after launcher,
 availability or credential failures.
 Canonical docs updated: checkout spec, ADR 0008, architecture, SDD and testing.
+
+## History and receipt phase
+
+Scope: Reactive persisted history, status filtering, receipt recovery and
+approved ticket QR Code.
+Decision: Combine a presentation-only status filter with the canonical history
+stream and place single-selection chips at the beginning of the XML page.
+Navigate using only the purchase reference, reload the persisted snapshot
+through `GetPurchaseAttemptUseCase` and generate an opaque QR payload only for
+approved purchases. Keep event, monetary and payment details outside the code.
+Canonical docs updated: history/receipt spec, ADR 0009, architecture, SDD and
+testing.
+
+Post-phase adjustment: align the XML palette with the Compose reference blue,
+center receipt fields and ship only the Cielo emulator's public test values in
+`local.properties.example`. Real credentials remain untracked.
+
+Approved checkout adjustment: after persisting the terminal result and clearing
+the cart, navigate once by purchase reference to the receipt with its QR Code.
+Keep non-approved terminal feedback in the checkout BottomSheet.
+
+Terminal-state visual adjustment: mirror the Compose result hierarchy in XML
+with semantic cancellation/error icons, concise copy, a blue result container
+and a full-width close action.
