@@ -1,6 +1,5 @@
 package br.com.amandaluz.cielotickets.payment.cielo
 
-import android.net.Uri
 import android.util.Base64
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import org.json.JSONArray
