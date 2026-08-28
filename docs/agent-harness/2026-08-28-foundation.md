@@ -50,3 +50,14 @@ AppContainer. Keep Events and History as real destinations whose placeholders
 will be replaced incrementally.
 Canonical docs updated: UI foundation spec, ADR 0005, architecture, SDD and
 testing.
+
+## Catalog and cart phase
+
+Scope: XML event list, quantity controls, cart summary and BottomSheet.
+Decision: Serialize quantity mutations and publish selections only after
+`BuildCartUseCase` returns a valid domain Cart. Map exact domain totals to
+immutable UI models, reuse one passive QuantitySelectorView and share the parent
+EventsViewModel with the child BottomSheet. Keep checkout hidden until payment
+orchestration is connected.
+Canonical docs updated: catalog/cart spec, ADR 0007, architecture, SDD and
+testing.

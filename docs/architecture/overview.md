@@ -76,3 +76,16 @@ custom-scheme trust boundary.
   for repositories, use cases and payment adapters.
 
 See `../specs/ui-foundation-spec.md` and ADR 0005.
+
+## Catalog and cart presentation
+
+- `EventsViewModel` serializes quantity mutations and delegates cart validation
+  to `BuildCartUseCase`.
+- `EventsUiMapper` maps exact domain totals into immutable display models.
+- `EventsFragment`, `EventAdapter` and `CartItemAdapter` only render and dispatch
+  event IDs.
+- `QuantitySelectorView` is shared by catalog and cart rows.
+- `CartBottomSheetFragment` uses the parent Fragment ViewModel and cannot own a
+  divergent cart copy.
+
+See `../specs/catalog-cart-spec.md` and ADR 0007.

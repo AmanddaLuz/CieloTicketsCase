@@ -27,6 +27,9 @@
 - Fragment binding usage across view recreation.
 - Reusable loading, message and action-state rendering.
 - Layout geometry for primary Home actions.
+- Serialized catalog quantity changes and per-event limits.
+- Domain-backed cart totals and removal of the final item.
+- Catalog-to-BottomSheet synchronization.
 - Distinct approved, denied, cancelled and error rendering.
 - QR Code restricted to approved purchases.
 
