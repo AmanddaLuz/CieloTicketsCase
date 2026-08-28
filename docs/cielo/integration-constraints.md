@@ -1,5 +1,9 @@
 # Cielo integration constraints
 
+Para sintomas, causas e correções verificadas durante o desenvolvimento,
+consulte
+[`../troubleshooting/problemas-e-solucoes.md`](../troubleshooting/problemas-e-solucoes.md).
+
 - Cielo is accessed only through the domain `PaymentGateway` contract.
 - The purchase UUID is persisted before opening the payment Intent.
 - Callback parsing is isolated from Activities and ViewModels.

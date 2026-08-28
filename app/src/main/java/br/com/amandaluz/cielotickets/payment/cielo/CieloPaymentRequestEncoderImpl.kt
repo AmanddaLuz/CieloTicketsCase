@@ -5,6 +5,7 @@ import android.util.Base64
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import org.json.JSONArray
 import org.json.JSONObject
+import androidx.core.net.toUri
 
 class CieloPaymentRequestEncoderImpl : CieloPaymentRequestEncoder {
 
@@ -40,7 +41,7 @@ class CieloPaymentRequestEncoderImpl : CieloPaymentRequestEncoder {
             payload.toByteArray(Charsets.UTF_8),
             Base64.NO_WRAP,
         )
-        return Uri.parse(PAYMENT_URI).buildUpon()
+        return PAYMENT_URI.toUri().buildUpon()
             .appendQueryParameter(REQUEST_PARAMETER, encodedPayload)
             .appendQueryParameter(CALLBACK_PARAMETER, CALLBACK_URI)
             .build()

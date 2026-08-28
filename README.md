@@ -403,6 +403,8 @@ de segurança, arquitetura, economia de contexto, GitFlow e validação.
   [`docs/architecture/interactive-flows.md`](docs/architecture/interactive-flows.md);
 - estratégia de testes:
   [`docs/testing/strategy.md`](docs/testing/strategy.md);
+- problemas encontrados e soluções aplicadas:
+  [`docs/troubleshooting/problemas-e-solucoes.md`](docs/troubleshooting/problemas-e-solucoes.md);
 - prompts, restrições e resultados do agente:
   [`docs/agent-harness`](docs/agent-harness).
 
