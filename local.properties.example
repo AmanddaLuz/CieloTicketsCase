@@ -1,4 +1,3 @@
 sdk.dir=/path/to/Android/sdk
-CIELO_CLIENT_ID=
-CIELO_ACCESS_TOKEN=
-
+CIELO_CLIENT_ID=emulator-test-client-id
+CIELO_ACCESS_TOKEN=emulator-test-access-token

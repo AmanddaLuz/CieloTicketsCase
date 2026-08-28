@@ -10,12 +10,10 @@ Fragments through Navigation Component.
 ## Rationale
 
 The Cielo Smart target uses Android 10 and benefits from a conventional,
-predictable UI stack. This is a contextual choice, not a general rejection of
-Compose.
+predictable UI stack aligned with the project requirements.
 
 ## Consequences
 
-- No Compose dependencies.
+- XML is the only UI source of truth.
 - Binding references must be cleared with the Fragment view lifecycle.
 - Reusable BottomSheets and state components must remain presentation-only.
-

@@ -2,13 +2,12 @@
 
 | Phase | Status |
 |---|---|
-| Foundation and documentation | In progress |
-| Domain audit | Pending |
-| Data and Room | Pending |
-| Cielo payment | Pending |
-| XML UI foundation | Pending |
-| Catalog and cart | Pending |
-| Checkout | Pending |
-| History and receipt | Pending |
-| Hardening | Pending |
-
+| Foundation and documentation | Completed |
+| Domain audit | Completed |
+| Data and Room | Completed |
+| Cielo payment | Completed |
+| XML UI foundation | Completed |
+| Catalog and cart | Completed |
+| Checkout | Completed |
+| History and receipt | Completed |
+| Hardening | Completed |

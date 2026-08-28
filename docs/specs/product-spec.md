@@ -14,6 +14,7 @@ show a persisted receipt with a QR Code for approved purchases.
 5. Persisted approved, denied, cancelled and technical-error outcomes.
 6. Sales history and receipt recovery.
 7. QR Code only for approved purchases.
+8. Sales history filterable by persisted payment status.
 
 ## Critical rules
 
@@ -25,8 +26,8 @@ show a persisted receipt with a QR Code for approved purchases.
 - Unknown references are rejected as technical errors.
 - Missing callbacks remain pending and are not retried automatically.
 - Credentials and payment data never appear in logs or QR Codes.
+- Receipt navigation reloads persisted data by purchase reference.
 
 ## Payment states
 
 `CREATED -> PROCESSING -> APPROVED | DENIED | CANCELLED | ERROR`
-

@@ -2,5 +2,73 @@
 <resources>
     <string name="app_name">Cielo Tickets</string>
     <string name="foundation_status">Fundação XML pronta para evolução incremental</string>
-</resources>
+    <string name="home_subtitle">Venda de ingressos via Cielo</string>
+    <string name="action_sell">Vender</string>
+    <string name="action_sales_history">Histórico de vendas</string>
+    <string name="action_back">Voltar</string>
+    <string name="events_title">Eventos</string>
+    <string name="history_title">Histórico de vendas</string>
+    <string name="catalog_next_title">Catálogo preparado</string>
+    <string name="catalog_next_message">A lista de eventos e o carrinho serão conectados na próxima etapa.</string>
+    <string name="history_next_title">Histórico preparado</string>
+    <string name="history_next_message">As vendas persistidas serão exibidas na etapa de histórico e recibo.</string>
+    <string name="loading_events">Carregando eventos…</string>
+    <string name="empty_events_title">Nenhum evento disponível</string>
+    <string name="empty_events_message">Não há ingressos disponíveis no momento.</string>
+    <string name="view_cart">Ver carrinho</string>
+    <string name="your_cart">Seu carrinho</string>
+    <string name="clear_cart">Limpar</string>
+    <string name="total">Total</string>
+    <string name="pay_with_cielo">Pagar com Cielo</string>
+    <string name="plus_symbol">+</string>
+    <string name="minus_symbol">−</string>
+    <string name="subtotal_value">Subtotal: %1$s</string>
+    <string name="add_ticket_for">Adicionar ingresso para %1$s</string>
+    <string name="remove_ticket_for">Remover ingresso de %1$s</string>
+    <string name="cart_changed_error">O carrinho mudou. Revise os itens e tente novamente.</string>
+    <string name="cart_amount_overflow_error">Não foi possível calcular o total do carrinho.</string>
+    <string name="checkout_starting">Preparando o pagamento…</string>
+    <string name="checkout_processing">Conclua o pagamento no app Cielo.</string>
+    <string name="checkout_approved_title">Pagamento aprovado</string>
+    <string name="checkout_approved_message">A venda foi concluída e salva no histórico.</string>
+    <string name="checkout_denied_title">Pagamento negado</string>
+    <string name="checkout_denied_message">A Cielo não aprovou este pagamento.</string>
+    <string name="checkout_cancelled_title">Pagamento cancelado</string>
+    <string name="checkout_cancelled_message">Você cancelou o pagamento. Nenhuma cobrança foi concluída.</string>
+    <string name="checkout_error_title">Erro no pagamento</string>
+    <string name="checkout_callback_error_message">A Cielo retornou um erro para este pagamento.</string>
+    <string name="checkout_app_unavailable">O app Cielo não está disponível neste dispositivo.</string>
+    <string name="checkout_credentials_missing">As credenciais da Cielo não estão configuradas.</string>
+    <string name="checkout_technical_error">O pagamento não pôde ser processado. Revise o carrinho e tente novamente.</string>
+    <string name="close">Fechar</string>
+    <string name="loading_history">Carregando histórico…</string>
+    <string name="empty_history_title">Nenhuma venda registrada</string>
+    <string name="empty_history_message">As tentativas de pagamento aparecerão aqui.</string>
+    <string name="empty_filtered_history_title">Nenhum resultado neste status</string>
+    <string name="empty_filtered_history_message">Selecione outro filtro para consultar o histórico.</string>
+    <string name="filter_all">Todos</string>
+    <string name="status_created">Criado</string>
+    <string name="status_processing">Processando</string>
+    <string name="status_approved">Aprovado</string>
+    <string name="status_denied">Negado</string>
+    <string name="status_cancelled">Cancelado</string>
+    <string name="status_error">Erro</string>
+    <string name="receipt_title">Recibo</string>
+    <string name="loading_receipt">Carregando recibo…</string>
+    <string name="receipt_not_found_title">Recibo não encontrado</string>
+    <string name="receipt_not_found_message">Esta compra não está disponível no histórico local.</string>
+    <string name="reference_label">Referência</string>
+    <string name="unit_price_value">Unitário: %1$s</string>
+    <string name="ticket_qr_title">QR Code do ingresso</string>
+    <string name="ticket_qr_message">Apresente este código na entrada do evento.</string>
+    <string name="ticket_qr_content_description">QR Code do ingresso aprovado</string>
 
+    <plurals name="event_count">
+        <item quantity="one">%d evento</item>
+        <item quantity="other">%d eventos</item>
+    </plurals>
+    <plurals name="ticket_count">
+        <item quantity="one">%d ingresso</item>
+        <item quantity="other">%d ingressos</item>
+    </plurals>
+</resources>

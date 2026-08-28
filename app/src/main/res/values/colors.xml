@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="cielo_primary">#006780</color>
+    <color name="cielo_primary">#0061A4</color>
     <color name="cielo_on_primary">#FFFFFF</color>
-    <color name="cielo_surface">#F8FAFC</color>
-    <color name="cielo_on_surface">#191C1D</color>
-    <color name="cielo_on_surface_variant">#40484B</color>
+    <color name="cielo_secondary">#4F616E</color>
+    <color name="cielo_tertiary">#006874</color>
+    <color name="cielo_surface">#F7F9FF</color>
+    <color name="cielo_on_surface">#191C20</color>
+    <color name="cielo_on_surface_variant">#42474E</color>
+    <color name="status_approved">#0061A4</color>
+    <color name="status_error">#B3261E</color>
+    <color name="status_cancelled">#E65100</color>
+    <color name="status_processing">#1565C0</color>
+    <color name="checkout_result_surface">#F2F7FF</color>
+    <color name="checkout_result_outline">#C2E0FF</color>
 </resources>
-

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainNavGraph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="br.com.amandaluz.cielotickets.feature.home.HomeFragment"
+        android:label="@string/app_name">
+        <action
+            android:id="@+id/action_home_to_events"
+            app:destination="@id/eventsFragment" />
+        <action
+            android:id="@+id/action_home_to_history"
+            app:destination="@id/historyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/eventsFragment"
+        android:name="br.com.amandaluz.cielotickets.feature.events.EventsFragment"
+        android:label="@string/events_title">
+        <action
+            android:id="@+id/action_events_to_receipt"
+            app:destination="@id/receiptFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="br.com.amandaluz.cielotickets.feature.history.HistoryFragment"
+        android:label="@string/history_title">
+        <action
+            android:id="@+id/action_history_to_receipt"
+            app:destination="@id/receiptFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/receiptFragment"
+        android:name="br.com.amandaluz.cielotickets.feature.receipt.ReceiptFragment"
+        android:label="@string/receipt_title">
+        <argument
+            android:name="reference"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

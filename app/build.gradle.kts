@@ -56,6 +56,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".xml"
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -87,6 +90,11 @@ android {
         warningsAsErrors = false
         disable += setOf("ExpiredTargetSdkVersion", "OldTargetApi")
     }
+
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 dependencies {
@@ -108,11 +116,15 @@ dependencies {
     ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
+    testImplementation(libs.json)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.room.testing)
 
     androidTestImplementation(libs.androidx.test.junit)
+    androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.room.testing)
 }
 
 detekt {
@@ -154,8 +166,18 @@ kover {
                     "*.*Config",
                     "*.*Config$*",
                     "*.databinding.*",
+                    "*.data.local.dao.*",
+                    "*.data.local.db.*",
+                    "*.data.local.entity.*",
+                    "*.data.local.repository.RoomPurchaseRepositoryImpl",
+                    "*.payment.cielo.CieloCallbackUriParser",
+                    "*.payment.cielo.CieloPaymentIntentLauncherImpl",
+                    "*.payment.cielo.CieloPaymentRequestEncoderImpl",
+                    "*.feature.receipt.QrCodeBitmapRenderer",
                     "*.di.*",
                     "*.navigation.*",
+                    "*.ui.binding.*",
+                    "*.ui.lifecycle.*",
                 )
             }
         }
