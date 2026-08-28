@@ -30,29 +30,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="16dp">
 
             <TextView
                 android:id="@+id/receiptStatus"
                 style="@style/TextAppearance.Material3.HeadlineSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/receiptDate"
                 style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:gravity="center"
                 android:textColor="@color/cielo_on_surface_variant" />
 
             <TextView
                 style="@style/TextAppearance.Material3.LabelMedium"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:gravity="center"
                 android:text="@string/reference_label" />
 
             <TextView
@@ -60,6 +64,7 @@
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textIsSelectable="true"
                 android:typeface="monospace" />
 
@@ -73,17 +78,18 @@
             <TextView
                 android:id="@+id/receiptQuantity"
                 style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:gravity="center"
                 android:textColor="@color/cielo_on_surface_variant" />
 
             <TextView
                 android:id="@+id/receiptTotal"
                 style="@style/TextAppearance.Material3.HeadlineSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:gravity="center"
                 android:textColor="@color/cielo_primary"
                 android:textStyle="bold" />
 

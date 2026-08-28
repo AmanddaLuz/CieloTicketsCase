@@ -20,7 +20,8 @@ projects can be installed on the same emulator. Release builds keep
 ## Build
 
 Copy `local.properties.example` to `local.properties`, configure the Android SDK
-and keep Cielo credentials outside version control.
+and keep real Cielo credentials outside version control. The example contains
+only the public test values accepted by the Cielo emulator.
 
 ```bash
 ./gradlew lintDebug detekt testDebugUnitTest

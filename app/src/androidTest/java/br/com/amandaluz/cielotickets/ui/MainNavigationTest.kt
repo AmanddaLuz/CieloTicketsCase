@@ -1,5 +1,6 @@
 package br.com.amandaluz.cielotickets.ui
 
+import android.view.View
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -77,7 +78,7 @@ class MainNavigationTest {
     }
 
     @Test
-    fun startsCheckoutFromValidatedCart() {
+    fun exposesCheckoutForValidatedCart() {
         ActivityScenario.launch(MainActivity::class.java).use {
             onView(withId(R.id.sellButton)).perform(click())
             onView(
@@ -88,12 +89,6 @@ class MainNavigationTest {
             onView(withId(R.id.cartButton)).perform(click())
 
             onView(withId(R.id.checkoutButton))
-                .check(matches(isDisplayed()))
-                .perform(click())
-
-            onView(withText(R.string.checkout_error_title))
-                .check(matches(isDisplayed()))
-            onView(withText(R.string.checkout_credentials_missing))
                 .check(matches(isDisplayed()))
         }
     }
@@ -114,7 +109,7 @@ class MainNavigationTest {
         val eventName = "Test Event ${System.nanoTime()}"
         insertApprovedAttempt(eventName)
 
-        ActivityScenario.launch(MainActivity::class.java).use {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             onView(withId(R.id.historyButton)).perform(click())
             onView(withText(eventName)).perform(click())
 
@@ -123,6 +118,15 @@ class MainNavigationTest {
             onView(
                 withContentDescription(R.string.ticket_qr_content_description),
             ).check(matches(isDisplayed()))
+
+            scenario.onActivity { activity ->
+                val content = activity.findViewById<View>(R.id.receiptContent)
+                val status = activity.findViewById<View>(R.id.receiptStatus)
+                val total = activity.findViewById<View>(R.id.receiptTotal)
+                val expectedCenter = content.width / 2
+                assertTrue(kotlin.math.abs(status.centerX() - expectedCenter) <= 2)
+                assertTrue(kotlin.math.abs(total.centerX() - expectedCenter) <= 2)
+            }
         }
     }
 
@@ -149,4 +153,6 @@ class MainNavigationTest {
             application.appContainer.purchaseRepository.insert(attempt)
         }
     }
+
+    private fun View.centerX(): Int = left + (width / 2)
 }

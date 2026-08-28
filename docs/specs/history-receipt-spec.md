@@ -35,6 +35,9 @@ The receipt renders:
 - exact total quantity and total in cents formatted for display;
 - selectable purchase reference.
 
+Receipt headings, metadata, item fields, totals and QR instructions are centered
+to keep the proof-of-purchase hierarchy consistent on different screen widths.
+
 The receipt supports every payment state. A missing reference produces an
 explicit not-found state.
 

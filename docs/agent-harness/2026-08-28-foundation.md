@@ -85,3 +85,7 @@ through `GetPurchaseAttemptUseCase` and generate an opaque QR payload only for
 approved purchases. Keep event, monetary and payment details outside the code.
 Canonical docs updated: history/receipt spec, ADR 0009, architecture, SDD and
 testing.
+
+Post-phase adjustment: align the XML palette with the Compose reference blue,
+center receipt fields and ship only the Cielo emulator's public test values in
+`local.properties.example`. Real credentials remain untracked.
