@@ -17,6 +17,7 @@ zxing = "3.5.3"
 junit = "4.13.2"
 androidxJunit = "1.2.1"
 espresso = "3.6.1"
+androidxTestCore = "1.6.1"
 detekt = "1.23.8"
 kover = "0.9.9"
 
@@ -42,6 +43,7 @@ zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+androidx-test-core = { group = "androidx.test", name = "core-ktx", version.ref = "androidxTestCore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -49,4 +51,3 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-
