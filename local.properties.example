@@ -1,0 +1,4 @@
+sdk.dir=/path/to/Android/sdk
+CIELO_CLIENT_ID=
+CIELO_ACCESS_TOKEN=
+

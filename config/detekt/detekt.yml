@@ -1,0 +1,24 @@
+config:
+  validation: true
+  warningsAsErrors: false
+
+complexity:
+  CyclomaticComplexMethod:
+    active: true
+    threshold: 10
+  LongMethod:
+    active: true
+    threshold: 80
+
+style:
+  MagicNumber:
+    active: false
+  UnusedImports:
+    active: true
+  UnusedPrivateMember:
+    active: true
+
+naming:
+  FunctionNaming:
+    active: true
+

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cielo Tickets</string>
+    <string name="foundation_status">Fundação XML pronta para evolução incremental</string>
+</resources>
+

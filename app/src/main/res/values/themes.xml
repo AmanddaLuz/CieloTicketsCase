@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.CieloTickets" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/cielo_primary</item>
+        <item name="colorOnPrimary">@color/cielo_on_primary</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/cielo_surface</item>
+        <item name="android:statusBarColor">@color/cielo_surface</item>
+    </style>
+</resources>
+
