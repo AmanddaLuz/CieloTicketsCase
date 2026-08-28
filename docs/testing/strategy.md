@@ -31,6 +31,10 @@
 - Domain-backed cart totals and removal of the final item.
 - Catalog-to-BottomSheet synchronization.
 - Distinct approved, denied, cancelled and error rendering.
+- Persist-before-pay ordering and duplicate checkout tap rejection.
+- Reference-less current callbacks and rejection of foreign callbacks.
+- Callback observer registration across the external Cielo application.
+- Cart cleanup only after a persisted terminal callback.
 - QR Code restricted to approved purchases.
 
 ## Gates

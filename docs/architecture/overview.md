@@ -89,3 +89,19 @@ See `../specs/ui-foundation-spec.md` and ADR 0005.
   divergent cart copy.
 
 See `../specs/catalog-cart-spec.md` and ADR 0007.
+
+## Checkout presentation
+
+- `EventsViewModel` exposes the same immutable domain `Cart` that produced the
+  visible cart UI.
+- `CheckoutViewModel` creates and persists a purchase snapshot before calling
+  `StartPaymentUseCase`.
+- Active phases reject repeated payment actions.
+- `PaymentResultObserver` keeps Android broadcast registration outside the
+  ViewModel; `CieloPaymentResultObserverImpl` supplies the Cielo adapter.
+- Matching or reference-less current callbacks are persisted through
+  `UpdatePurchaseStatusUseCase`; foreign callbacks are ignored.
+- `CartBottomSheetFragment` renders state and dispatches actions without
+  rebuilding totals or changing payment status itself.
+
+See `../specs/checkout-spec.md` and ADR 0008.

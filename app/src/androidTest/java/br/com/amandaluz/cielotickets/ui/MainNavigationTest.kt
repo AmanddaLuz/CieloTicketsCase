@@ -71,6 +71,28 @@ class MainNavigationTest {
     }
 
     @Test
+    fun startsCheckoutFromValidatedCart() {
+        ActivityScenario.launch(MainActivity::class.java).use {
+            onView(withId(R.id.sellButton)).perform(click())
+            onView(
+                withContentDescription(
+                    "Adicionar ingresso para Festival Gastronômico",
+                ),
+            ).perform(click())
+            onView(withId(R.id.cartButton)).perform(click())
+
+            onView(withId(R.id.checkoutButton))
+                .check(matches(isDisplayed()))
+                .perform(click())
+
+            onView(withText(R.string.checkout_error_title))
+                .check(matches(isDisplayed()))
+            onView(withText(R.string.checkout_credentials_missing))
+                .check(matches(isDisplayed()))
+        }
+    }
+
+    @Test
     fun navigatesFromHomeToHistory() {
         ActivityScenario.launch(MainActivity::class.java).use {
             onView(withId(R.id.historyButton)).perform(click())

@@ -61,3 +61,15 @@ EventsViewModel with the child BottomSheet. Keep checkout hidden until payment
 orchestration is connected.
 Canonical docs updated: catalog/cart spec, ADR 0007, architecture, SDD and
 testing.
+
+## Checkout phase
+
+Scope: Persist-before-pay orchestration, Cielo return observation and terminal
+XML states.
+Decision: Pass the validated domain Cart directly to a parent-scoped
+CheckoutViewModel, reject repeated active requests and isolate dynamic broadcast
+registration behind `PaymentResultObserver`. Keep the observer registered while
+the feature ViewModel exists to avoid a return-to-app lifecycle race. Clear the
+cart only after a terminal callback is persisted; preserve it after launcher,
+availability or credential failures.
+Canonical docs updated: checkout spec, ADR 0008, architecture, SDD and testing.
