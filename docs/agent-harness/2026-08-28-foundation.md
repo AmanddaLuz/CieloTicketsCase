@@ -38,3 +38,14 @@ lifecycle is required. Treat custom-scheme provenance as an emulator/case
 constraint and require trusted reconciliation for production authorization.
 Canonical docs updated: payment spec, Cielo constraints, ADR 0004, architecture,
 SDD and testing.
+
+## XML UI foundation phase
+
+Scope: Single-Activity navigation, Fragment lifecycle and reusable state UI.
+Decision: Use an XML NavHost with passive Fragments, a view-lifecycle-aware
+ViewBinding delegate and a generic StatePanelView. Centralize concrete
+repositories, use cases and the Cielo adapter in an Application-owned
+AppContainer. Keep Events and History as real destinations whose placeholders
+will be replaced incrementally.
+Canonical docs updated: UI foundation spec, ADR 0005, architecture, SDD and
+testing.

@@ -177,6 +177,8 @@ kover {
                     "*.payment.cielo.CieloPaymentRequestEncoderImpl",
                     "*.di.*",
                     "*.navigation.*",
+                    "*.ui.binding.*",
+                    "*.ui.lifecycle.*",
                 )
             }
         }

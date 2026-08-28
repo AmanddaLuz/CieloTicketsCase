@@ -2,5 +2,14 @@
 <resources>
     <string name="app_name">Cielo Tickets</string>
     <string name="foundation_status">Fundação XML pronta para evolução incremental</string>
+    <string name="home_subtitle">Venda de ingressos via Cielo</string>
+    <string name="action_sell">Vender</string>
+    <string name="action_sales_history">Histórico de vendas</string>
+    <string name="action_back">Voltar</string>
+    <string name="events_title">Eventos</string>
+    <string name="history_title">Histórico de vendas</string>
+    <string name="catalog_next_title">Catálogo preparado</string>
+    <string name="catalog_next_message">A lista de eventos e o carrinho serão conectados na próxima etapa.</string>
+    <string name="history_next_title">Histórico preparado</string>
+    <string name="history_next_message">As vendas persistidas serão exibidas na etapa de histórico e recibo.</string>
 </resources>
-

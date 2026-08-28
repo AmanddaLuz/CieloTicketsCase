@@ -65,3 +65,15 @@ See `../specs/data-spec.md` and ADR 0003 for persistence guarantees.
 
 See `../specs/payment-spec.md` and ADR 0004 for callback guarantees and the
 custom-scheme trust boundary.
+
+## XML presentation foundation
+
+- `MainActivity` contains only the application `NavHostFragment`.
+- `HomeFragment` dispatches navigation actions without feature policy.
+- Fragment ViewBinding references follow `viewLifecycleOwner` and are released
+  at `onDestroyView`.
+- `StatePanelView` renders reusable loading and message states.
+- `CieloTicketsApplication` owns `AppContainerImpl`, the single composition root
+  for repositories, use cases and payment adapters.
+
+See `../specs/ui-foundation-spec.md` and ADR 0005.

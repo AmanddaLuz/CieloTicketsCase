@@ -5,12 +5,10 @@ import android.database.sqlite.SQLiteException
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import br.com.amandaluz.cielotickets.data.local.db.AppDatabase
-import br.com.amandaluz.cielotickets.data.local.repository.RoomPurchaseRepositoryImpl
+import br.com.amandaluz.cielotickets.CieloTicketsApplication
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.repository.PurchaseRepository
 import br.com.amandaluz.cielotickets.domain.usecase.UpdatePurchaseStatusUseCase
-import br.com.amandaluz.cielotickets.domain.usecase.impl.UpdatePurchaseStatusUseCaseImpl
 
 class CieloCallbackWorker(
     appContext: Context,
@@ -86,12 +84,15 @@ class CieloCallbackWorker(
         }
 
     private val purchaseRepository: PurchaseRepository by lazy {
-        val dao = AppDatabase.getInstance(applicationContext).purchaseAttemptDao()
-        RoomPurchaseRepositoryImpl(dao)
+        appContainer.purchaseRepository
     }
 
     private val updatePurchaseStatus: UpdatePurchaseStatusUseCase by lazy {
-        UpdatePurchaseStatusUseCaseImpl(purchaseRepository)
+        appContainer.updatePurchaseStatus
+    }
+
+    private val appContainer by lazy {
+        (applicationContext as CieloTicketsApplication).appContainer
     }
 
     private data class CallbackData(
