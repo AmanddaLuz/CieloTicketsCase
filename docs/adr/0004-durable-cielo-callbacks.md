@@ -1,6 +1,6 @@
 # ADR 0004: Durable Cielo callbacks
 
-**Status:** Accepted
+**Status:** Superseded by ADR 0006
 
 ## Decision
 
@@ -27,4 +27,3 @@ enqueued.
 - Custom-scheme provenance remains unsuitable as the sole production
   authorization boundary; backend reconciliation is required for that threat
   model.
-

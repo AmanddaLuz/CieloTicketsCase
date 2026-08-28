@@ -112,7 +112,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    implementation(libs.work.runtime.ktx)
     implementation(libs.zxing.core)
     ksp(libs.room.compiler)
 
@@ -172,7 +171,6 @@ kover {
                     "*.data.local.entity.*",
                     "*.data.local.repository.RoomPurchaseRepositoryImpl",
                     "*.payment.cielo.CieloCallbackUriParser",
-                    "*.payment.cielo.CieloCallbackWorker*",
                     "*.payment.cielo.CieloPaymentIntentLauncherImpl",
                     "*.payment.cielo.CieloPaymentRequestEncoderImpl",
                     "*.di.*",

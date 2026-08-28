@@ -22,7 +22,7 @@
 - Process recreation with a pending attempt.
 - Multi-item Cielo payload and callback reference correlation.
 - Rejection of malformed, mismatched and amount-inconsistent approvals.
-- Lifecycle-independent callback persistence through WorkManager.
+- Cielo callback parsing and package-scoped broadcast delivery.
 - XML destination navigation and back-stack behavior.
 - Fragment binding usage across view recreation.
 - Reusable loading, message and action-state rendering.
