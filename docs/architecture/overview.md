@@ -29,3 +29,15 @@ Manual constructor injection is the default. The composition root creates
 implementations and exposes contracts; features do not instantiate data or
 payment dependencies.
 
+## Implemented domain rules
+
+- `Cart` owns multi-event quantity and monetary calculations.
+- `PurchaseAttempt` stores item snapshots instead of a mutable catalog reference.
+- `CreatePurchaseAttemptUseCaseImpl` owns reference and timestamp generation.
+- Duplicate purchase references never overwrite the original attempt.
+- Payment status changes are validated by `UpdatePurchaseStatusUseCaseImpl`.
+- Repository status writes use compare-and-set to protect terminal states from
+  concurrent callbacks.
+- Unknown references, duplicates and invalid transitions produce typed results.
+
+See `../specs/domain-spec.md` for the canonical behavior.
