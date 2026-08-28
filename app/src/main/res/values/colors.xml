@@ -11,4 +11,6 @@
     <color name="status_error">#B3261E</color>
     <color name="status_cancelled">#E65100</color>
     <color name="status_processing">#1565C0</color>
+    <color name="checkout_result_surface">#F2F7FF</color>
+    <color name="checkout_result_outline">#C2E0FF</color>
 </resources>

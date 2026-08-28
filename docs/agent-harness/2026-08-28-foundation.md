@@ -93,3 +93,7 @@ center receipt fields and ship only the Cielo emulator's public test values in
 Approved checkout adjustment: after persisting the terminal result and clearing
 the cart, navigate once by purchase reference to the receipt with its QR Code.
 Keep non-approved terminal feedback in the checkout BottomSheet.
+
+Terminal-state visual adjustment: mirror the Compose result hierarchy in XML
+with semantic cancellation/error icons, concise copy, a blue result container
+and a full-width close action.

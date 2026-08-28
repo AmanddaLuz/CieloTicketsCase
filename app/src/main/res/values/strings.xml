@@ -34,12 +34,13 @@
     <string name="checkout_denied_title">Pagamento negado</string>
     <string name="checkout_denied_message">A Cielo não aprovou este pagamento.</string>
     <string name="checkout_cancelled_title">Pagamento cancelado</string>
-    <string name="checkout_cancelled_message">O pagamento foi cancelado na Cielo.</string>
-    <string name="checkout_error_title">Não foi possível concluir</string>
+    <string name="checkout_cancelled_message">Você cancelou o pagamento. Nenhuma cobrança foi concluída.</string>
+    <string name="checkout_error_title">Erro no pagamento</string>
     <string name="checkout_callback_error_message">A Cielo retornou um erro para este pagamento.</string>
     <string name="checkout_app_unavailable">O app Cielo não está disponível neste dispositivo.</string>
     <string name="checkout_credentials_missing">As credenciais da Cielo não estão configuradas.</string>
     <string name="checkout_technical_error">O pagamento não pôde ser processado. Revise o carrinho e tente novamente.</string>
+    <string name="close">Fechar</string>
     <string name="loading_history">Carregando histórico…</string>
     <string name="empty_history_title">Nenhuma venda registrada</string>
     <string name="empty_history_message">As tentativas de pagamento aparecerão aqui.</string>

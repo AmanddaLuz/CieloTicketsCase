@@ -43,3 +43,7 @@ non-approved terminal outcomes in one passive surface. After an approved result
 is persisted and the completed cart is cleared, the feature navigates directly
 to the receipt loaded by purchase reference so its QR Code is immediately
 available.
+
+Cancelled, denied and error outcomes follow the Compose reference hierarchy:
+a large semantic icon, emphasized title, concise explanation and full-width
+close action inside a subtle blue result surface.

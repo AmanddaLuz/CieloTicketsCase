@@ -81,7 +81,10 @@ class CartBottomSheetFragment : BottomSheetDialogFragment(R.layout.bottom_sheet_
         cartTotal.isVisible = showingCart
         checkoutButton.isVisible = showingCart
         checkoutState.isVisible = !showingCart
-        checkoutState.render(state.toPanelModel())
+        checkoutState.render(
+            model = state.toPanelModel(),
+            onAction = ::dismiss,
+        )
     }
 
     private fun CheckoutUiState.toPanelModel(): StatePanelUiModel? = when (phase) {
@@ -96,7 +99,9 @@ class CartBottomSheetFragment : BottomSheetDialogFragment(R.layout.bottom_sheet_
         CheckoutPhase.ERROR -> StatePanelUiModel.Message(
             title = getString(R.string.checkout_error_title),
             message = getString(error.toMessageRes()),
-            iconRes = R.drawable.ic_ticket,
+            iconRes = R.drawable.ic_payment_error,
+            actionLabel = getString(R.string.close),
+            iconTintRes = R.color.status_error,
         )
     }
 
@@ -108,8 +113,28 @@ class CartBottomSheetFragment : BottomSheetDialogFragment(R.layout.bottom_sheet_
             title = getString(titleRes),
             message = callbackMessage?.takeIf(String::isNotBlank)
                 ?: getString(messageRes),
-            iconRes = R.drawable.ic_ticket,
+            iconRes = terminalIconRes(),
+            actionLabel = getString(R.string.close),
+            iconTintRes = terminalColorRes(),
         )
+    }
+
+    private fun PaymentStatus?.terminalIconRes(): Int = when (this) {
+        PaymentStatus.CANCELLED -> R.drawable.ic_payment_cancelled
+        PaymentStatus.DENIED,
+        PaymentStatus.ERROR,
+        null,
+        -> R.drawable.ic_payment_error
+        else -> R.drawable.ic_ticket
+    }
+
+    private fun PaymentStatus?.terminalColorRes(): Int = when (this) {
+        PaymentStatus.CANCELLED -> R.color.status_cancelled
+        PaymentStatus.DENIED,
+        PaymentStatus.ERROR,
+        null,
+        -> R.color.status_error
+        else -> R.color.cielo_primary
     }
 
     private fun PaymentStatus?.terminalText(): Pair<Int, Int> = when (this) {

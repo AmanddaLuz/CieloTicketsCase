@@ -4,7 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.ImageViewCompat
+import br.com.amandaluz.cielotickets.R
 import br.com.amandaluz.cielotickets.databinding.ViewStatePanelBinding
 
 class StatePanelView @JvmOverloads constructor(
@@ -45,6 +48,13 @@ class StatePanelView @JvmOverloads constructor(
         progressIndicator.isVisible = false
         stateIcon.isVisible = true
         stateIcon.setImageResource(model.iconRes)
+        ImageViewCompat.setImageTintList(
+            stateIcon,
+            ContextCompat.getColorStateList(
+                context,
+                model.iconTintRes ?: R.color.cielo_primary,
+            ),
+        )
         stateTitle.isVisible = true
         stateTitle.text = model.title
         stateMessage.text = model.message
@@ -57,4 +67,3 @@ class StatePanelView @JvmOverloads constructor(
         )
     }
 }
-
