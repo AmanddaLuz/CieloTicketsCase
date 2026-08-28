@@ -40,15 +40,9 @@ class CieloPaymentRequestEncoderImpl : CieloPaymentRequestEncoder {
             payload.toByteArray(Charsets.UTF_8),
             Base64.NO_WRAP,
         )
-        val callbackUri = Uri.Builder()
-            .scheme(CALLBACK_SCHEME)
-            .authority(CALLBACK_HOST)
-            .appendQueryParameter(REFERENCE_PARAMETER, attempt.reference)
-            .build()
-
         return Uri.parse(PAYMENT_URI).buildUpon()
             .appendQueryParameter(REQUEST_PARAMETER, encodedPayload)
-            .appendQueryParameter(CALLBACK_PARAMETER, callbackUri.toString())
+            .appendQueryParameter(CALLBACK_PARAMETER, CALLBACK_URI)
             .build()
             .toString()
     }
@@ -57,13 +51,12 @@ class CieloPaymentRequestEncoderImpl : CieloPaymentRequestEncoder {
         const val CALLBACK_SCHEME = "order"
         const val CALLBACK_HOST = "payment"
         const val RESPONSE_PARAMETER = "response"
-        const val REFERENCE_PARAMETER = "reference"
 
         private const val PAYMENT_URI = "lio://payment"
+        private const val CALLBACK_URI = "order://payment"
         private const val PAYMENT_CODE = "CREDITO_AVISTA"
         private const val UNIT_OF_MEASURE = "UNIDADE"
         private const val REQUEST_PARAMETER = "request"
         private const val CALLBACK_PARAMETER = "urlCallback"
     }
 }
-

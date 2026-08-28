@@ -1,52 +1,39 @@
 package br.com.amandaluz.cielotickets.payment.cielo
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.ComponentActivity
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.workDataOf
 
-class CieloResponseActivity : ComponentActivity() {
+class CieloResponseActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enqueueCallback(intent)
+        handleIntent(intent)
         finish()
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-        enqueueCallback(intent)
+        handleIntent(intent)
         finish()
     }
 
-    private fun enqueueCallback(intent: Intent?) {
+    private fun handleIntent(intent: Intent?) {
         val callback = intent?.data?.let(callbackParser::parse)
         if (callback == null) {
             Log.w(TAG, "Ignored malformed Cielo callback")
             return
         }
-        val request = OneTimeWorkRequestBuilder<CieloCallbackWorker>()
-            .setInputData(
-                workDataOf(
-                    CieloCallbackWorker.KEY_REFERENCE to callback.reference,
-                    CieloCallbackWorker.KEY_STATUS to callback.status.name,
-                    CieloCallbackWorker.KEY_PAID_AMOUNT to (
-                        callback.paidAmountInCents ?: CieloCallbackWorker.NO_PAID_AMOUNT
-                        ),
-                ),
-            )
-            .build()
-        val uniqueWorkName = "$WORK_PREFIX:${callback.reference}:${callback.status.name}"
 
-        WorkManager.getInstance(applicationContext).enqueueUniqueWork(
-            uniqueWorkName,
-            ExistingWorkPolicy.KEEP,
-            request,
+        sendBroadcast(
+            Intent(ACTION_PAYMENT_RESULT).apply {
+                setPackage(packageName)
+                putExtra(EXTRA_REFERENCE, callback.reference)
+                putExtra(EXTRA_STATUS, callback.status.name)
+                putExtra(EXTRA_ERROR_MESSAGE, callback.errorMessage)
+            },
         )
     }
 
@@ -54,9 +41,13 @@ class CieloResponseActivity : ComponentActivity() {
         CieloCallbackUriParser(CieloCallbackResponseParser())
     }
 
-    private companion object {
-        const val TAG = "CieloResponse"
-        const val WORK_PREFIX = "cielo-callback"
+    companion object {
+        const val ACTION_PAYMENT_RESULT =
+            "br.com.amandaluz.cielotickets.PAYMENT_RESULT"
+        const val EXTRA_REFERENCE = "reference"
+        const val EXTRA_STATUS = "status"
+        const val EXTRA_ERROR_MESSAGE = "errorMessage"
+
+        private const val TAG = "CieloResponse"
     }
 }
-

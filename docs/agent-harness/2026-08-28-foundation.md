@@ -33,8 +33,20 @@ Canonical docs updated: data spec, ADR 0003, architecture, SDD and testing.
 Scope: Cielo Smart Deep Link request, callback and persistent state transitions.
 Decision: Claim `PROCESSING` atomically before launch, encode every purchase item
 and correlate callbacks with the purchase UUID. Validate approved order evidence
-and paid amount, then hand persistence to WorkManager so no active UI or Activity
-lifecycle is required. Treat custom-scheme provenance as an emulator/case
-constraint and require trusted reconciliation for production authorization.
+and initially hand persistence to WorkManager. This was later simplified by ADR
+0006 to the callback URI and package-scoped broadcast already validated in the
+Compose application and Cielo emulator. Treat custom-scheme provenance as an
+emulator/case constraint and require trusted reconciliation for production.
 Canonical docs updated: payment spec, Cielo constraints, ADR 0004, architecture,
 SDD and testing.
+
+## XML UI foundation phase
+
+Scope: Single-Activity navigation, Fragment lifecycle and reusable state UI.
+Decision: Use an XML NavHost with passive Fragments, a view-lifecycle-aware
+ViewBinding delegate and a generic StatePanelView. Centralize concrete
+repositories, use cases and the Cielo adapter in an Application-owned
+AppContainer. Keep Events and History as real destinations whose placeholders
+will be replaced incrementally.
+Canonical docs updated: UI foundation spec, ADR 0005, architecture, SDD and
+testing.

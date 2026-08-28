@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainNavGraph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="br.com.amandaluz.cielotickets.feature.home.HomeFragment"
+        android:label="@string/app_name">
+        <action
+            android:id="@+id/action_home_to_events"
+            app:destination="@id/eventsFragment" />
+        <action
+            android:id="@+id/action_home_to_history"
+            app:destination="@id/historyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/eventsFragment"
+        android:name="br.com.amandaluz.cielotickets.feature.common.FeaturePlaceholderFragment"
+        android:label="@string/events_title">
+        <argument
+            android:name="titleRes"
+            android:defaultValue="@string/events_title"
+            app:argType="reference" />
+        <argument
+            android:name="stateTitleRes"
+            android:defaultValue="@string/catalog_next_title"
+            app:argType="reference" />
+        <argument
+            android:name="stateMessageRes"
+            android:defaultValue="@string/catalog_next_message"
+            app:argType="reference" />
+        <argument
+            android:name="iconRes"
+            android:defaultValue="@drawable/ic_ticket"
+            app:argType="reference" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="br.com.amandaluz.cielotickets.feature.common.FeaturePlaceholderFragment"
+        android:label="@string/history_title">
+        <argument
+            android:name="titleRes"
+            android:defaultValue="@string/history_title"
+            app:argType="reference" />
+        <argument
+            android:name="stateTitleRes"
+            android:defaultValue="@string/history_next_title"
+            app:argType="reference" />
+        <argument
+            android:name="stateMessageRes"
+            android:defaultValue="@string/history_next_message"
+            app:argType="reference" />
+        <argument
+            android:name="iconRes"
+            android:defaultValue="@drawable/ic_history"
+            app:argType="reference" />
+    </fragment>
+
+</navigation>
+

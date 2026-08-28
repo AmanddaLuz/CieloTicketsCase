@@ -22,7 +22,11 @@
 - Process recreation with a pending attempt.
 - Multi-item Cielo payload and callback reference correlation.
 - Rejection of malformed, mismatched and amount-inconsistent approvals.
-- Lifecycle-independent callback persistence through WorkManager.
+- Cielo callback parsing and package-scoped broadcast delivery.
+- XML destination navigation and back-stack behavior.
+- Fragment binding usage across view recreation.
+- Reusable loading, message and action-state rendering.
+- Layout geometry for primary Home actions.
 - Distinct approved, denied, cancelled and error rendering.
 - QR Code restricted to approved purchases.
 
@@ -35,3 +39,6 @@ rather than inflate metrics.
 
 Room entities, DAO, database and the Android-backed repository are excluded from
 JVM Kover and validated with instrumented tests on API 29.
+
+Android Views, Fragment binding delegates, lifecycle adapters and navigation
+wiring are validated by instrumented tests and excluded from JVM coverage.

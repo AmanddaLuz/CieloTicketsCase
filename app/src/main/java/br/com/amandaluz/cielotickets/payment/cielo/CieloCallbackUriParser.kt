@@ -8,12 +8,7 @@ class CieloCallbackUriParser(
 ) {
     fun parse(callbackUri: Uri): CieloCallbackResult? {
         val rawResponse = decodeResponse(callbackUri) ?: return null
-        return responseParser.parse(
-            rawResponse = rawResponse,
-            fallbackReference = callbackUri.getQueryParameter(
-                CieloPaymentRequestEncoderImpl.REFERENCE_PARAMETER,
-            ),
-        )
+        return responseParser.parse(rawResponse)
     }
 
     private fun decodeResponse(callbackUri: Uri): String? =

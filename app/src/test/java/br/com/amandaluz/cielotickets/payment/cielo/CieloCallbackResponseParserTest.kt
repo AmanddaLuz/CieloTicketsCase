@@ -9,84 +9,47 @@ class CieloCallbackResponseParserTest {
     private val parser = CieloCallbackResponseParser()
 
     @Test
-    fun mapsOrderResponseToApproved() {
+    fun mapsCompleteOrderResponseToApproved() {
         assertEquals(
             CieloCallbackResult(
                 reference = "reference-1",
                 status = PaymentStatus.APPROVED,
-                paidAmountInCents = 6_000L,
                 errorMessage = null,
             ),
-            parser.parse(
-                rawResponse = approvedResponse("reference-1"),
-                fallbackReference = "reference-1",
-            ),
+            parser.parse("""{"reference":"reference-1","id":"order-1"}"""),
         )
     }
 
     @Test
-    fun usesCallbackReferenceForErrorResponse() {
+    fun mapsCancellationWithoutRequiringAReference() {
         assertEquals(
             CieloCallbackResult(
-                reference = "reference-1",
+                reference = "",
                 status = PaymentStatus.CANCELLED,
-                paidAmountInCents = null,
                 errorMessage = "Cancelado pelo operador",
             ),
-            parser.parse(
-                rawResponse = """{"code":1,"reason":"Cancelado pelo operador"}""",
-                fallbackReference = "reference-1",
-            ),
+            parser.parse("""{"code":1,"reason":"Cancelado pelo operador"}"""),
         )
     }
 
     @Test
-    fun rejectsMalformedOrUnidentifiedResponses() {
-        assertNull(parser.parse("not-json", "reference-1"))
-        assertNull(parser.parse("""{"code":2}""", null))
-    }
-
-    @Test
-    fun rejectsUncorrelatedOrIncompleteApproval() {
-        assertNull(
-            parser.parse(
-                approvedResponse("different-reference"),
-                "reference-1",
-            ),
-        )
-        assertNull(parser.parse("""{"reference":"reference-1"}""", "reference-1"))
-    }
-
-    @Test
-    fun mapsGenericErrorToTechnicalError() {
-        assertEquals(
-            PaymentStatus.ERROR,
-            parser.parse(
-                rawResponse = """{"code":2,"reason":"Falha ao criar ordem"}""",
-                fallbackReference = "reference-1",
-            )?.status,
-        )
-    }
-
-    @Test
-    fun mapsPaymentRejectionAndUnknownCodes() {
+    fun mapsEmulatorErrorCodes() {
         assertEquals(
             PaymentStatus.DENIED,
-            parser.parse("""{"code":3}""", "reference-1")?.status,
+            parser.parse("""{"code":2}""")?.status,
         )
-        val unknown = parser.parse("""{"code":99}""", "reference-1")
+        assertEquals(
+            PaymentStatus.DENIED,
+            parser.parse("""{"code":3}""")?.status,
+        )
+        val unknown = parser.parse("""{"code":99}""")
         assertEquals(PaymentStatus.ERROR, unknown?.status)
         assertEquals("Erro desconhecido", unknown?.errorMessage)
     }
 
-    private fun approvedResponse(reference: String): String =
-        """
-        {
-          "id":"order-1",
-          "reference":"$reference",
-          "paidAmount":6000,
-          "items":[{"sku":"event-1"}],
-          "payments":[{"paymentFields":{"statusCode":"1"}}]
-        }
-        """.trimIndent()
+    @Test
+    fun rejectsMalformedOrUnidentifiedApproval() {
+        assertNull(parser.parse("not-json"))
+        assertNull(parser.parse("""{"id":"order-1"}"""))
+    }
 }

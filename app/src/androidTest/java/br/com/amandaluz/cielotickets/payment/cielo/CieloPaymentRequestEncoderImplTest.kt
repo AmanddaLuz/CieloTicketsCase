@@ -8,6 +8,7 @@ import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -15,7 +16,7 @@ import org.junit.runner.RunWith
 class CieloPaymentRequestEncoderImplTest {
 
     @Test
-    fun encodesEveryPurchaseItemAndReferenceCallback() {
+    fun encodesEveryPurchaseItemAndKnownWorkingCallback() {
         val paymentUri = Uri.parse(
             CieloPaymentRequestEncoderImpl().encode(
                 attempt = attempt(),
@@ -42,10 +43,7 @@ class CieloPaymentRequestEncoderImplTest {
         )
         assertEquals("order", callbackUri.scheme)
         assertEquals("payment", callbackUri.host)
-        assertEquals(
-            "reference-1",
-            callbackUri.getQueryParameter("reference"),
-        )
+        assertNull(callbackUri.query)
     }
 
     private fun attempt() = PurchaseAttempt.restore(
@@ -69,4 +67,3 @@ class CieloPaymentRequestEncoderImplTest {
         updatedAt = 200L,
     )
 }
-

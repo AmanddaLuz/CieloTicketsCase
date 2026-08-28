@@ -6,6 +6,7 @@
     </queries>
 
     <application
+        android:name=".CieloTicketsApplication"
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"

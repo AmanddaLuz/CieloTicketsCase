@@ -57,11 +57,22 @@ See `../specs/data-spec.md` and ADR 0003 for persistence guarantees.
 - `StartPaymentUseCaseImpl` atomically claims a purchase before launching Cielo.
 - `CieloPaymentGatewayImpl` depends on request-encoder and Intent-launcher
   contracts instead of constructing Android details in the domain.
-- `CieloPaymentRequestEncoderImpl` creates a multi-item request and correlated
-  callback URL.
-- `CieloResponseActivity` validates and enqueues callbacks without owning their
-  persistence lifecycle.
-- `CieloCallbackWorker` applies terminal states through the domain state machine.
+- `CieloPaymentRequestEncoderImpl` creates a multi-item request with the
+  emulator-compatible `order://payment` callback.
+- `CieloResponseActivity` parses the deep link and emits a package-scoped result for
+  the active checkout.
 
-See `../specs/payment-spec.md` and ADR 0004 for callback guarantees and the
+See `../specs/payment-spec.md` and ADR 0006 for callback guarantees and the
 custom-scheme trust boundary.
+
+## XML presentation foundation
+
+- `MainActivity` contains only the application `NavHostFragment`.
+- `HomeFragment` dispatches navigation actions without feature policy.
+- Fragment ViewBinding references follow `viewLifecycleOwner` and are released
+  at `onDestroyView`.
+- `StatePanelView` renders reusable loading and message states.
+- `CieloTicketsApplication` owns `AppContainerImpl`, the single composition root
+  for repositories, use cases and payment adapters.
+
+See `../specs/ui-foundation-spec.md` and ADR 0005.
