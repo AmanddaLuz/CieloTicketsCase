@@ -27,3 +27,14 @@ JSON or a reduced summary. Use Room transactions for insertion and SQL
 compare-and-set for status updates. Debug builds use the `.xml` application ID
 suffix so the original Compose app can remain installed during comparison.
 Canonical docs updated: data spec, ADR 0003, architecture, SDD and testing.
+
+## Payment phase
+
+Scope: Cielo Smart Deep Link request, callback and persistent state transitions.
+Decision: Claim `PROCESSING` atomically before launch, encode every purchase item
+and correlate callbacks with the purchase UUID. Validate approved order evidence
+and paid amount, then hand persistence to WorkManager so no active UI or Activity
+lifecycle is required. Treat custom-scheme provenance as an emulator/case
+constraint and require trusted reconciliation for production authorization.
+Canonical docs updated: payment spec, Cielo constraints, ADR 0004, architecture,
+SDD and testing.
