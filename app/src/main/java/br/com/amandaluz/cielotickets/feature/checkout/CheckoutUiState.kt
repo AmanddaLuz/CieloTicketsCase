@@ -8,6 +8,7 @@ data class CheckoutUiState(
     val terminalStatus: PaymentStatus? = null,
     val error: CheckoutError? = null,
     val callbackMessage: String? = null,
+    val receiptNavigationPending: Boolean = false,
 )
 
 enum class CheckoutPhase {

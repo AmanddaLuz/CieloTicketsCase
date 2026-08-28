@@ -39,5 +39,7 @@ correction or retry.
 ## XML presentation
 
 `CartBottomSheetFragment` renders the cart, starting state, processing state and
-provisional terminal outcome in one passive surface. Complete receipt details
-and approved QR Code remain part of the history and receipt phase.
+non-approved terminal outcomes in one passive surface. After an approved result
+is persisted and the completed cart is cleared, the feature navigates directly
+to the receipt loaded by purchase reference so its QR Code is immediately
+available.

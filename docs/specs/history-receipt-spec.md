@@ -25,6 +25,10 @@ Selecting a history item navigates with only its purchase reference. The receipt
 reloads the snapshot through `GetPurchaseAttemptUseCase`; UI models are not used
 as navigation data.
 
+An approved checkout also navigates directly to the same receipt destination
+after the terminal result is persisted. Denied, cancelled and error outcomes
+remain visible in the checkout BottomSheet.
+
 ## Receipt
 
 The receipt renders:

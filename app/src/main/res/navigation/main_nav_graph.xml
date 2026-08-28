@@ -20,7 +20,11 @@
     <fragment
         android:id="@+id/eventsFragment"
         android:name="br.com.amandaluz.cielotickets.feature.events.EventsFragment"
-        android:label="@string/events_title" />
+        android:label="@string/events_title">
+        <action
+            android:id="@+id/action_events_to_receipt"
+            app:destination="@id/receiptFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/historyFragment"

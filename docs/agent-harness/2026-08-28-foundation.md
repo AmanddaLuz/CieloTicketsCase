@@ -89,3 +89,7 @@ testing.
 Post-phase adjustment: align the XML palette with the Compose reference blue,
 center receipt fields and ship only the Cielo emulator's public test values in
 `local.properties.example`. Real credentials remain untracked.
+
+Approved checkout adjustment: after persisting the terminal result and clearing
+the cart, navigate once by purchase reference to the receipt with its QR Code.
+Keep non-approved terminal feedback in the checkout BottomSheet.

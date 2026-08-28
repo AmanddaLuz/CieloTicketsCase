@@ -15,6 +15,7 @@ import br.com.amandaluz.cielotickets.domain.usecase.UpdatePurchaseStatusUseCase
 import br.com.amandaluz.cielotickets.testutil.MainDispatcherRule
 import kotlinx.coroutines.CompletableDeferred
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -124,6 +125,15 @@ class CheckoutViewModelTest {
             PaymentStatus.APPROVED,
             viewModel.uiState.value.terminalStatus,
         )
+        assertTrue(viewModel.uiState.value.receiptNavigationPending)
+
+        viewModel.reset()
+
+        assertTrue(viewModel.uiState.value.receiptNavigationPending)
+
+        viewModel.consumeReceiptNavigation()
+
+        assertFalse(viewModel.uiState.value.receiptNavigationPending)
     }
 
     @Test

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import br.com.amandaluz.cielotickets.CieloTicketsApplication
 import br.com.amandaluz.cielotickets.R
 import br.com.amandaluz.cielotickets.databinding.BottomSheetCartBinding
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
@@ -13,8 +12,6 @@ import br.com.amandaluz.cielotickets.feature.checkout.CheckoutError
 import br.com.amandaluz.cielotickets.feature.checkout.CheckoutPhase
 import br.com.amandaluz.cielotickets.feature.checkout.CheckoutUiState
 import br.com.amandaluz.cielotickets.feature.checkout.CheckoutViewModel
-import br.com.amandaluz.cielotickets.feature.checkout.CheckoutViewModelFactory
-import br.com.amandaluz.cielotickets.payment.cielo.CieloPaymentResultObserverImpl
 import br.com.amandaluz.cielotickets.ui.binding.viewBinding
 import br.com.amandaluz.cielotickets.ui.lifecycle.launchWhenViewStarted
 import br.com.amandaluz.cielotickets.ui.state.StatePanelUiModel
@@ -30,20 +27,7 @@ class CartBottomSheetFragment : BottomSheetDialogFragment(R.layout.bottom_sheet_
     private val checkoutViewModel: CheckoutViewModel by lazy(
         LazyThreadSafetyMode.NONE,
     ) {
-        val container =
-            (requireActivity().application as CieloTicketsApplication).appContainer
-        val factory = CheckoutViewModelFactory(
-            createPurchaseAttempt = container.createPurchaseAttempt,
-            savePurchaseAttempt = container.savePurchaseAttempt,
-            startPayment = container.startPayment,
-            updatePurchaseStatus = container.updatePurchaseStatus,
-            paymentResultObserver = CieloPaymentResultObserverImpl(
-                requireContext(),
-            ),
-        )
-        ViewModelProvider(requireParentFragment(), factory)[
-            CheckoutViewModel::class.java
-        ]
+        (requireParentFragment() as EventsFragment).checkoutViewModel
     }
     private val cartAdapter = CartItemAdapter(
         onAdd = { viewModel.addTicket(it) },
@@ -89,11 +73,6 @@ class CartBottomSheetFragment : BottomSheetDialogFragment(R.layout.bottom_sheet_
     }
 
     private fun renderCheckout(state: CheckoutUiState) = with(binding) {
-        if (state.phase == CheckoutPhase.TERMINAL &&
-            viewModel.checkoutCart != null
-        ) {
-            viewModel.completeCheckout()
-        }
         val showingCart = state.phase == CheckoutPhase.IDLE
         cartTitle.isVisible = showingCart
         clearCartButton.isVisible = showingCart
