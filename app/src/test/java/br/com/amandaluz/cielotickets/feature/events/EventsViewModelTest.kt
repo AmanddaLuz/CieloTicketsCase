@@ -43,7 +43,7 @@ class EventsViewModelTest {
     fun removesLastItemAndClosesCart() {
         val viewModel = viewModel()
         viewModel.addTicket(event.id)
-        viewModel.openCart()
+        viewModel.setCartOpen(true)
         assertTrue(viewModel.uiState.value.isCartOpen)
 
         viewModel.removeTicket(event.id)
@@ -61,6 +61,19 @@ class EventsViewModelTest {
 
         assertEquals(0, viewModel.uiState.value.events.single().quantity)
         assertNull(viewModel.uiState.value.cart)
+    }
+
+    @Test
+    fun completedCheckoutClearsCartAndKeepsResultSheetOpen() {
+        val viewModel = viewModel()
+        viewModel.addTicket(event.id)
+        viewModel.setCartOpen(true)
+
+        viewModel.completeCheckout()
+
+        assertEquals(0, viewModel.uiState.value.events.single().quantity)
+        assertNull(viewModel.uiState.value.cart)
+        assertTrue(viewModel.uiState.value.isCartOpen)
     }
 
     private fun viewModel(): EventsViewModel {

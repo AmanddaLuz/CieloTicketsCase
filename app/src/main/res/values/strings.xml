@@ -27,4 +27,17 @@
     <string name="remove_ticket_for">Remover ingresso de %1$s</string>
     <string name="cart_changed_error">O carrinho mudou. Revise os itens e tente novamente.</string>
     <string name="cart_amount_overflow_error">Não foi possível calcular o total do carrinho.</string>
+    <string name="checkout_starting">Preparando o pagamento…</string>
+    <string name="checkout_processing">Conclua o pagamento no app Cielo.</string>
+    <string name="checkout_approved_title">Pagamento aprovado</string>
+    <string name="checkout_approved_message">A venda foi concluída e salva no histórico.</string>
+    <string name="checkout_denied_title">Pagamento negado</string>
+    <string name="checkout_denied_message">A Cielo não aprovou este pagamento.</string>
+    <string name="checkout_cancelled_title">Pagamento cancelado</string>
+    <string name="checkout_cancelled_message">O pagamento foi cancelado na Cielo.</string>
+    <string name="checkout_error_title">Não foi possível concluir</string>
+    <string name="checkout_callback_error_message">A Cielo retornou um erro para este pagamento.</string>
+    <string name="checkout_app_unavailable">O app Cielo não está disponível neste dispositivo.</string>
+    <string name="checkout_credentials_missing">As credenciais da Cielo não estão configuradas.</string>
+    <string name="checkout_technical_error">O pagamento não pôde ser processado. Revise o carrinho e tente novamente.</string>
 </resources>

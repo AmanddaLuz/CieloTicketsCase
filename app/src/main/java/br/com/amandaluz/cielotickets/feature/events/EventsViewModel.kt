@@ -27,6 +27,9 @@ class EventsViewModel(
     private var selections: Map<String, Int> = emptyMap()
     private var cart: Cart? = null
 
+    val checkoutCart: Cart?
+        get() = cart
+
     init {
         loadEvents()
     }
@@ -43,14 +46,14 @@ class EventsViewModel(
         }
     }
 
-    fun openCart() {
+    fun setCartOpen(isOpen: Boolean) {
         mutableUiState.update { state ->
-            if (state.cart == null) state else state.copy(isCartOpen = true)
+            if (isOpen && state.cart == null) {
+                state
+            } else {
+                state.copy(isCartOpen = isOpen)
+            }
         }
-    }
-
-    fun closeCart() {
-        mutableUiState.update { it.copy(isCartOpen = false) }
     }
 
     fun clearCart() {
@@ -59,6 +62,16 @@ class EventsViewModel(
                 selections = emptyMap()
                 cart = null
                 publishState(isCartOpen = false)
+            }
+        }
+    }
+
+    fun completeCheckout() {
+        viewModelScope.launch {
+            mutationMutex.withLock {
+                selections = emptyMap()
+                cart = null
+                publishState(isCartOpen = true)
             }
         }
     }
@@ -125,9 +138,8 @@ class EventsViewModel(
             isLoading = false,
             events = uiMapper.mapEvents(events, cart),
             cart = uiMapper.mapCart(cart),
-            isCartOpen = isCartOpen && cart != null,
+            isCartOpen = isCartOpen,
             error = null,
         )
     }
 }
-

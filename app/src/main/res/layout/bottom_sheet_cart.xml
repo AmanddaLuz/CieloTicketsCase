@@ -29,8 +29,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cartItems"
         android:layout_width="0dp"
-        android:layout_height="300dp"
+        android:layout_height="180dp"
         android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +47,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/cartTotal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/cartTotal" />
+        app:layout_constraintTop_toTopOf="@id/cartTotal"
+        app:layout_constraintVertical_bias="1" />
 
     <TextView
         android:id="@+id/cartTotal"
@@ -55,6 +57,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/cielo_primary"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/checkoutButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cartItems" />
 
@@ -64,11 +67,19 @@
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
         android:text="@string/pay_with_cielo"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cartTotal" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <br.com.amandaluz.cielotickets.ui.state.StatePanelView
+        android:id="@+id/checkoutState"
+        android:layout_width="0dp"
+        android:layout_height="360dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,7 +41,7 @@ class EventsFragment : Fragment(R.layout.fragment_events) {
             findNavController().popBackStack()
         }
         binding.eventsList.adapter = eventAdapter
-        binding.cartButton.setOnClickListener { viewModel.openCart() }
+        binding.cartButton.setOnClickListener { viewModel.setCartOpen(true) }
 
         launchWhenViewStarted {
             viewModel.uiState.collectLatest(::render)
