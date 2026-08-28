@@ -8,6 +8,10 @@ data class PaymentResult(
     val errorMessage: String?,
 )
 
+/**
+ * Observa resultados assíncronos do provedor de pagamento sem expor APIs
+ * Android ao ViewModel.
+ */
 interface PaymentResultObserver {
     fun start(onResult: (PaymentResult) -> Unit)
 

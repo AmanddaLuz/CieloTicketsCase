@@ -8,6 +8,12 @@ import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
+/**
+ * Delegate de ViewBinding vinculado ao ciclo de vida da View do Fragment.
+ *
+ * A referência é descartada em `onDestroyView`, evitando reter a hierarquia
+ * anterior quando o Fragment permanece no back stack.
+ */
 class FragmentViewBindingDelegate<T : ViewBinding>(
     private val fragment: Fragment,
     private val bind: (View) -> T,
@@ -33,4 +39,3 @@ fun <T : ViewBinding> Fragment.viewBinding(
     bind: (View) -> T,
 ): FragmentViewBindingDelegate<T> =
     FragmentViewBindingDelegate(this, bind)
-

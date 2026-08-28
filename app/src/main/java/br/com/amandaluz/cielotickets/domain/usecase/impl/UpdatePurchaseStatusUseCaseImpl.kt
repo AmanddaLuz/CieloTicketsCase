@@ -4,6 +4,12 @@ import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.repository.PurchaseRepository
 import br.com.amandaluz.cielotickets.domain.usecase.UpdatePurchaseStatusUseCase
 
+/**
+ * Valida a máquina de estados e persiste a mudança por compare-and-set.
+ *
+ * Resultados repetidos são idempotentes e estados terminais permanecem
+ * imutáveis.
+ */
 class UpdatePurchaseStatusUseCaseImpl(
     private val purchaseRepository: PurchaseRepository,
     private val currentTimeMillis: () -> Long = System::currentTimeMillis,

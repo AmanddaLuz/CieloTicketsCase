@@ -10,7 +10,7 @@
 
 ## Non-negotiable rules
 
-- XML native UI with ViewBinding; no Compose dependencies.
+- XML native UI with ViewBinding as the only presentation stack.
 - Pure Kotlin domain with inward dependency flow.
 - Interfaces plus `Impl` classes for repositories and use cases.
 - Passive Views, immutable UI state and constructor injection.
@@ -28,4 +28,3 @@
 4. Add deterministic tests for rules and state transitions.
 5. Run the smallest applicable validation.
 6. Record relevant AI constraints or decisions in `docs/agent-harness/`.
-

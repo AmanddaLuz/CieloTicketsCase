@@ -8,6 +8,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+/**
+ * Recupera o comprovante pela referência persistida e publica um modelo pronto
+ * para renderização, sem transportar snapshots pela navegação.
+ */
 class ReceiptViewModel(
     reference: String,
     private val getPurchaseAttempt: GetPurchaseAttemptUseCase,

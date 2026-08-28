@@ -9,6 +9,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
+/**
+ * Combina o histórico persistido com um filtro de status exclusivamente de
+ * apresentação, preservando a ordem canônica recebida do domínio.
+ */
 class HistoryViewModel(
     getSalesHistory: GetSalesHistoryUseCase,
     private val uiMapper: HistoryUiMapper,

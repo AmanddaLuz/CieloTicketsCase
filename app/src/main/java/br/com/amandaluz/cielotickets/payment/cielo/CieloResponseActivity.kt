@@ -5,6 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 
+/**
+ * Ponto de entrada do custom scheme `order://payment`.
+ *
+ * A Activity não apresenta UI: valida e decodifica o retorno, publica um
+ * broadcast restrito ao pacote e encerra imediatamente.
+ */
 class CieloResponseActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

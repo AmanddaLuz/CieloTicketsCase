@@ -15,3 +15,7 @@ Validation:
 Canonical docs updated:
 ```
 
+Registros:
+
+- `2026-08-28-foundation.md`: decisões incrementais das fases;
+- `final-delivery.md`: prompts representativos, restrições e resultados finais.

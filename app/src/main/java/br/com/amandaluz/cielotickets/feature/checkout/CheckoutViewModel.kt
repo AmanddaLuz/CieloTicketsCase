@@ -18,6 +18,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
+/**
+ * Orquestra o checkout com persistência anterior à cobrança e consumo
+ * idempotente do callback.
+ *
+ * O observer externo é registrado durante a vida do ViewModel para continuar
+ * ativo enquanto o aplicativo de pagamento está em primeiro plano.
+ */
 class CheckoutViewModel(
     private val createPurchaseAttempt: CreatePurchaseAttemptUseCase,
     private val savePurchaseAttempt: SavePurchaseAttemptUseCase,

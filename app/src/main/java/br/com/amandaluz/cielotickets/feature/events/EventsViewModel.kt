@@ -14,6 +14,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
+/**
+ * Mantém o catálogo e o único carrinho válido da feature.
+ *
+ * Mutações são serializadas e somente um [Cart] aprovado por [BuildCartUseCase]
+ * é publicado para as Views e para o checkout.
+ */
 class EventsViewModel(
     private val getAvailableEvents: GetAvailableEventsUseCase,
     private val buildCart: BuildCartUseCase,

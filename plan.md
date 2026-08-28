@@ -8,6 +8,6 @@
 | Cielo payment | Completed |
 | XML UI foundation | Completed |
 | Catalog and cart | Completed |
-| Checkout | Pending |
-| History and receipt | Pending |
-| Hardening | Pending |
+| Checkout | Completed |
+| History and receipt | Completed |
+| Hardening | Completed |

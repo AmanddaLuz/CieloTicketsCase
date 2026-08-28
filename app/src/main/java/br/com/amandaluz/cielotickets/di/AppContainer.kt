@@ -11,6 +11,12 @@ import br.com.amandaluz.cielotickets.domain.usecase.SavePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.domain.usecase.StartPaymentUseCase
 import br.com.amandaluz.cielotickets.domain.usecase.UpdatePurchaseStatusUseCase
 
+/**
+ * Contrato do composition root da aplicação.
+ *
+ * Features recebem abstrações prontas e não constroem repositories, banco ou
+ * adapters de pagamento.
+ */
 interface AppContainer {
     val purchaseRepository: PurchaseRepository
     val getAvailableEvents: GetAvailableEventsUseCase

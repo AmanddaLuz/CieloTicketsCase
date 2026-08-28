@@ -10,6 +10,11 @@ import br.com.amandaluz.cielotickets.domain.gateway.PaymentResult
 import br.com.amandaluz.cielotickets.domain.gateway.PaymentResultObserver
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 
+/**
+ * Observador Android do broadcast emitido por [CieloResponseActivity].
+ *
+ * Somente estados terminais válidos são encaminhados ao checkout.
+ */
 class CieloPaymentResultObserverImpl(
     context: Context,
 ) : PaymentResultObserver {

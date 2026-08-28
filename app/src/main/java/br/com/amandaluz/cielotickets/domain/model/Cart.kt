@@ -1,5 +1,6 @@
 package br.com.amandaluz.cielotickets.domain.model
 
+/** Item validado do carrinho com preço obtido do catálogo de domínio. */
 data class CartItem(
     val event: Event,
     val quantity: Int,
@@ -15,6 +16,10 @@ data class CartItem(
         Math.multiplyExact(event.priceInCents, quantity.toLong())
 }
 
+/**
+ * Carrinho imutável responsável por garantir unicidade, quantidade e totais
+ * monetários exatos.
+ */
 class Cart(items: List<CartItem>) {
     val items: List<CartItem> = items.toList()
 

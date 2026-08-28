@@ -1,12 +1,12 @@
 # Foundation record
 
 Date: 2026-08-28  
-Scope: Independent native XML project bootstrap  
-Input constraint: Preserve CieloTickets behavior while replacing Compose with
-XML/ViewBinding and applying explicit repository/use-case contracts.  
+Scope: Independent native XML project bootstrap
+Input constraint: Preserve the required CieloTickets behavior with
+XML/ViewBinding and explicit repository/use-case contracts.
 Decision: Start from a clean Git history, use the same application ID and publish
-to `AmanddaLuz/CieloTicketsCase`.  
-Validation: Build, quality and coverage gates must pass before feature migration.  
+to `AmanddaLuz/CieloTicketsCase`.
+Validation: Build, quality and coverage gates must pass before feature migration.
 Canonical docs updated: product spec, SDD, architecture, testing and ADRs.
 
 ## Domain phase
@@ -25,7 +25,7 @@ Scope: Local event catalog and Room persistence.
 Decision: Store attempts and item snapshots in normalized tables rather than
 JSON or a reduced summary. Use Room transactions for insertion and SQL
 compare-and-set for status updates. Debug builds use the `.xml` application ID
-suffix so the original Compose app can remain installed during comparison.
+suffix to avoid conflicts with another installed package variant.
 Canonical docs updated: data spec, ADR 0003, architecture, SDD and testing.
 
 ## Payment phase
@@ -34,8 +34,8 @@ Scope: Cielo Smart Deep Link request, callback and persistent state transitions.
 Decision: Claim `PROCESSING` atomically before launch, encode every purchase item
 and correlate callbacks with the purchase UUID. Validate approved order evidence
 and initially hand persistence to WorkManager. This was later simplified by ADR
-0006 to the callback URI and package-scoped broadcast already validated in the
-Compose application and Cielo emulator. Treat custom-scheme provenance as an
+0006 to the callback URI and package-scoped broadcast already validated with the
+Cielo emulator. Treat custom-scheme provenance as an
 emulator/case constraint and require trusted reconciliation for production.
 Canonical docs updated: payment spec, Cielo constraints, ADR 0004, architecture,
 SDD and testing.
@@ -86,7 +86,7 @@ approved purchases. Keep event, monetary and payment details outside the code.
 Canonical docs updated: history/receipt spec, ADR 0009, architecture, SDD and
 testing.
 
-Post-phase adjustment: align the XML palette with the Compose reference blue,
+Post-phase adjustment: align the XML palette with the validated blue identity,
 center receipt fields and ship only the Cielo emulator's public test values in
 `local.properties.example`. Real credentials remain untracked.
 
@@ -94,6 +94,6 @@ Approved checkout adjustment: after persisting the terminal result and clearing
 the cart, navigate once by purchase reference to the receipt with its QR Code.
 Keep non-approved terminal feedback in the checkout BottomSheet.
 
-Terminal-state visual adjustment: mirror the Compose result hierarchy in XML
+Terminal-state visual adjustment: use the validated result hierarchy in XML
 with semantic cancellation/error icons, concise copy, a blue result container
 and a full-width close action.
