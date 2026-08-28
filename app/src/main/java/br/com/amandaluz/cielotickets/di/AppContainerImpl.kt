@@ -8,15 +8,19 @@ import br.com.amandaluz.cielotickets.data.local.repository.RoomPurchaseRepositor
 import br.com.amandaluz.cielotickets.domain.repository.EventRepository
 import br.com.amandaluz.cielotickets.domain.repository.PurchaseRepository
 import br.com.amandaluz.cielotickets.domain.usecase.BuildCartUseCase
+import br.com.amandaluz.cielotickets.domain.usecase.BuildTicketQrContentUseCase
 import br.com.amandaluz.cielotickets.domain.usecase.CreatePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.domain.usecase.GetAvailableEventsUseCase
+import br.com.amandaluz.cielotickets.domain.usecase.GetPurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.domain.usecase.GetSalesHistoryUseCase
 import br.com.amandaluz.cielotickets.domain.usecase.SavePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.domain.usecase.StartPaymentUseCase
 import br.com.amandaluz.cielotickets.domain.usecase.UpdatePurchaseStatusUseCase
 import br.com.amandaluz.cielotickets.domain.usecase.impl.BuildCartUseCaseImpl
+import br.com.amandaluz.cielotickets.domain.usecase.impl.BuildTicketQrContentUseCaseImpl
 import br.com.amandaluz.cielotickets.domain.usecase.impl.CreatePurchaseAttemptUseCaseImpl
 import br.com.amandaluz.cielotickets.domain.usecase.impl.GetAvailableEventsUseCaseImpl
+import br.com.amandaluz.cielotickets.domain.usecase.impl.GetPurchaseAttemptUseCaseImpl
 import br.com.amandaluz.cielotickets.domain.usecase.impl.GetSalesHistoryUseCaseImpl
 import br.com.amandaluz.cielotickets.domain.usecase.impl.SavePurchaseAttemptUseCaseImpl
 import br.com.amandaluz.cielotickets.domain.usecase.impl.StartPaymentUseCaseImpl
@@ -44,8 +48,16 @@ class AppContainerImpl(
         BuildCartUseCaseImpl(eventRepository)
     }
 
+    override val buildTicketQrContent: BuildTicketQrContentUseCase by lazy {
+        BuildTicketQrContentUseCaseImpl()
+    }
+
     override val createPurchaseAttempt: CreatePurchaseAttemptUseCase by lazy {
         CreatePurchaseAttemptUseCaseImpl()
+    }
+
+    override val getPurchaseAttempt: GetPurchaseAttemptUseCase by lazy {
+        GetPurchaseAttemptUseCaseImpl(purchaseRepository)
     }
 
     override val savePurchaseAttempt: SavePurchaseAttemptUseCase by lazy {
@@ -70,4 +82,3 @@ class AppContainerImpl(
         GetSalesHistoryUseCaseImpl(purchaseRepository)
     }
 }
-

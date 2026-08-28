@@ -73,3 +73,15 @@ the feature ViewModel exists to avoid a return-to-app lifecycle race. Clear the
 cart only after a terminal callback is persisted; preserve it after launcher,
 availability or credential failures.
 Canonical docs updated: checkout spec, ADR 0008, architecture, SDD and testing.
+
+## History and receipt phase
+
+Scope: Reactive persisted history, status filtering, receipt recovery and
+approved ticket QR Code.
+Decision: Combine a presentation-only status filter with the canonical history
+stream and place single-selection chips at the beginning of the XML page.
+Navigate using only the purchase reference, reload the persisted snapshot
+through `GetPurchaseAttemptUseCase` and generate an opaque QR payload only for
+approved purchases. Keep event, monetary and payment details outside the code.
+Canonical docs updated: history/receipt spec, ADR 0009, architecture, SDD and
+testing.

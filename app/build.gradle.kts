@@ -173,6 +173,7 @@ kover {
                     "*.payment.cielo.CieloCallbackUriParser",
                     "*.payment.cielo.CieloPaymentIntentLauncherImpl",
                     "*.payment.cielo.CieloPaymentRequestEncoderImpl",
+                    "*.feature.receipt.QrCodeBitmapRenderer",
                     "*.di.*",
                     "*.navigation.*",
                     "*.ui.binding.*",

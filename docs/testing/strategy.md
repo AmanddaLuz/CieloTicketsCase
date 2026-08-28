@@ -36,6 +36,11 @@
 - Callback observer registration across the external Cielo application.
 - Cart cleanup only after a persisted terminal callback.
 - QR Code restricted to approved purchases.
+- Status filters over reactive history without changing persisted ordering.
+- Empty database and empty filtered-result presentation.
+- Receipt recovery by reference instead of navigation snapshots.
+- Multi-event receipt item, quantity and exact total mapping.
+- Opaque QR payload without event or payment details.
 
 ## Gates
 
