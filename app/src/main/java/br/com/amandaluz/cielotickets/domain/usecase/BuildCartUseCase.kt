@@ -2,6 +2,10 @@ package br.com.amandaluz.cielotickets.domain.usecase
 
 import br.com.amandaluz.cielotickets.domain.model.Cart
 
+/**
+ * Constrói um carrinho somente quando todas as seleções respeitam o catálogo,
+ * os limites de quantidade e a aritmética monetária exata.
+ */
 interface BuildCartUseCase {
     sealed interface Result {
         data class Success(val cart: Cart) : Result

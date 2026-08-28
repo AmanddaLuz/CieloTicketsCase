@@ -1,5 +1,10 @@
 package br.com.amandaluz.cielotickets.domain.model
 
+/**
+ * Snapshot de um item no momento da compra.
+ *
+ * O snapshot preserva nome e preço mesmo que o catálogo seja alterado depois.
+ */
 data class PurchaseItem(
     val eventId: String,
     val eventName: String,
@@ -26,6 +31,9 @@ data class PurchaseItem(
     }
 }
 
+/**
+ * Tentativa persistível de compra identificada por uma referência idempotente.
+ */
 class PurchaseAttempt private constructor(
     val reference: String,
     items: List<PurchaseItem>,

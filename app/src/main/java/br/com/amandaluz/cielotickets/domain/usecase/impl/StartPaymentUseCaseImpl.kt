@@ -6,6 +6,12 @@ import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.usecase.StartPaymentUseCase
 import br.com.amandaluz.cielotickets.domain.usecase.UpdatePurchaseStatusUseCase
 
+/**
+ * Implementa o início single-flight do pagamento.
+ *
+ * A cobrança só é aberta após a transição atômica para `PROCESSING`. Falhas do
+ * gateway encerram a tentativa como `ERROR`.
+ */
 class StartPaymentUseCaseImpl(
     private val paymentGateway: PaymentGateway,
     private val updatePurchaseStatus: UpdatePurchaseStatusUseCase,

@@ -6,6 +6,12 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import br.com.amandaluz.cielotickets.databinding.ViewQuantitySelectorBinding
 
+/**
+ * Seletor passivo de quantidade reutilizado pelo catálogo e pelo carrinho.
+ *
+ * Limites e validações permanecem no domínio; a View apenas reflete o modelo e
+ * encaminha os cliques.
+ */
 class QuantitySelectorView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

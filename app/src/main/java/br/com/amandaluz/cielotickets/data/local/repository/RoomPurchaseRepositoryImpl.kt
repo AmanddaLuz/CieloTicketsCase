@@ -10,6 +10,12 @@ import br.com.amandaluz.cielotickets.domain.repository.PurchaseRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+/**
+ * Adapter Room do [PurchaseRepository].
+ *
+ * Converte registros relacionais em entidades de domínio e delega ao DAO a
+ * inserção transacional e a atualização atômica de status.
+ */
 class RoomPurchaseRepositoryImpl(
     private val purchaseAttemptDao: PurchaseAttemptDao,
 ) : PurchaseRepository {
@@ -58,4 +64,3 @@ class RoomPurchaseRepositoryImpl(
             attempts.map { it.toDomain() }
         }
 }
-

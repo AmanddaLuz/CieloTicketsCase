@@ -18,8 +18,8 @@ The active checkout ViewModel will persist the result through
 
 Adding query parameters to `urlCallback` and introducing a WorkManager handoff
 changed the integration contract without evidence that the Cielo emulator
-preserves that callback format. The existing Compose application already
-demonstrates reliable deep-link return using a plain callback URI and broadcast.
+preserves that callback format. The previously validated implementation
+demonstrated reliable deep-link return using a plain callback URI and broadcast.
 
 Reusing the known integration reduces moving parts and avoids an unnecessary
 background-work dependency.

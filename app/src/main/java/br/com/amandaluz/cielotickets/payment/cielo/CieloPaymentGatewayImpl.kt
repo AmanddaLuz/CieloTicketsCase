@@ -3,6 +3,12 @@ package br.com.amandaluz.cielotickets.payment.cielo
 import br.com.amandaluz.cielotickets.domain.gateway.PaymentGateway
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 
+/**
+ * Adapter que traduz uma [PurchaseAttempt] para o Deep Link da Cielo Smart.
+ *
+ * Credenciais, serialização e abertura do Intent permanecem isoladas do
+ * domínio por contratos específicos.
+ */
 class CieloPaymentGatewayImpl(
     private val clientId: String,
     private val accessToken: String,

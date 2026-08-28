@@ -4,6 +4,10 @@ import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import org.json.JSONException
 import org.json.JSONObject
 
+/**
+ * Converte o corpo decodificado do callback Cielo em um resultado técnico
+ * tipado, incluindo respostas de erro que não possuem referência.
+ */
 class CieloCallbackResponseParser {
 
     fun parse(rawResponse: String): CieloCallbackResult? {

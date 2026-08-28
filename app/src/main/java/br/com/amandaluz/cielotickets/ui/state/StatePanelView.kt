@@ -10,6 +10,10 @@ import androidx.core.widget.ImageViewCompat
 import br.com.amandaluz.cielotickets.R
 import br.com.amandaluz.cielotickets.databinding.ViewStatePanelBinding
 
+/**
+ * Componente passivo e reutilizável para estados de carregamento, mensagem e
+ * ação, configurado integralmente por [StatePanelUiModel].
+ */
 class StatePanelView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

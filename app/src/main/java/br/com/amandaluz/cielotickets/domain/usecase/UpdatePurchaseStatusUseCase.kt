@@ -2,6 +2,9 @@ package br.com.amandaluz.cielotickets.domain.usecase
 
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 
+/**
+ * Aplica uma transição válida de pagamento sem sobrescrever estados terminais.
+ */
 interface UpdatePurchaseStatusUseCase {
     sealed interface Result {
         data class Updated(
@@ -28,4 +31,3 @@ interface UpdatePurchaseStatusUseCase {
         newStatus: PaymentStatus,
     ): Result
 }
-

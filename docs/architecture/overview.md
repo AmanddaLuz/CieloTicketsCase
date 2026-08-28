@@ -3,6 +3,9 @@
 The project uses MVVM with Clean Architecture in a single Android module. Package
 boundaries remain explicit without introducing premature Gradle modules.
 
+Os fluxos renderizados de arquitetura, pagamento, navegação e estados estão em
+[`interactive-flows.md`](interactive-flows.md).
+
 ```text
 presentation -> use-case contract <- use-case Impl
                                   -> repository contract <- repository Impl

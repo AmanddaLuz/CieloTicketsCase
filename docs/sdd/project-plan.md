@@ -1,6 +1,6 @@
 # SDD project plan
 
-**Status:** History and receipt completed
+**Status:** Final delivery completed
 **Repository:** `AmanddaLuz/CieloTicketsCase`  
 **UI:** Native XML with ViewBinding
 
@@ -16,14 +16,14 @@
 | 5. Catalog and cart | Completed: events list, quantity controls and reusable cart BottomSheet |
 | 6. Checkout | Completed: persist-before-pay orchestration and terminal outcomes |
 | 7. History and receipt | Completed: status-filtered sales, persisted receipt and approved QR Code |
-| 8. Hardening | Instrumented tests, emulator validation and final documentation |
+| 8. Hardening | Completed: requirement audit, final validation and documentation |
 
 Each phase uses a short-lived branch from `develop`. A phase is complete only
 when its behavior, tests and canonical documentation agree.
 
 ## Acceptance
 
-- No Compose code or dependency.
+- XML and ViewBinding are the only presentation stack.
 - Passive XML Views and unidirectional state flow.
 - Pure domain and dependency inversion at external boundaries.
 - Payment idempotency survives process recreation.

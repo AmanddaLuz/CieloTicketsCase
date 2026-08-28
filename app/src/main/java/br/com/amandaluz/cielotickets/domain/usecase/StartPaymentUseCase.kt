@@ -3,6 +3,9 @@ package br.com.amandaluz.cielotickets.domain.usecase
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 
+/**
+ * Reivindica uma tentativa persistida e inicia no máximo uma cobrança externa.
+ */
 interface StartPaymentUseCase {
     sealed interface Result {
         data class Started(val reference: String) : Result

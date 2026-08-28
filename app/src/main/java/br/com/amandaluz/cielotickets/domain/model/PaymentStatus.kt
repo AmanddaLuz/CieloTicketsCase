@@ -1,5 +1,10 @@
 package br.com.amandaluz.cielotickets.domain.model
 
+/**
+ * Estados persistidos da máquina de pagamento.
+ *
+ * Estados terminais não aceitam novas transições.
+ */
 enum class PaymentStatus {
     CREATED,
     PROCESSING,

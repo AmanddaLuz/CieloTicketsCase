@@ -4,6 +4,12 @@ import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Contrato de persistência das tentativas de compra e de seus snapshots.
+ *
+ * A atualização de status usa compare-and-set para impedir que callbacks
+ * concorrentes sobrescrevam um resultado terminal.
+ */
 interface PurchaseRepository {
     sealed interface InsertResult {
         data object Inserted : InsertResult
@@ -27,6 +33,6 @@ interface PurchaseRepository {
 
     suspend fun findByReference(reference: String): PurchaseAttempt?
 
-    /** Emits purchase attempts ordered from newest to oldest. */
+    /** Emite as tentativas da mais recente para a mais antiga. */
     fun observeHistory(): Flow<List<PurchaseAttempt>>
 }
