@@ -1,6 +1,6 @@
 # SDD project plan
 
-**Status:** Foundation in progress  
+**Status:** Domain foundation completed
 **Repository:** `AmanddaLuz/CieloTicketsCase`  
 **UI:** Native XML with ViewBinding
 
@@ -8,8 +8,8 @@
 
 | Phase | Outcome |
 |---|---|
-| 0. Foundation | Buildable XML host, quality gates, documentation and GitFlow |
-| 1. Domain audit | Models, repository contracts and use-case contracts with `Impl` classes |
+| 0. Foundation | Completed: XML host, quality gates, documentation and GitFlow |
+| 1. Domain audit | Completed: models, repository contracts and use-case contracts with `Impl` classes |
 | 2. Data | Local catalog and Room persistence adapters |
 | 3. Payment | Cielo gateway, callback parser and persistent state machine |
 | 4. UI foundation | Navigation, binding lifecycle and reusable state components |
@@ -28,4 +28,3 @@ when its behavior, tests and canonical documentation agree.
 - Pure domain and dependency inversion at external boundaries.
 - Payment idempotency survives process recreation.
 - Lint, Detekt, tests, coverage and build pass.
-
