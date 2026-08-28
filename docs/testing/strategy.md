@@ -20,6 +20,9 @@
 - Persist-before-pay and single-flight checkout.
 - Duplicate and unknown callbacks.
 - Process recreation with a pending attempt.
+- Multi-item Cielo payload and callback reference correlation.
+- Rejection of malformed, mismatched and amount-inconsistent approvals.
+- Lifecycle-independent callback persistence through WorkManager.
 - Distinct approved, denied, cancelled and error rendering.
 - QR Code restricted to approved purchases.
 

@@ -7,8 +7,8 @@ interface PaymentGateway {
         data object Initiated : Result
         data object AppNotAvailable : Result
         data object CredentialsNotConfigured : Result
+        data object TechnicalFailure : Result
     }
 
     fun initiatePayment(attempt: PurchaseAttempt): Result
 }
-

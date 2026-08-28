@@ -51,3 +51,17 @@ See `../specs/domain-spec.md` for the canonical behavior.
 - `purchase_items.position` restores the original cart order.
 
 See `../specs/data-spec.md` and ADR 0003 for persistence guarantees.
+
+## Payment adapters
+
+- `StartPaymentUseCaseImpl` atomically claims a purchase before launching Cielo.
+- `CieloPaymentGatewayImpl` depends on request-encoder and Intent-launcher
+  contracts instead of constructing Android details in the domain.
+- `CieloPaymentRequestEncoderImpl` creates a multi-item request and correlated
+  callback URL.
+- `CieloResponseActivity` validates and enqueues callbacks without owning their
+  persistence lifecycle.
+- `CieloCallbackWorker` applies terminal states through the domain state machine.
+
+See `../specs/payment-spec.md` and ADR 0004 for callback guarantees and the
+custom-scheme trust boundary.
