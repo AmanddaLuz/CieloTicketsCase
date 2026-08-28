@@ -41,3 +41,13 @@ payment dependencies.
 - Unknown references, duplicates and invalid transitions produce typed results.
 
 See `../specs/domain-spec.md` for the canonical behavior.
+
+## Data adapters
+
+- `LocalEventRepositoryImpl` supplies the deterministic interview catalog.
+- `RoomPurchaseRepositoryImpl` maps domain attempts to normalized Room records.
+- `PurchaseAttemptDao` inserts attempts and items transactionally.
+- Status changes use an atomic expected-state update.
+- `purchase_items.position` restores the original cart order.
+
+See `../specs/data-spec.md` and ADR 0003 for persistence guarantees.

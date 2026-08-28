@@ -18,3 +18,12 @@ and invalid payment transitions through typed results. Status updates use an
 atomic expected-state contract so concurrent callbacks cannot replace a terminal
 result. Reference and time generation are injected into the creation use case.
 Canonical docs updated: domain spec, architecture, SDD and testing strategy.
+
+## Data phase
+
+Scope: Local event catalog and Room persistence.
+Decision: Store attempts and item snapshots in normalized tables rather than
+JSON or a reduced summary. Use Room transactions for insertion and SQL
+compare-and-set for status updates. Debug builds use the `.xml` application ID
+suffix so the original Compose app can remain installed during comparison.
+Canonical docs updated: data spec, ADR 0003, architecture, SDD and testing.

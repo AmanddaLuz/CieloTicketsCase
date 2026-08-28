@@ -56,6 +56,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".xml"
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -87,6 +90,11 @@ android {
         warningsAsErrors = false
         disable += setOf("ExpiredTargetSdkVersion", "OldTargetApi")
     }
+
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 dependencies {
@@ -112,7 +120,10 @@ dependencies {
     testImplementation(libs.room.testing)
 
     androidTestImplementation(libs.androidx.test.junit)
+    androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.room.testing)
 }
 
 detekt {
@@ -154,6 +165,10 @@ kover {
                     "*.*Config",
                     "*.*Config$*",
                     "*.databinding.*",
+                    "*.data.local.dao.*",
+                    "*.data.local.db.*",
+                    "*.data.local.entity.*",
+                    "*.data.local.repository.RoomPurchaseRepositoryImpl",
                     "*.di.*",
                     "*.navigation.*",
                 )

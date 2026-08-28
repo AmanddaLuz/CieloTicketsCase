@@ -4,7 +4,7 @@
 |---|---|
 | Foundation and documentation | Completed |
 | Domain audit | Completed |
-| Data and Room | Pending |
+| Data and Room | Completed |
 | Cielo payment | Pending |
 | XML UI foundation | Pending |
 | Catalog and cart | Pending |

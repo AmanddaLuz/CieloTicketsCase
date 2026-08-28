@@ -13,6 +13,10 @@ preserving payment idempotency and local state.
 - Android Lint, Detekt and Kover with 75% eligible line coverage
 - GitFlow with protected `main` and `develop`
 
+Debug builds use the `.xml` application ID suffix so the XML and Compose
+projects can be installed on the same emulator. Release builds keep
+`br.com.amandaluz.cielotickets`.
+
 ## Build
 
 Copy `local.properties.example` to `local.properties`, configure the Android SDK
@@ -28,4 +32,3 @@ and keep Cielo credentials outside version control.
 
 Start with `docs/sdd/project-plan.md`. Product rules, architecture, tests and
 decisions each have one canonical document to reduce duplication.
-
