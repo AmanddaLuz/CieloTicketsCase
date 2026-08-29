@@ -1,7 +1,8 @@
 package br.com.amandaluz.cielotickets.domain.usecase
 
 import br.com.amandaluz.cielotickets.domain.model.Event
-import br.com.amandaluz.cielotickets.domain.usecase.impl.BuildCartUseCaseImpl
+import br.com.amandaluz.cielotickets.feature.events.usecase.BuildCartUseCaseImpl
+import br.com.amandaluz.cielotickets.feature.events.usecase.BuildCartUseCase
 import br.com.amandaluz.cielotickets.testfake.FakeEventRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

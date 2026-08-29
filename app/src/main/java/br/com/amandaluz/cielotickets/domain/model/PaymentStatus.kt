@@ -4,6 +4,9 @@ package br.com.amandaluz.cielotickets.domain.model
  * Estados persistidos da máquina de pagamento.
  *
  * Estados terminais não aceitam novas transições.
+ * Impede que callbacks atrasados ou duplicados sobrescrevam um pagamento já
+ * concluído. A validação acontece no domínio, enquanto o compare-and-set do DAO
+ * garante essa proteção também diante de concorrência.
  */
 enum class PaymentStatus {
     CREATED,

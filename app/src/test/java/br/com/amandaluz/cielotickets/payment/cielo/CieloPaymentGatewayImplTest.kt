@@ -4,6 +4,8 @@ import br.com.amandaluz.cielotickets.domain.gateway.PaymentGateway
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
+import br.com.amandaluz.cielotickets.payment.cielo.encoder.CieloPaymentRequestEncoder
+import br.com.amandaluz.cielotickets.payment.cielo.launcher.CieloPaymentIntentLauncher
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

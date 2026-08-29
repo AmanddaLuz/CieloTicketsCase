@@ -8,6 +8,12 @@ import br.com.amandaluz.cielotickets.data.local.dao.PurchaseAttemptDao
 import br.com.amandaluz.cielotickets.data.local.entity.PurchaseAttemptEntity
 import br.com.amandaluz.cielotickets.data.local.entity.PurchaseItemEntity
 
+/**
+ * Banco Room da aplicação.
+ *
+ * Registra a tentativa como entidade pai e seus itens como entidades filhas.
+ * O schema é exportado para versionar a estrutura e apoiar futuras migrations.
+ */
 @Database(
     entities = [
         PurchaseAttemptEntity::class,
@@ -17,6 +23,7 @@ import br.com.amandaluz.cielotickets.data.local.entity.PurchaseItemEntity
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
+    /** Fornece o DAO responsável pela persistência das tentativas de compra. */
     abstract fun purchaseAttemptDao(): PurchaseAttemptDao
 
     companion object {
@@ -25,6 +32,11 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var instance: AppDatabase? = null
 
+        /**
+         * Retorna a instância única do banco usando o contexto da aplicação.
+         *
+         * O `synchronized` impede a criação concorrente de mais de uma instância.
+         */
         fun getInstance(context: Context): AppDatabase =
             instance ?: synchronized(this) {
                 instance ?: Room.databaseBuilder(
@@ -37,4 +49,3 @@ abstract class AppDatabase : RoomDatabase() {
             }
     }
 }
-

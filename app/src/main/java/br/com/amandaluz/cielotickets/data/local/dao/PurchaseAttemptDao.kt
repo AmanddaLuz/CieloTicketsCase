@@ -11,6 +11,13 @@ import br.com.amandaluz.cielotickets.data.local.entity.PurchaseItemEntity
 import br.com.amandaluz.cielotickets.data.local.mapper.PurchaseAttemptRecord
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Define as operações Room para tentativas de compra e seus itens.
+ *
+ * Os métodos protegidos representam operações SQL de baixo nível. A superfície
+ * pública as combina em transações para impedir registros parciais e mudanças
+ * concorrentes de status.
+ */
 @Dao
 abstract class PurchaseAttemptDao {
 
@@ -39,6 +46,12 @@ abstract class PurchaseAttemptDao {
     @Query("SELECT status FROM purchase_attempts WHERE reference = :reference LIMIT 1")
     protected abstract suspend fun findStatus(reference: String): String?
 
+    /**
+     * Insere a tentativa e todos os itens na mesma transação.
+     *
+     * @return `false` quando a referência já existe; falhas nos itens revertem
+     * toda a inserção.
+     */
     @Transaction
     open suspend fun insert(record: PurchaseAttemptRecord): Boolean {
         val rowId = insertAttempt(record.attempt)
@@ -49,6 +62,12 @@ abstract class PurchaseAttemptDao {
         return inserted
     }
 
+    /**
+     * Atualiza o status somente se o valor persistido ainda for o esperado.
+     *
+     * A operação implementa compare-and-set para impedir que inícios ou
+     * callbacks concorrentes sobrescrevam o estado da compra.
+     */
     @Transaction
     open suspend fun compareAndSetStatus(
         reference: String,
@@ -70,10 +89,16 @@ abstract class PurchaseAttemptDao {
         }
     }
 
+    /** Recupera uma tentativa e seus itens pela referência persistida. */
     @Transaction
     @Query("SELECT * FROM purchase_attempts WHERE reference = :reference LIMIT 1")
     abstract suspend fun findByReference(reference: String): PurchaseAttemptWithItems?
 
+    /**
+     * Observa tentativas e itens em ordem decrescente de criação.
+     *
+     * O Room emite uma nova lista quando alguma tabela relacionada é alterada.
+     */
     @Transaction
     @Query("SELECT * FROM purchase_attempts ORDER BY createdAt DESC")
     abstract fun observeAll(): Flow<List<PurchaseAttemptWithItems>>
@@ -82,4 +107,3 @@ abstract class PurchaseAttemptDao {
         const val INSERT_CONFLICT = -1L
     }
 }
-

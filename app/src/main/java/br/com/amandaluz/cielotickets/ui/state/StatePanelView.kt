@@ -24,6 +24,12 @@ class StatePanelView @JvmOverloads constructor(
         this,
     )
 
+    /**
+     * Renderiza o modelo sem conhecer regras da feature chamadora.
+     *
+     * A ação só é exibida quando o modelo possui rótulo e o chamador fornece
+     * um callback.
+     */
     fun render(
         model: StatePanelUiModel?,
         onAction: (() -> Unit)? = null,
