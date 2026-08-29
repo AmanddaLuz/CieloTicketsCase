@@ -1,8 +1,8 @@
-# Problemas encontrados e soluções aplicadas
+# Desafios técnicos e soluções de engenharia
 
-Este documento registra incidentes reais encontrados durante o desenvolvimento,
-suas causas, as soluções adotadas e as medidas que evitam regressões. O objetivo
-é preservar o raciocínio técnico, e não apenas o estado final do código.
+Este documento registra desafios reais encontrados durante o desenvolvimento,
+suas causas, as decisões adotadas e as medidas que evitam regressões. O objetivo
+é preservar o raciocínio de engenharia, e não apenas o estado final do código.
 
 ## 1. ViewModels com dependências não podiam ser criados pelo factory padrão
 
@@ -440,6 +440,41 @@ tela.
 **Solução:** adapters pertencentes à View do Fragment são desvinculados em
 `onDestroyView`, assim como o delegate de ViewBinding invalida o binding nesse
 momento.
+
+## 18. Itens diferentes do comprovante podiam compartilhar a mesma identidade visual
+
+**Risco:** o `DiffUtil` do `ReceiptItemAdapter` utilizava `eventName` em
+`areItemsTheSame`. Dois eventos distintos com o mesmo nome seriam considerados
+o mesmo item pelo Adapter, mesmo possuindo identificadores diferentes no
+domínio e no banco.
+
+**Causa:** `ReceiptItemUiModel` transportava somente os dados exibidos e
+descartava o `eventId` durante o mapeamento para a apresentação. O nome é um
+atributo visual mutável e não constitui uma identidade técnica confiável.
+
+**Solução:** propagar o identificador sem exibi-lo:
+
+```text
+PurchaseItem.eventId
+  -> ReceiptUiMapper
+  -> ReceiptItemUiModel.eventId
+  -> ReceiptItemAdapter.Diff
+```
+
+O `DiffUtil` agora compara:
+
+```kotlin
+oldItem.eventId == newItem.eventId
+```
+
+Essa regra fica alinhada ao modelo persistido, no qual
+`purchase_items` possui um índice único formado por `attemptReference` e
+`eventId`. `areContentsTheSame` continua comparando a `data class` completa
+para detectar mudanças de nome, quantidade, preço ou subtotal.
+
+**Prevenção:** identidades de adapters devem usar chaves estáveis do domínio,
+nunca textos exibidos, posições ou valores formatados. O teste do comprovante
+também verifica que o mapper preserva o `eventId`.
 
 ## Como usar este documento
 
