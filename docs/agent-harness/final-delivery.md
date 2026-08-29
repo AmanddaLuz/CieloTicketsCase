@@ -9,7 +9,7 @@ remover repetições de conversa, preservando a intenção técnica.
 
 ### Fundação
 
-> Criar um novo projeto Android em XML, equivalente ao case existente, com
+> Criar um novo projeto Android em XML, ViewBinding, MVVM, Clean Architecture, com
 > documentação, linters, Detekt, GitFlow, branches protegidas, SOLID, inversão de
 > dependências, classes Impl, Views passivas e componentes reutilizáveis.
 
@@ -42,9 +42,8 @@ itens e QR Code opaco exclusivo para compras aprovadas.
 
 ### Entrega final
 
-> Conferir os requisitos do arquivo do case, adicionar KDocs em português,
-> produzir um README completo e remover referências a tecnologias fora da
-> solução final.
+> Check dos requisitos do case, adicionar KDocs em português,
+> produzir um README completo e documentação final.
 
 **Resultado:** checklist de conformidade, documentação final autônoma, KDocs nos
 pontos arquiteturais e README com execução, bibliotecas, Cielo, trade-offs,

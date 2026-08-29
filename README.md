@@ -351,8 +351,11 @@ Não é necessário criar commits ou tags diretamente nas branches protegidas.
   separados em módulos Gradle.
 - **Injeção manual:** torna dependências explícitas sem adicionar um framework
   para uma base pequena. Um projeto maior poderia adotar Hilt.
+  DI - AppContainer manual reduz complexidade de setup para um módulo único; 
+  Hilt exigiria kapt/KSP extra e mais boilerplate para o escopo do desafio;
 - **Catálogo local:** atende ao escopo sem backend. Produção exigiria API,
   sincronização, disponibilidade e política de preços.
+  Room (SQLite local)
 - **Callback por custom scheme:** é compatível com o emulador, mas não comprova
   criptograficamente a origem. Produção exige reconciliação por backend ou API
   confiável da Cielo.
@@ -363,19 +366,25 @@ Não é necessário criar commits ou tags diretamente nas branches protegidas.
   deveria filtrar e paginar no banco.
 - **QR opaco:** minimiza exposição de dados, mas depende de validação confiável
   da referência.
+- **Integração Cielo:**	Deep Link (lio://)	SDK proprietário
+- **Deep Link:** É o modelo recomendado pela Cielo para Android e evita dependência de biblioteca fechada
+- **Módulo único:**	Pacotes por feature	Módulos Gradle separados	Adequado ao tamanho atual; limites de responsabilidade mantidos por pacote
+- **targetSdk 29:**	Android 10	Android mais recente - Compatibilidade com terminais Cielo Smart que rodam Android 10
+- **KDocs em português:**	PT-BR	EN	Projeto criado para avaliação facilitando revisão de código
 
 ## O que faria com mais tempo
 
 - backend para catálogo, preços e reconciliação Cielo;
-- callback HTTPS autenticado;
+- autenticação do operador - Login para identificar quem vendeu cada ingresso
 - recuperação automática de tentativas pendentes;
 - paginação do histórico;
 - criptografia adicional para dados locais;
-- suporte completo a tema escuro e acessibilidade avançada;
 - testes end-to-end em uma matriz de dispositivos;
 - modularização Gradle;
 - observabilidade sem dados sensíveis;
-- validação e consumo único do ingresso por um aplicativo de entrada.
+- hilt - Substituir AppContainer por DI declarativo, facilitando testes com módulos falsos;
+- analytics / Crashlytics - Rastrear erros de integração em produção;
+- acessibilidade - TalkBack, fontes dinâmicas;
 
 ## Uso de IA e documentação
 
@@ -394,6 +403,8 @@ de segurança, arquitetura, economia de contexto, GitFlow e validação.
   [`docs/architecture/interactive-flows.md`](docs/architecture/interactive-flows.md);
 - estratégia de testes:
   [`docs/testing/strategy.md`](docs/testing/strategy.md);
+- desafios técnicos e soluções de engenharia:
+  [`docs/troubleshooting/desafios-tecnicos-e-solucoes.md`](docs/troubleshooting/desafios-tecnicos-e-solucoes.md);
 - prompts, restrições e resultados do agente:
   [`docs/agent-harness`](docs/agent-harness).
 
