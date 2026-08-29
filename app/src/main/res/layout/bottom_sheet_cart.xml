@@ -63,10 +63,13 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/checkoutButton"
+        style="@style/Widget.Material3.Button"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
         android:text="@string/pay_with_cielo"
+        android:textColor="@color/cielo_on_primary"
+        app:backgroundTint="@color/cielo_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
