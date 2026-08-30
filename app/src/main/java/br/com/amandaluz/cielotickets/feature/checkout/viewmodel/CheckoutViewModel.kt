@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.amandaluz.cielotickets.domain.gateway.PaymentResult
 import br.com.amandaluz.cielotickets.domain.gateway.PaymentResultObserver
 import br.com.amandaluz.cielotickets.domain.model.Cart
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.CreatePurchaseAttemptUseCase
@@ -45,7 +46,7 @@ class CheckoutViewModel(
         paymentResultObserver.start(::onPaymentResult)
     }
 
-    fun start(cart: Cart) {
+    fun start(cart: Cart, paymentMethod: PaymentMethod) {
         viewModelScope.launch {
             paymentMutex.withLock {
                 if (mutableUiState.value.phase in ACTIVE_PHASES) return@withLock
@@ -53,7 +54,7 @@ class CheckoutViewModel(
                 mutableUiState.value = CheckoutUiState(
                     phase = CheckoutPhase.STARTING,
                 )
-                val attempt = createPurchaseAttempt(cart)
+                val attempt = createPurchaseAttempt(cart, paymentMethod)
                 currentAttempt = attempt
 
                 when (val saveResult = savePurchaseAttempt(attempt)) {

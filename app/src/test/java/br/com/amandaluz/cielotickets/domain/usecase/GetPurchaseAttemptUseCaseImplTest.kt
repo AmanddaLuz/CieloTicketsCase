@@ -3,6 +3,7 @@ package br.com.amandaluz.cielotickets.domain.usecase
 import br.com.amandaluz.cielotickets.domain.model.Cart
 import br.com.amandaluz.cielotickets.domain.model.CartItem
 import br.com.amandaluz.cielotickets.domain.model.Event
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.feature.receipt.usecase.GetPurchaseAttemptUseCaseImpl
 import br.com.amandaluz.cielotickets.testfake.FakePurchaseRepository
@@ -33,6 +34,7 @@ class GetPurchaseAttemptUseCaseImplTest {
         return PurchaseAttempt.create(
             reference = "history-reference",
             cart = Cart(listOf(CartItem(event, 1))),
+            paymentMethod = PaymentMethod.CREDIT_CASH,
             createdAt = 100L,
         )
     }

@@ -1,5 +1,6 @@
 package br.com.amandaluz.cielotickets.feature.history
 
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
@@ -61,6 +62,7 @@ class HistoryViewModelTest {
                         PurchaseItem("two", "Teatro", 1, 2_000L),
                     ),
                     status = PaymentStatus.PROCESSING,
+                    paymentMethod = PaymentMethod.CREDIT_CASH,
                     createdAt = 100L,
                     updatedAt = 200L,
                 ),
@@ -92,6 +94,7 @@ class HistoryViewModelTest {
         reference = reference,
         items = listOf(PurchaseItem("event-$reference", "Event", 1, 1_000L)),
         status = status,
+        paymentMethod = PaymentMethod.CREDIT_CASH,
         createdAt = 100L,
         updatedAt = 200L,
     )

@@ -6,17 +6,26 @@ Checkout receives the immutable domain `Cart` already validated by
 `BuildCartUseCase`. XML Views and UI models must not rebuild purchase items,
 quantities or monetary totals.
 
+`CartBottomSheetFragment` also collects the operator's chosen `PaymentMethod`
+(`CREDIT_CASH` or `DEBIT_CASH`) from one of two dedicated buttons. The Views
+only dispatch the selected method; they never compute or override it.
+
 ## Orchestration
 
 For each accepted checkout action:
 
-1. `CreatePurchaseAttemptUseCase` creates a UUID-backed snapshot.
+1. `CreatePurchaseAttemptUseCase` creates a UUID-backed snapshot that stores
+   the chosen `PaymentMethod` alongside the cart items.
 2. `SavePurchaseAttemptUseCase` persists the attempt before external work.
 3. `StartPaymentUseCase` atomically changes `CREATED` to `PROCESSING`.
 4. Only the caller that owns that transition launches Cielo.
 
 `STARTING` and `PROCESSING` reject repeated taps, so one visible checkout creates
 at most one attempt.
+
+`CieloPaymentRequestEncoderImpl` maps `attempt.paymentMethod` to the Cielo
+`paymentCode` field (`CREDITO_AVISTA` or `DEBITO_AVISTA`); see
+[ADR 0010](../adr/0010-payment-method-selection.md).
 
 ## Callback
 

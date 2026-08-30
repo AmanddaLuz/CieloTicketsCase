@@ -1,5 +1,6 @@
 package br.com.amandaluz.cielotickets.domain.usecase
 
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
@@ -156,6 +157,7 @@ class UpdatePurchaseStatusUseCaseImplTest {
             ),
         ),
         status = status,
+        paymentMethod = PaymentMethod.CREDIT_CASH,
         createdAt = 100,
         updatedAt = 100,
     )

@@ -1,5 +1,6 @@
 package br.com.amandaluz.cielotickets.feature.receipt
 
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
@@ -73,6 +74,7 @@ class ReceiptViewModelTest {
                 PurchaseItem("event-1", "Festival", 2, 3_500L),
             ),
             status = status,
+            paymentMethod = PaymentMethod.CREDIT_CASH,
             createdAt = 100L,
             updatedAt = 200L,
         )

@@ -6,6 +6,7 @@ import br.com.amandaluz.cielotickets.data.local.entity.PurchaseItemEntity
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 
 /**
  * Agrupa os registros pai e filhos necessários para uma inserção transacional.
@@ -24,6 +25,7 @@ fun PurchaseAttempt.toRecord(): PurchaseAttemptRecord = PurchaseAttemptRecord(
     attempt = PurchaseAttemptEntity(
         reference = reference,
         status = status.name,
+        paymentMethod = paymentMethod.name,
         createdAt = createdAt,
         updatedAt = updatedAt,
     ),
@@ -56,6 +58,7 @@ fun PurchaseAttemptWithItems.toDomain(): PurchaseAttempt = PurchaseAttempt.resto
         )
     },
     status = PaymentStatus.valueOf(attempt.status),
+    paymentMethod = PaymentMethod.valueOf(attempt.paymentMethod),
     createdAt = attempt.createdAt,
     updatedAt = attempt.updatedAt,
 )

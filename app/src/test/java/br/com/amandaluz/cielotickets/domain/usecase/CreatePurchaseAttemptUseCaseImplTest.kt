@@ -3,6 +3,7 @@ package br.com.amandaluz.cielotickets.domain.usecase
 import br.com.amandaluz.cielotickets.domain.model.Cart
 import br.com.amandaluz.cielotickets.domain.model.CartItem
 import br.com.amandaluz.cielotickets.domain.model.Event
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.CreatePurchaseAttemptUseCaseImpl
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.CreatePurchaseAttemptUseCase
@@ -24,10 +25,11 @@ class CreatePurchaseAttemptUseCaseImplTest {
             ),
         )
 
-        val attempt = useCase(cart)
+        val attempt = useCase(cart, PaymentMethod.DEBIT_CASH)
 
         assertEquals("reference-1", attempt.reference)
         assertEquals(PaymentStatus.CREATED, attempt.status)
+        assertEquals(PaymentMethod.DEBIT_CASH, attempt.paymentMethod)
         assertEquals(100L, attempt.createdAt)
         assertEquals(100L, attempt.updatedAt)
         assertEquals(3, attempt.totalQuantity)
