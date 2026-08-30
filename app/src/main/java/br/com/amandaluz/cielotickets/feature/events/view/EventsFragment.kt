@@ -67,8 +67,6 @@ class EventsFragment : Fragment(R.layout.fragment_events) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setView()
-        binding.eventsList.adapter = eventAdapter
-        binding.cartButton.setOnClickListener { viewModel.setCartOpen(true) }
 
         launchWhenViewStarted {
             launch {
@@ -85,6 +83,8 @@ class EventsFragment : Fragment(R.layout.fragment_events) {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+        binding.eventsList.adapter = eventAdapter
+        binding.cartButton.setOnClickListener { viewModel.setCartOpen(true) }
     }
 
     private fun render(state: EventsUiState) = with(binding) {
