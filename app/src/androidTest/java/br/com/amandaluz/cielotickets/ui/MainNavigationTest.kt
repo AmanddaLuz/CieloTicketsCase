@@ -33,9 +33,9 @@ class MainNavigationTest {
     fun homeActionsDoNotOverlapHeader() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
-                val subtitle = activity.findViewById<android.view.View>(R.id.appSubtitle)
-                val sellButton = activity.findViewById<android.view.View>(R.id.sellButton)
-                val historyButton = activity.findViewById<android.view.View>(R.id.historyButton)
+                val subtitle = activity.findViewById<View>(R.id.appSubtitle)
+                val sellButton = activity.findViewById<View>(R.id.sellButton)
+                val historyButton = activity.findViewById<View>(R.id.historyButton)
 
                 assertTrue(sellButton.top >= subtitle.bottom)
                 assertTrue(historyButton.top >= sellButton.bottom)
