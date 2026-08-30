@@ -18,7 +18,7 @@ class CieloPaymentRequestEncoderImpl : CieloPaymentRequestEncoder {
             put("clientID", clientId)
             put("reference", attempt.reference)
             put("value", attempt.totalInCents)
-            put("paymentCode", PAYMENT_CODE)
+            put("paymentCode", attempt.paymentMethod.cieloCode)
             put(
                 "items",
                 JSONArray().apply {
@@ -54,7 +54,6 @@ class CieloPaymentRequestEncoderImpl : CieloPaymentRequestEncoder {
 
         private const val PAYMENT_URI = "lio://payment"
         private const val CALLBACK_URI = "order://payment"
-        private const val PAYMENT_CODE = "CREDITO_AVISTA"
         private const val UNIT_OF_MEASURE = "UNIDADE"
         private const val REQUEST_PARAMETER = "request"
         private const val CALLBACK_PARAMETER = "urlCallback"

@@ -3,6 +3,7 @@ package br.com.amandaluz.cielotickets.payment.cielo
 import android.net.Uri
 import android.util.Base64
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
@@ -37,6 +38,7 @@ class CieloPaymentRequestEncoderImplTest {
         assertEquals("payment", paymentUri.host)
         assertEquals("reference-1", payload.getString("reference"))
         assertEquals(11_000L, payload.getLong("value"))
+        assertEquals("CREDITO_AVISTA", payload.getString("paymentCode"))
         assertEquals(2, payload.getJSONArray("items").length())
         assertEquals(
             "event-2",
@@ -47,7 +49,28 @@ class CieloPaymentRequestEncoderImplTest {
         assertNull(callbackUri.query)
     }
 
-    private fun attempt() = PurchaseAttempt.restore(
+    @Test
+    fun encodesPaymentCodeMatchingChosenPaymentMethod() {
+        val paymentUri = Uri.parse(
+            CieloPaymentRequestEncoderImpl().encode(
+                attempt = attempt(paymentMethod = PaymentMethod.DEBIT_CASH),
+                clientId = "client",
+                accessToken = "token",
+            ),
+        )
+        val payload = JSONObject(
+            Base64.decode(
+                requireNotNull(paymentUri.getQueryParameter("request")),
+                Base64.DEFAULT,
+            ).toString(Charsets.UTF_8),
+        )
+
+        assertEquals("DEBITO_AVISTA", payload.getString("paymentCode"))
+    }
+
+    private fun attempt(
+        paymentMethod: PaymentMethod = PaymentMethod.CREDIT_CASH,
+    ) = PurchaseAttempt.restore(
         reference = "reference-1",
         items = listOf(
             PurchaseItem(
@@ -64,6 +87,7 @@ class CieloPaymentRequestEncoderImplTest {
             ),
         ),
         status = PaymentStatus.PROCESSING,
+        paymentMethod = paymentMethod,
         createdAt = 100L,
         updatedAt = 200L,
     )

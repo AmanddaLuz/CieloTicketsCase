@@ -1,6 +1,7 @@
 package br.com.amandaluz.cielotickets.data.local.mapper
 
 import br.com.amandaluz.cielotickets.data.local.entity.PurchaseAttemptWithItems
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
@@ -15,6 +16,7 @@ class PurchaseAttemptRecordTest {
 
         assertEquals("reference-1", record.attempt.reference)
         assertEquals("PROCESSING", record.attempt.status)
+        assertEquals("CREDIT_CASH", record.attempt.paymentMethod)
         assertEquals(listOf(0, 1), record.items.map { it.position })
         assertEquals(listOf("event-1", "event-2"), record.items.map { it.eventId })
     }
@@ -30,6 +32,7 @@ class PurchaseAttemptRecordTest {
 
         assertEquals(source.reference, restored.reference)
         assertEquals(source.status, restored.status)
+        assertEquals(source.paymentMethod, restored.paymentMethod)
         assertEquals(source.createdAt, restored.createdAt)
         assertEquals(source.updatedAt, restored.updatedAt)
         assertEquals(source.items, restored.items)
@@ -55,6 +58,7 @@ class PurchaseAttemptRecordTest {
         status = PaymentStatus.PROCESSING,
         createdAt = 100L,
         updatedAt = 200L,
+        paymentMethod = PaymentMethod.CREDIT_CASH,
     )
 }
 

@@ -20,6 +20,7 @@ class PurchaseAttemptTest {
             reference = "reference-1",
             cart = cart,
             createdAt = 100L,
+            paymentMethod = PaymentMethod.CREDIT_CASH,
         )
 
         assertEquals(PaymentStatus.CREATED, attempt.status)
@@ -73,6 +74,7 @@ class PurchaseAttemptTest {
         status = PaymentStatus.CREATED,
         createdAt = createdAt,
         updatedAt = updatedAt,
+        paymentMethod = PaymentMethod.CREDIT_CASH,
     )
 
     private fun purchaseItem() = PurchaseItem(

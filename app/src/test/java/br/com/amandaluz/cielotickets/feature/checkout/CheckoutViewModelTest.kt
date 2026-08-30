@@ -6,6 +6,7 @@ import br.com.amandaluz.cielotickets.domain.gateway.PaymentResultObserver
 import br.com.amandaluz.cielotickets.domain.model.Cart
 import br.com.amandaluz.cielotickets.domain.model.CartItem
 import br.com.amandaluz.cielotickets.domain.model.Event
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.CreatePurchaseAttemptUseCase
@@ -38,6 +39,7 @@ class CheckoutViewModelTest {
     private val attempt = PurchaseAttempt.create(
         reference = REFERENCE,
         cart = cart,
+        paymentMethod = PaymentMethod.CREDIT_CASH,
         createdAt = 100L,
     )
 
@@ -57,12 +59,27 @@ class CheckoutViewModelTest {
             },
         )
 
-        viewModel.start(cart)
+        viewModel.start(cart, PaymentMethod.CREDIT_CASH)
 
         assertEquals(listOf("save", "start"), calls)
         assertEquals(CheckoutPhase.PROCESSING, viewModel.uiState.value.phase)
         assertEquals(REFERENCE, viewModel.uiState.value.reference)
         assertTrue(observer.started)
+    }
+
+    @Test
+    fun propagatesChosenPaymentMethodToPurchaseAttemptCreation() {
+        val requestedMethods = mutableListOf<PaymentMethod>()
+        val viewModel = viewModel(
+            create = { _, paymentMethod ->
+                requestedMethods += paymentMethod
+                attempt
+            },
+        )
+
+        viewModel.start(cart, PaymentMethod.DEBIT_CASH)
+
+        assertEquals(listOf(PaymentMethod.DEBIT_CASH), requestedMethods)
     }
 
     @Test
@@ -72,7 +89,7 @@ class CheckoutViewModelTest {
         var saveCalls = 0
         var startCalls = 0
         val viewModel = viewModel(
-            create = {
+            create = { _, _ ->
                 createCalls += 1
                 attempt
             },
@@ -87,8 +104,8 @@ class CheckoutViewModelTest {
             },
         )
 
-        viewModel.start(cart)
-        viewModel.start(cart)
+        viewModel.start(cart, PaymentMethod.CREDIT_CASH)
+        viewModel.start(cart, PaymentMethod.CREDIT_CASH)
         releaseStart.complete(Unit)
 
         assertEquals(1, createCalls)
@@ -107,7 +124,7 @@ class CheckoutViewModelTest {
                 UpdatePurchaseStatusUseCase.Result.Updated(reference, status)
             },
         )
-        viewModel.start(cart)
+        viewModel.start(cart, PaymentMethod.CREDIT_CASH)
 
         observer.emit(
             PaymentResult(
@@ -148,7 +165,7 @@ class CheckoutViewModelTest {
                 UpdatePurchaseStatusUseCase.Result.Updated(reference, status)
             },
         )
-        viewModel.start(cart)
+        viewModel.start(cart, PaymentMethod.CREDIT_CASH)
 
         observer.emit(
             PaymentResult(
@@ -171,7 +188,7 @@ class CheckoutViewModelTest {
             },
         )
 
-        viewModel.start(cart)
+        viewModel.start(cart, PaymentMethod.CREDIT_CASH)
 
         assertEquals(CheckoutPhase.ERROR, viewModel.uiState.value.phase)
         assertEquals(
@@ -194,7 +211,7 @@ class CheckoutViewModelTest {
 
     private fun viewModel(
         observer: FakePaymentResultObserver = FakePaymentResultObserver(),
-        create: (Cart) -> PurchaseAttempt = { attempt },
+        create: (Cart, PaymentMethod) -> PurchaseAttempt = { _, _ -> attempt },
         save: suspend (PurchaseAttempt) -> SavePurchaseAttemptUseCase.Result = {
             SavePurchaseAttemptUseCase.Result.Saved(it)
         },
@@ -209,7 +226,10 @@ class CheckoutViewModelTest {
         },
     ): CheckoutViewModel = CheckoutViewModel(
         createPurchaseAttempt = object : CreatePurchaseAttemptUseCase {
-            override fun invoke(cart: Cart): PurchaseAttempt = create(cart)
+            override fun invoke(
+                cart: Cart,
+                paymentMethod: PaymentMethod,
+            ): PurchaseAttempt = create(cart, paymentMethod)
         },
         savePurchaseAttempt = object : SavePurchaseAttemptUseCase {
             override suspend fun invoke(

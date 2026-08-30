@@ -38,6 +38,7 @@ class PurchaseAttempt private constructor(
     val reference: String,
     items: List<PurchaseItem>,
     val status: PaymentStatus,
+    val paymentMethod: PaymentMethod,
     val createdAt: Long,
     val updatedAt: Long,
 ) {
@@ -70,6 +71,7 @@ class PurchaseAttempt private constructor(
         reference = reference,
         items = items,
         status = newStatus,
+        paymentMethod = paymentMethod,
         createdAt = createdAt,
         updatedAt = updatedAt,
     )
@@ -78,25 +80,33 @@ class PurchaseAttempt private constructor(
         fun create(
             reference: String,
             cart: Cart,
+            paymentMethod: PaymentMethod,
             createdAt: Long,
         ): PurchaseAttempt = PurchaseAttempt(
             reference = reference,
             items = cart.items.map(PurchaseItem::from),
             status = PaymentStatus.CREATED,
+            paymentMethod = paymentMethod,
             createdAt = createdAt,
             updatedAt = createdAt,
         )
 
+        /**
+         * Restaura uma tentativa persistida com todos os campos do snapshot.
+         */
+        @Suppress("LongParameterList")
         fun restore(
             reference: String,
             items: List<PurchaseItem>,
             status: PaymentStatus,
+            paymentMethod: PaymentMethod,
             createdAt: Long,
             updatedAt: Long,
         ): PurchaseAttempt = PurchaseAttempt(
             reference = reference,
             items = items.toList(),
             status = status,
+            paymentMethod = paymentMethod,
             createdAt = createdAt,
             updatedAt = updatedAt,
         )

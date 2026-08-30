@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import br.com.amandaluz.cielotickets.R
 import br.com.amandaluz.cielotickets.databinding.BottomSheetCartBinding
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.feature.checkout.CheckoutError
 import br.com.amandaluz.cielotickets.feature.checkout.CheckoutPhase
@@ -42,8 +43,15 @@ class CartBottomSheetFragment : BottomSheetDialogFragment(R.layout.bottom_sheet_
         super.onViewCreated(view, savedInstanceState)
         binding.cartItems.adapter = cartAdapter
         binding.clearCartButton.setOnClickListener { viewModel.clearCart() }
-        binding.checkoutButton.setOnClickListener {
-            viewModel.checkoutCart?.let(checkoutViewModel::start)
+        binding.creditCashButton.setOnClickListener {
+            viewModel.checkoutCart?.let {
+                checkoutViewModel.start(it, PaymentMethod.CREDIT_CASH)
+            }
+        }
+        binding.debitCashButton.setOnClickListener {
+            viewModel.checkoutCart?.let {
+                checkoutViewModel.start(it, PaymentMethod.DEBIT_CASH)
+            }
         }
 
         launchWhenViewStarted {
@@ -73,7 +81,8 @@ class CartBottomSheetFragment : BottomSheetDialogFragment(R.layout.bottom_sheet_
         }
         cartAdapter.submitList(cart?.items.orEmpty())
         binding.cartTotal.text = cart?.totalPrice.orEmpty()
-        binding.checkoutButton.isEnabled = cart != null
+        binding.creditCashButton.isEnabled = cart != null
+        binding.debitCashButton.isEnabled = cart != null
     }
 
     private fun renderCheckout(state: CheckoutUiState) = with(binding) {
@@ -83,7 +92,8 @@ class CartBottomSheetFragment : BottomSheetDialogFragment(R.layout.bottom_sheet_
         cartItems.isVisible = showingCart
         totalLabel.isVisible = showingCart
         cartTotal.isVisible = showingCart
-        checkoutButton.isVisible = showingCart
+        creditCashButton.isVisible = showingCart
+        debitCashButton.isVisible = showingCart
         checkoutState.isVisible = !showingCart
         checkoutState.render(
             model = state.toPanelModel(),

@@ -1,5 +1,6 @@
 package br.com.amandaluz.cielotickets.domain.usecase
 
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
@@ -32,6 +33,7 @@ class SavePurchaseAttemptUseCaseImplTest {
             reference = original.reference,
             items = listOf(item(eventName = "Changed")),
             status = PaymentStatus.CREATED,
+            paymentMethod = PaymentMethod.CREDIT_CASH,
             createdAt = original.createdAt,
             updatedAt = original.updatedAt,
         )
@@ -52,6 +54,7 @@ class SavePurchaseAttemptUseCaseImplTest {
             reference = original.reference,
             items = original.items,
             status = PaymentStatus.PROCESSING,
+            paymentMethod = PaymentMethod.CREDIT_CASH,
             createdAt = original.createdAt,
             updatedAt = original.updatedAt,
         )
@@ -66,6 +69,7 @@ class SavePurchaseAttemptUseCaseImplTest {
         reference = "reference-1",
         items = listOf(item()),
         status = PaymentStatus.CREATED,
+        paymentMethod = PaymentMethod.CREDIT_CASH,
         createdAt = 1,
         updatedAt = 1,
     )

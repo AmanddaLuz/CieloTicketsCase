@@ -10,6 +10,7 @@ import br.com.amandaluz.cielotickets.data.local.db.AppDatabase
 import br.com.amandaluz.cielotickets.data.local.entity.PurchaseAttemptEntity
 import br.com.amandaluz.cielotickets.data.local.entity.PurchaseItemEntity
 import br.com.amandaluz.cielotickets.data.local.mapper.PurchaseAttemptRecord
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
@@ -84,6 +85,7 @@ class RoomPurchaseRepositoryImplTest {
             attempt = PurchaseAttemptEntity(
                 reference = reference,
                 status = PaymentStatus.CREATED.name,
+                paymentMethod = PaymentMethod.CREDIT_CASH.name,
                 createdAt = 100L,
                 updatedAt = 100L,
             ),
@@ -176,6 +178,7 @@ class RoomPurchaseRepositoryImplTest {
             ),
         ),
         status = PaymentStatus.CREATED,
+        paymentMethod = PaymentMethod.CREDIT_CASH,
         createdAt = createdAt,
         updatedAt = createdAt,
     )
