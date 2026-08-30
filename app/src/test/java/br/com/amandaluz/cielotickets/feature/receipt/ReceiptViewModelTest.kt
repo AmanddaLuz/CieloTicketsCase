@@ -3,8 +3,9 @@ package br.com.amandaluz.cielotickets.feature.receipt
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
-import br.com.amandaluz.cielotickets.domain.usecase.BuildTicketQrContentUseCase
-import br.com.amandaluz.cielotickets.domain.usecase.GetPurchaseAttemptUseCase
+import br.com.amandaluz.cielotickets.feature.receipt.usecase.BuildTicketQrContentUseCase
+import br.com.amandaluz.cielotickets.feature.receipt.usecase.GetPurchaseAttemptUseCase
+import br.com.amandaluz.cielotickets.feature.receipt.viewmodel.ReceiptViewModel
 import br.com.amandaluz.cielotickets.testutil.MainDispatcherRule
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -26,6 +27,7 @@ class ReceiptViewModelTest {
         assertEquals(2, receipt.totalQuantity)
         assertEquals("7000 cents", receipt.totalPrice)
         assertEquals("ticket:${attempt.reference}", receipt.qrContent)
+        assertEquals("event-1", receipt.items.single().eventId)
     }
 
     @Test

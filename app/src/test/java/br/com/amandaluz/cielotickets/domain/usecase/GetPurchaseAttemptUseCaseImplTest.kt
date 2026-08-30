@@ -4,7 +4,7 @@ import br.com.amandaluz.cielotickets.domain.model.Cart
 import br.com.amandaluz.cielotickets.domain.model.CartItem
 import br.com.amandaluz.cielotickets.domain.model.Event
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
-import br.com.amandaluz.cielotickets.domain.usecase.impl.GetPurchaseAttemptUseCaseImpl
+import br.com.amandaluz.cielotickets.feature.receipt.usecase.GetPurchaseAttemptUseCaseImpl
 import br.com.amandaluz.cielotickets.testfake.FakePurchaseRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

@@ -3,7 +3,8 @@ package br.com.amandaluz.cielotickets.domain.usecase
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
-import br.com.amandaluz.cielotickets.domain.usecase.impl.GetSalesHistoryUseCaseImpl
+import br.com.amandaluz.cielotickets.feature.history.usecase.GetSalesHistoryUseCaseImpl
+import br.com.amandaluz.cielotickets.feature.history.usecase.GetSalesHistoryUseCase
 import br.com.amandaluz.cielotickets.testfake.FakePurchaseRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest

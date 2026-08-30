@@ -3,7 +3,8 @@ package br.com.amandaluz.cielotickets.feature.history
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
-import br.com.amandaluz.cielotickets.domain.usecase.GetSalesHistoryUseCase
+import br.com.amandaluz.cielotickets.feature.history.usecase.GetSalesHistoryUseCase
+import br.com.amandaluz.cielotickets.feature.history.viewmodel.HistoryViewModel
 import br.com.amandaluz.cielotickets.testutil.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow

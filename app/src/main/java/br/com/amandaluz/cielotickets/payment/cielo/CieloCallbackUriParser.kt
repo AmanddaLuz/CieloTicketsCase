@@ -2,6 +2,7 @@ package br.com.amandaluz.cielotickets.payment.cielo
 
 import android.net.Uri
 import android.util.Base64
+import br.com.amandaluz.cielotickets.payment.cielo.encoder.CieloPaymentRequestEncoderImpl
 
 class CieloCallbackUriParser(
     private val responseParser: CieloCallbackResponseParser,

@@ -4,7 +4,8 @@ import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
 import br.com.amandaluz.cielotickets.domain.repository.PurchaseRepository
-import br.com.amandaluz.cielotickets.domain.usecase.impl.UpdatePurchaseStatusUseCaseImpl
+import br.com.amandaluz.cielotickets.feature.checkout.usecase.UpdatePurchaseStatusUseCaseImpl
+import br.com.amandaluz.cielotickets.feature.checkout.usecase.UpdatePurchaseStatusUseCase
 import br.com.amandaluz.cielotickets.testfake.FakePurchaseRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
