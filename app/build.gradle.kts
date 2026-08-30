@@ -91,6 +91,13 @@ android {
         disable += setOf("ExpiredTargetSdkVersion", "OldTargetApi")
     }
 
+    sourceSets {
+        getByName("androidTest") {
+            // Torna os schemas Room exportados disponíveis para
+            // MigrationTestHelper validar as migrations reais.
+            assets.srcDirs("$projectDir/schemas")
+        }
+    }
 }
 
 ksp {

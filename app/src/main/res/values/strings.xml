@@ -19,7 +19,8 @@
     <string name="your_cart">Seu carrinho</string>
     <string name="clear_cart">Limpar</string>
     <string name="total">Total</string>
-    <string name="pay_with_cielo">Pagar com Cielo</string>
+    <string name="pay_credit_cash">Crédito à vista</string>
+    <string name="pay_debit_cash">Débito à vista</string>
     <string name="plus_symbol">+</string>
     <string name="minus_symbol">−</string>
     <string name="subtotal_value">Subtotal: %1$s</string>

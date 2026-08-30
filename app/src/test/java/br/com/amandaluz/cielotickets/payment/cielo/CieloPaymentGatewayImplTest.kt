@@ -1,6 +1,7 @@
 package br.com.amandaluz.cielotickets.payment.cielo
 
 import br.com.amandaluz.cielotickets.domain.gateway.PaymentGateway
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
@@ -88,6 +89,7 @@ class CieloPaymentGatewayImplTest {
             ),
         ),
         status = PaymentStatus.PROCESSING,
+        paymentMethod = PaymentMethod.CREDIT_CASH,
         createdAt = 100L,
         updatedAt = 200L,
     )

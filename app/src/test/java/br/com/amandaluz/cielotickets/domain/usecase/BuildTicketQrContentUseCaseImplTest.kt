@@ -3,6 +3,7 @@ package br.com.amandaluz.cielotickets.domain.usecase
 import br.com.amandaluz.cielotickets.domain.model.Cart
 import br.com.amandaluz.cielotickets.domain.model.CartItem
 import br.com.amandaluz.cielotickets.domain.model.Event
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.feature.receipt.usecase.BuildTicketQrContentUseCaseImpl
@@ -41,12 +42,14 @@ class BuildTicketQrContentUseCaseImplTest {
         val created = PurchaseAttempt.create(
             reference = "ticket-reference",
             cart = Cart(listOf(CartItem(event, 2))),
+            paymentMethod = PaymentMethod.CREDIT_CASH,
             createdAt = 100L,
         )
         return PurchaseAttempt.restore(
             reference = created.reference,
             items = created.items,
             status = status,
+            paymentMethod = created.paymentMethod,
             createdAt = created.createdAt,
             updatedAt = 200L,
         )

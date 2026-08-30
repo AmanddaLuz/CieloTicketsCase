@@ -1,5 +1,6 @@
 package br.com.amandaluz.cielotickets.domain.usecase
 
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
@@ -44,6 +45,7 @@ class GetSalesHistoryUseCaseImplTest {
             ),
         ),
         status = PaymentStatus.CREATED,
+        paymentMethod = PaymentMethod.CREDIT_CASH,
         createdAt = createdAt,
         updatedAt = createdAt,
     )

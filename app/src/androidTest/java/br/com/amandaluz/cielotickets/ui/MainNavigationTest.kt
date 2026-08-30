@@ -15,6 +15,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.amandaluz.cielotickets.MainActivity
 import br.com.amandaluz.cielotickets.R
 import br.com.amandaluz.cielotickets.CieloTicketsApplication
+import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
@@ -32,9 +33,9 @@ class MainNavigationTest {
     fun homeActionsDoNotOverlapHeader() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
-                val subtitle = activity.findViewById<android.view.View>(R.id.appSubtitle)
-                val sellButton = activity.findViewById<android.view.View>(R.id.sellButton)
-                val historyButton = activity.findViewById<android.view.View>(R.id.historyButton)
+                val subtitle = activity.findViewById<View>(R.id.appSubtitle)
+                val sellButton = activity.findViewById<View>(R.id.sellButton)
+                val historyButton = activity.findViewById<View>(R.id.historyButton)
 
                 assertTrue(sellButton.top >= subtitle.bottom)
                 assertTrue(historyButton.top >= sellButton.bottom)
@@ -88,7 +89,9 @@ class MainNavigationTest {
             ).perform(click())
             onView(withId(R.id.cartButton)).perform(click())
 
-            onView(withId(R.id.checkoutButton))
+            onView(withId(R.id.creditCashButton))
+                .check(matches(isDisplayed()))
+            onView(withId(R.id.debitCashButton))
                 .check(matches(isDisplayed()))
         }
     }
@@ -146,6 +149,7 @@ class MainNavigationTest {
                 ),
             ),
             status = PaymentStatus.APPROVED,
+            paymentMethod = PaymentMethod.CREDIT_CASH,
             createdAt = timestamp,
             updatedAt = timestamp,
         )
