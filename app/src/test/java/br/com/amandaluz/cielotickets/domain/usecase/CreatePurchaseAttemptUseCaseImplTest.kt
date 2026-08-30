@@ -4,7 +4,8 @@ import br.com.amandaluz.cielotickets.domain.model.Cart
 import br.com.amandaluz.cielotickets.domain.model.CartItem
 import br.com.amandaluz.cielotickets.domain.model.Event
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
-import br.com.amandaluz.cielotickets.domain.usecase.impl.CreatePurchaseAttemptUseCaseImpl
+import br.com.amandaluz.cielotickets.feature.checkout.usecase.CreatePurchaseAttemptUseCaseImpl
+import br.com.amandaluz.cielotickets.feature.checkout.usecase.CreatePurchaseAttemptUseCase
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

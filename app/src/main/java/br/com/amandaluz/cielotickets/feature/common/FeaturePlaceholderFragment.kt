@@ -11,6 +11,12 @@ import br.com.amandaluz.cielotickets.databinding.FragmentFeaturePlaceholderBindi
 import br.com.amandaluz.cielotickets.ui.binding.viewBinding
 import br.com.amandaluz.cielotickets.ui.state.StatePanelUiModel
 
+/**
+ * Tela parametrizável criada para destinos provisórios durante a fundação.
+ *
+ * Recebe recursos de título, mensagem e ícone e os apresenta por meio do
+ * [StatePanelUiModel]. Não integra o grafo de navegação atual.
+ */
 class FeaturePlaceholderFragment : Fragment(R.layout.fragment_feature_placeholder) {
     private val binding by viewBinding(FragmentFeaturePlaceholderBinding::bind)
 
@@ -43,4 +49,3 @@ class FeaturePlaceholderFragment : Fragment(R.layout.fragment_feature_placeholde
         const val ARG_ICON = "iconRes"
     }
 }
-

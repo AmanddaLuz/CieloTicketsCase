@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/eventsFragment"
-        android:name="br.com.amandaluz.cielotickets.feature.events.EventsFragment"
+        android:name="br.com.amandaluz.cielotickets.feature.events.view.EventsFragment"
         android:label="@string/events_title">
         <action
             android:id="@+id/action_events_to_receipt"
@@ -28,20 +28,26 @@
 
     <fragment
         android:id="@+id/historyFragment"
-        android:name="br.com.amandaluz.cielotickets.feature.history.HistoryFragment"
+        android:name="br.com.amandaluz.cielotickets.feature.history.view.HistoryFragment"
         android:label="@string/history_title">
         <action
             android:id="@+id/action_history_to_receipt"
             app:destination="@id/receiptFragment" />
+        <action
+            android:id="@+id/action_history_to_home"
+            app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/receiptFragment"
-        android:name="br.com.amandaluz.cielotickets.feature.receipt.ReceiptFragment"
+        android:name="br.com.amandaluz.cielotickets.feature.receipt.view.ReceiptFragment"
         android:label="@string/receipt_title">
         <argument
             android:name="reference"
             app:argType="string" />
+        <action
+            android:id="@+id/action_receipt_to_history"
+            app:destination="@id/historyFragment" />
     </fragment>
 
 </navigation>

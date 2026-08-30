@@ -8,10 +8,11 @@ import br.com.amandaluz.cielotickets.domain.model.CartItem
 import br.com.amandaluz.cielotickets.domain.model.Event
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
-import br.com.amandaluz.cielotickets.domain.usecase.CreatePurchaseAttemptUseCase
-import br.com.amandaluz.cielotickets.domain.usecase.SavePurchaseAttemptUseCase
-import br.com.amandaluz.cielotickets.domain.usecase.StartPaymentUseCase
-import br.com.amandaluz.cielotickets.domain.usecase.UpdatePurchaseStatusUseCase
+import br.com.amandaluz.cielotickets.feature.checkout.usecase.CreatePurchaseAttemptUseCase
+import br.com.amandaluz.cielotickets.feature.checkout.usecase.SavePurchaseAttemptUseCase
+import br.com.amandaluz.cielotickets.feature.checkout.usecase.StartPaymentUseCase
+import br.com.amandaluz.cielotickets.feature.checkout.usecase.UpdatePurchaseStatusUseCase
+import br.com.amandaluz.cielotickets.feature.checkout.viewmodel.CheckoutViewModel
 import br.com.amandaluz.cielotickets.testutil.MainDispatcherRule
 import kotlinx.coroutines.CompletableDeferred
 import org.junit.Assert.assertEquals

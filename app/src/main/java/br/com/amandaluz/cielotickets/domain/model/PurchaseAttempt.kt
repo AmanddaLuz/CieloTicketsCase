@@ -3,7 +3,7 @@ package br.com.amandaluz.cielotickets.domain.model
 /**
  * Snapshot de um item no momento da compra.
  *
- * O snapshot preserva nome e preço mesmo que o catálogo seja alterado depois.
+ * from(cartItem): O snapshot preserva nome e preço mesmo que o catálogo seja alterado depois.
  */
 data class PurchaseItem(
     val eventId: String,
