@@ -66,10 +66,7 @@ class EventsFragment : Fragment(R.layout.fragment_events) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setTitle(R.string.events_title)
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
+        setView()
         binding.eventsList.adapter = eventAdapter
         binding.cartButton.setOnClickListener { viewModel.setCartOpen(true) }
 
@@ -80,6 +77,13 @@ class EventsFragment : Fragment(R.layout.fragment_events) {
             launch {
                 checkoutViewModel.uiState.collectLatest(::handleCheckout)
             }
+        }
+    }
+
+    private fun setView() {
+        binding.toolbar.setTitle(R.string.events_title)
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
