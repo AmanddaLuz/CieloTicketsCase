@@ -13,7 +13,7 @@ import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 /**
  * Observador Android do broadcast emitido por [CieloResponseActivity].
  *
- * Somente estados terminais válidos são encaminhados ao checkout.
+ * Encaminha resultados terminais e o timeout recuperável ao checkout.
  */
 class CieloPaymentResultObserverImpl(
     context: Context,
@@ -68,7 +68,9 @@ class CieloPaymentResultObserverImpl(
 
     private fun parseStatus(value: String): PaymentStatus? {
         val status = PaymentStatus.entries.firstOrNull { it.name == value }
-        if (status == null || !status.isTerminal) {
+        if (status == null ||
+            (!status.isTerminal && status != PaymentStatus.TIMED_OUT)
+        ) {
             Log.w(TAG, "Ignored invalid Cielo payment status")
             return null
         }

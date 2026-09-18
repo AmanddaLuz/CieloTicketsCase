@@ -137,6 +137,7 @@ class CartBottomSheetFragment : BottomSheetDialogFragment(R.layout.bottom_sheet_
         PaymentStatus.CANCELLED -> R.drawable.ic_payment_cancelled
         PaymentStatus.DENIED,
         PaymentStatus.ERROR,
+        PaymentStatus.TIMED_OUT,
         null,
         -> R.drawable.ic_payment_error
         else -> R.drawable.ic_ticket
@@ -146,6 +147,7 @@ class CartBottomSheetFragment : BottomSheetDialogFragment(R.layout.bottom_sheet_
         PaymentStatus.CANCELLED -> R.color.status_cancelled
         PaymentStatus.DENIED,
         PaymentStatus.ERROR,
+        PaymentStatus.TIMED_OUT,
         null,
         -> R.color.status_error
         else -> R.color.cielo_primary
@@ -160,6 +162,10 @@ class CartBottomSheetFragment : BottomSheetDialogFragment(R.layout.bottom_sheet_
         }
         PaymentStatus.CANCELLED -> {
             R.string.checkout_cancelled_title to R.string.checkout_cancelled_message
+        }
+        PaymentStatus.TIMED_OUT -> {
+            R.string.checkout_timed_out_title to
+                R.string.checkout_timed_out_message
         }
         else -> {
             R.string.checkout_error_title to

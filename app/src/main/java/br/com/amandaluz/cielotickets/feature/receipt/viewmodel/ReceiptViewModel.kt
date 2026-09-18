@@ -2,7 +2,7 @@ package br.com.amandaluz.cielotickets.feature.receipt.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.amandaluz.cielotickets.feature.receipt.usecase.GetPurchaseAttemptUseCase
+import br.com.amandaluz.cielotickets.feature.receipt.usecase.ObservePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.feature.receipt.ReceiptUiMapper
 import br.com.amandaluz.cielotickets.feature.receipt.ReceiptUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
  */
 class ReceiptViewModel(
     reference: String,
-    private val getPurchaseAttempt: GetPurchaseAttemptUseCase,
+    observePurchaseAttempt: ObservePurchaseAttemptUseCase,
     private val uiMapper: ReceiptUiMapper,
 ) : ViewModel() {
     private val mutableUiState =
@@ -25,10 +25,12 @@ class ReceiptViewModel(
 
     init {
         viewModelScope.launch {
-            mutableUiState.value = getPurchaseAttempt(reference)
-                ?.let(uiMapper::map)
-                ?.let(ReceiptUiState::Content)
-                ?: ReceiptUiState.NotFound
+            observePurchaseAttempt(reference).collect { attempt ->
+                mutableUiState.value = attempt
+                    ?.let(uiMapper::map)
+                    ?.let(ReceiptUiState::Content)
+                    ?: ReceiptUiState.NotFound
+            }
         }
     }
 }

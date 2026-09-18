@@ -157,6 +157,24 @@ class RoomPurchaseRepositoryImplTest {
         )
     }
 
+    @Test
+    fun observesStatusChangesForOneReference() = runTest {
+        val attempt = attempt(reference = "observed-reference")
+        repository.insert(attempt)
+
+        repository.compareAndSetStatus(
+            reference = attempt.reference,
+            expectedStatus = PaymentStatus.CREATED,
+            newStatus = PaymentStatus.PROCESSING,
+            updatedAt = 200L,
+        )
+
+        assertEquals(
+            PaymentStatus.PROCESSING,
+            repository.observeByReference(attempt.reference).first()?.status,
+        )
+    }
+
     private fun attempt(
         reference: String,
         eventName: String = "Festival",

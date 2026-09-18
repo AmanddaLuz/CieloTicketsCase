@@ -5,24 +5,28 @@ import br.com.amandaluz.cielotickets.domain.model.PaymentMethod
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
+import br.com.amandaluz.cielotickets.feature.checkout.ActivePaymentCoordinator
 import br.com.amandaluz.cielotickets.payment.cielo.encoder.CieloPaymentRequestEncoder
 import br.com.amandaluz.cielotickets.payment.cielo.launcher.CieloPaymentIntentLauncher
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Test
+import kotlinx.coroutines.test.runTest
 
 class CieloPaymentGatewayImplTest {
 
     @Test
-    fun doesNotBuildOrLaunchRequestWithoutCredentials() {
+    fun doesNotBuildOrLaunchRequestWithoutCredentials() = runTest {
         val encoder = FakeRequestEncoder()
         val launcher = FakeIntentLauncher(CieloPaymentIntentLauncher.Result.Launched)
+        val coordinator = FakeActivePaymentCoordinator()
         val gateway = CieloPaymentGatewayImpl(
             clientId = "",
             accessToken = "token",
             requestEncoder = encoder,
             intentLauncher = launcher,
+            activePaymentCoordinator = coordinator,
         )
 
         assertEquals(
@@ -31,10 +35,11 @@ class CieloPaymentGatewayImplTest {
         )
         assertNull(encoder.encodedAttempt)
         assertFalse(launcher.called)
+        assertNull(coordinator.activatedReference)
     }
 
     @Test
-    fun reportsInitiatedAfterLaunchingEncodedRequest() {
+    fun reportsInitiatedAfterLaunchingEncodedRequest() = runTest {
         val encoder = FakeRequestEncoder()
         val launcher = FakeIntentLauncher(CieloPaymentIntentLauncher.Result.Launched)
         val gateway = CieloPaymentGatewayImpl(
@@ -42,6 +47,7 @@ class CieloPaymentGatewayImplTest {
             accessToken = "token",
             requestEncoder = encoder,
             intentLauncher = launcher,
+            activePaymentCoordinator = FakeActivePaymentCoordinator(),
         )
         val attempt = attempt()
 
@@ -54,7 +60,7 @@ class CieloPaymentGatewayImplTest {
     }
 
     @Test
-    fun mapsLauncherFailuresToTypedGatewayResults() {
+    fun mapsLauncherFailuresToTypedGatewayResults() = runTest {
         val attempt = attempt()
 
         assertEquals(
@@ -69,6 +75,26 @@ class CieloPaymentGatewayImplTest {
         )
     }
 
+    @Test
+    fun doesNotLaunchWhenPreviousPaymentCannotBeSafelyRolledOver() = runTest {
+        val launcher = FakeIntentLauncher(CieloPaymentIntentLauncher.Result.Launched)
+        val gateway = CieloPaymentGatewayImpl(
+            clientId = "client",
+            accessToken = "token",
+            requestEncoder = FakeRequestEncoder(),
+            intentLauncher = launcher,
+            activePaymentCoordinator = FakeActivePaymentCoordinator(
+                activationSucceeds = false,
+            ),
+        )
+
+        assertEquals(
+            PaymentGateway.Result.TechnicalFailure,
+            gateway.initiatePayment(attempt()),
+        )
+        assertFalse(launcher.called)
+    }
+
     private fun gatewayWith(
         launcherResult: CieloPaymentIntentLauncher.Result,
     ) = CieloPaymentGatewayImpl(
@@ -76,6 +102,7 @@ class CieloPaymentGatewayImplTest {
         accessToken = "token",
         requestEncoder = FakeRequestEncoder(),
         intentLauncher = FakeIntentLauncher(launcherResult),
+        activePaymentCoordinator = FakeActivePaymentCoordinator(),
     )
 
     private fun attempt() = PurchaseAttempt.restore(
@@ -121,4 +148,21 @@ class CieloPaymentGatewayImplTest {
             return result
         }
     }
+
+    private class FakeActivePaymentCoordinator(
+        private val activationSucceeds: Boolean = true,
+    ) : ActivePaymentCoordinator {
+        var activatedReference: String? = null
+        val clearedReferences = mutableListOf<String>()
+
+        override suspend fun activate(reference: String): Boolean {
+            activatedReference = reference
+            return activationSucceeds
+        }
+
+        override fun clear(reference: String) {
+            clearedReferences += reference
+        }
+    }
+
 }

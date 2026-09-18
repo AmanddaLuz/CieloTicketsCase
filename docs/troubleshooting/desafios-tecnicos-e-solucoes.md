@@ -87,8 +87,10 @@ O resultado útil está no JSON Base64 do parâmetro `response`.
 2. `CieloCallbackResponseParser` interpreta o JSON e produz um resultado
    tipado.
 
-Callbacks sem referência são aceitos somente para a tentativa que está ativa e
-em processamento. Um callback com referência diferente é ignorado.
+Antes de abrir a Cielo, a referência ativa é persistida localmente. Callbacks
+sem referência usam essa correlação, inclusive após recriação do processo. Uma
+nova venda pode substituir a correlação somente depois que a tentativa anterior
+em `PROCESSING` for persistida como `TIMED_OUT`.
 
 ## 6. Cancelamento podia ser interpretado como aprovação
 
@@ -101,7 +103,7 @@ venda foi aprovada. O resultado real depende do conteúdo do JSON.
 **Solução:** o parser utiliza a seguinte regra:
 
 | `code` no JSON | Status |
-|---|---|
+| --- | --- |
 | ausente, com referência válida | `APPROVED` |
 | `1` | `CANCELLED` |
 | `2` ou `3` | `DENIED` |
@@ -353,19 +355,26 @@ Se nenhuma linha for alterada, o DAO diferencia referência inexistente de
 divergência de status. Resultados repetidos são idempotentes e estados
 terminais permanecem imutáveis.
 
-## 11. Processamento durável do callback aumentava a complexidade sem garantir a jornada
+## 11. Broadcast do callback era perdido após encerramento do processo
 
-**Problema:** delegar o retorno do pagamento a trabalho em segundo plano criava
-mais estados intermediários e dificultava entregar o resultado imediatamente à
-tela ativa.
+**Problema:** se o processo do CieloTickets fosse encerrado enquanto a Cielo
+estava aberta, o receiver dinâmico deixava de existir e a tentativa permanecia
+em `PROCESSING`.
 
-**Solução:** `CieloResponseActivity` recebe `order://payment`, faz o parsing e
-emite um broadcast restrito ao package. `CieloPaymentResultObserverImpl`
-entrega o resultado ao `CheckoutViewModel`.
+**Solução:** `CieloResponseActivity` mantém o callback exato
+`order://payment`, resolve a referência persistida e enfileira o resultado no
+WorkManager. O worker atualiza Room por `UpdatePurchaseStatusUseCase`. O
+broadcast restrito ao package continua existindo para resposta imediata à tela
+ativa, e o compare-and-set torna segura a corrida entre os dois caminhos.
 
-**Limitação conhecida:** se o processo não estiver ativo, a tentativa permanece
-em `PROCESSING`. Em produção, a solução adequada é reconciliação confiável com
-backend ou API da adquirente, e não repetição automática da cobrança.
+Após o handoff durável, a Activity traz a `MainActivity` para frente com a
+referência. A tela de resultado observa Room: aprovação mostra recibo e QR Code;
+negação, cancelamento e erro mostram a tentativa persistida sem QR Code. Isso
+funciona com o BottomSheet fechado e também após encerramento do processo.
+
+**Limitação conhecida:** a autoridade financeira continua sendo uma
+reconciliação confiável com backend ou API da adquirente, e nunca a repetição
+automática da cobrança.
 
 ## 12. Resultado aprovado permanecia no BottomSheet
 
@@ -475,6 +484,36 @@ para detectar mudanças de nome, quantidade, preço ou subtotal.
 **Prevenção:** identidades de adapters devem usar chaves estáveis do domínio,
 nunca textos exibidos, posições ou valores formatados. O teste do comprovante
 também verifica que o mapper preserva o `eventId`.
+
+## 19. Processo da Cielo encerrado deixava pagamento em processamento indefinidamente
+
+**Sintoma:** após abrir a Cielo, uma interrupção sem callback mantinha a
+tentativa em `PROCESSING` para sempre no histórico.
+
+**Risco:** marcar automaticamente como erro afirmaria que não houve cobrança,
+embora o resultado financeiro pudesse apenas estar indisponível.
+
+**Solução:** ao assumir `PROCESSING`, `StartPaymentUseCase` agenda trabalho único
+no WorkManager com atraso de um minuto. Se o compare-and-set ainda encontrar
+`PROCESSING`, o worker persiste `TIMED_OUT` e avisa a UI ativa.
+
+`TIMED_OUT` significa resultado desconhecido e aceita posteriormente:
+
+```text
+TIMED_OUT -> APPROVED | DENIED | CANCELLED | ERROR
+```
+
+O timeout não limpa a correlação ativa, não repete a cobrança e não substitui
+um callback que tenha concluído primeiro.
+
+Se o operador iniciar outra venda, o gateway valida credenciais e payload,
+converte a tentativa ativa anterior para `TIMED_OUT` e só então grava a nova
+referência e abre a Cielo. Assim a venda nova não fica bloqueada e callbacks sem
+referência continuam possuindo uma única correlação.
+
+Ao fechar o BottomSheet em `PROCESSING`, o ViewModel também abandona somente a
+apresentação em memória. O registro persistido continua aguardando timeout ou
+callback, mas o carrinho volta a aceitar outro checkout.
 
 ## Como usar este documento
 

@@ -50,6 +50,29 @@ class UpdatePurchaseStatusUseCaseImplTest {
     }
 
     @Test
+    fun expiresProcessingAndAcceptsLateCallback() = runTest {
+        val repository = FakePurchaseRepository(
+            listOf(attempt(status = PaymentStatus.PROCESSING)),
+        )
+        val useCase = UpdatePurchaseStatusUseCaseImpl(repository)
+
+        assertEquals(
+            UpdatePurchaseStatusUseCase.Result.Updated(
+                "reference-1",
+                PaymentStatus.TIMED_OUT,
+            ),
+            useCase("reference-1", PaymentStatus.TIMED_OUT),
+        )
+        assertEquals(
+            UpdatePurchaseStatusUseCase.Result.Updated(
+                "reference-1",
+                PaymentStatus.APPROVED,
+            ),
+            useCase("reference-1", PaymentStatus.APPROVED),
+        )
+    }
+
+    @Test
     fun repeatedCallbackIsIdempotent() = runTest {
         val repository = FakePurchaseRepository(
             listOf(attempt(status = PaymentStatus.APPROVED)),

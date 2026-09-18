@@ -56,6 +56,7 @@ class HistoryAdapter(
     private fun PaymentStatus.labelRes(): Int = when (this) {
         PaymentStatus.CREATED -> R.string.status_created
         PaymentStatus.PROCESSING -> R.string.status_processing
+        PaymentStatus.TIMED_OUT -> R.string.status_timed_out
         PaymentStatus.APPROVED -> R.string.status_approved
         PaymentStatus.DENIED -> R.string.status_denied
         PaymentStatus.CANCELLED -> R.string.status_cancelled
@@ -68,6 +69,7 @@ class HistoryAdapter(
         PaymentStatus.ERROR,
         -> R.color.status_error
         PaymentStatus.CANCELLED -> R.color.status_cancelled
+        PaymentStatus.TIMED_OUT -> R.color.status_timed_out
         PaymentStatus.CREATED,
         PaymentStatus.PROCESSING,
         -> R.color.status_processing

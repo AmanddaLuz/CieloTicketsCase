@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.amandaluz.cielotickets.MainActivity
 import br.com.amandaluz.cielotickets.R
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -29,6 +30,11 @@ class StatePanelViewTest {
                 assertEquals(
                     View.VISIBLE,
                     view.findViewById<View>(R.id.progressIndicator).visibility,
+                )
+                assertTrue(
+                    view.findViewById<CircularProgressIndicator>(
+                        R.id.progressIndicator,
+                    ).isIndeterminate,
                 )
 
                 var actionCalled = false

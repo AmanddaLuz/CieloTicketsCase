@@ -6,6 +6,7 @@ import br.com.amandaluz.cielotickets.domain.repository.PurchaseRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 
 class FakePurchaseRepository(
     attempts: List<PurchaseAttempt> = emptyList(),
@@ -57,6 +58,12 @@ class FakePurchaseRepository(
 
     override suspend fun findByReference(reference: String): PurchaseAttempt? =
         attemptsByReference[reference]
+
+    override fun observeByReference(
+        reference: String,
+    ): Flow<PurchaseAttempt?> = history.map { attempts ->
+        attempts.firstOrNull { it.reference == reference }
+    }
 
     override fun observeHistory(): Flow<List<PurchaseAttempt>> =
         history.asStateFlow()

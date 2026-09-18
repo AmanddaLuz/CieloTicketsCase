@@ -12,7 +12,12 @@
             android:id="@+id/progressIndicator"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:indeterminate="true"
             android:visibility="gone"
+            app:indicatorColor="@color/cielo_primary"
+            app:indicatorSize="48dp"
+            app:trackColor="@color/checkout_result_outline"
+            app:trackThickness="4dp"
             app:layout_constraintBottom_toTopOf="@id/stateMessage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -6,17 +6,21 @@
 
 ## Delivery phases
 
+<!-- markdownlint-disable MD013 -->
+
 | Phase | Outcome |
-|---|---|
+| --- | --- |
 | 0. Foundation | Completed: XML host, quality gates, documentation and GitFlow |
 | 1. Domain audit | Completed: models, repository contracts and use-case contracts with `Impl` classes |
 | 2. Data | Completed: local catalog and relational Room persistence adapters |
-| 3. Payment | Completed: Cielo gateway, deep-link callback broadcast and persistent state machine |
+| 3. Payment | Completed: Cielo gateway, durable callback, active correlation, recoverable timeout, result routing and persistent state machine |
 | 4. UI foundation | Completed: navigation, binding lifecycle and reusable state components |
 | 5. Catalog and cart | Completed: events list, quantity controls and reusable cart BottomSheet |
 | 6. Checkout | Completed: persist-before-pay orchestration and terminal outcomes |
 | 7. History and receipt | Completed: status-filtered sales, persisted receipt and approved QR Code |
 | 8. Hardening | Completed: requirement audit, final validation and documentation |
+
+<!-- markdownlint-enable MD013 -->
 
 Each phase uses a short-lived branch from `develop`. A phase is complete only
 when its behavior, tests and canonical documentation agree.

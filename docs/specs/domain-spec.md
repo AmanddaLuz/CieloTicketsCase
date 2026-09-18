@@ -26,12 +26,15 @@ UUID and timestamp generation deterministic in tests.
 
 ```text
 CREATED -> PROCESSING
-PROCESSING -> APPROVED | DENIED | CANCELLED | ERROR
+PROCESSING -> TIMED_OUT | APPROVED | DENIED | CANCELLED | ERROR
+TIMED_OUT -> APPROVED | DENIED | CANCELLED | ERROR
 ```
 
-Repeating the current status is idempotent. Terminal states cannot transition to
-another state. Unknown references and invalid transitions return typed results
-instead of being ignored.
+`TIMED_OUT` means that the financial result is unknown and remains recoverable
+by a late callback or reconciliation. Repeating the current status is
+idempotent. Financial terminal states cannot transition to another state.
+Unknown references and invalid transitions return typed results instead of
+being ignored.
 
 Status persistence uses compare-and-set with the expected current status. This
 prevents concurrent callbacks from replacing one terminal result with another.

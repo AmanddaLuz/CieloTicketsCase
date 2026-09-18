@@ -33,6 +33,8 @@ interface PurchaseRepository {
 
     suspend fun findByReference(reference: String): PurchaseAttempt?
 
+    fun observeByReference(reference: String): Flow<PurchaseAttempt?>
+
     /** Emite as tentativas da mais recente para a mais antiga. */
     fun observeHistory(): Flow<List<PurchaseAttempt>>
 }

@@ -3,6 +3,7 @@ package br.com.amandaluz.cielotickets.feature.checkout.usecase
 import br.com.amandaluz.cielotickets.domain.gateway.PaymentGateway
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
+import br.com.amandaluz.cielotickets.payment.timeout.PaymentProcessingTimeoutScheduler
 
 /**
  * Implementa o início single-flight do pagamento.
@@ -13,6 +14,7 @@ import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 class StartPaymentUseCaseImpl(
     private val paymentGateway: PaymentGateway,
     private val updatePurchaseStatus: UpdatePurchaseStatusUseCase,
+    private val processingTimeoutScheduler: PaymentProcessingTimeoutScheduler,
 ) : StartPaymentUseCase {
 
     override suspend fun invoke(attempt: PurchaseAttempt): StartPaymentUseCase.Result =
@@ -22,7 +24,10 @@ class StartPaymentUseCaseImpl(
                 PaymentStatus.PROCESSING,
             )
         ) {
-            is UpdatePurchaseStatusUseCase.Result.Updated -> startGateway(attempt)
+            is UpdatePurchaseStatusUseCase.Result.Updated -> {
+                processingTimeoutScheduler.schedule(attempt.reference)
+                startGateway(attempt)
+            }
             is UpdatePurchaseStatusUseCase.Result.Unchanged -> {
                 StartPaymentUseCase.Result.AlreadyProcessing(attempt.reference)
             }
@@ -73,8 +78,8 @@ class StartPaymentUseCaseImpl(
     private suspend fun resolveGatewayFailure(
         reference: String,
         gatewayResult: StartPaymentUseCase.Result,
-    ): StartPaymentUseCase.Result =
-        when (val result = updatePurchaseStatus(reference, PaymentStatus.ERROR)) {
+    ): StartPaymentUseCase.Result {
+        return when (val result = updatePurchaseStatus(reference, PaymentStatus.ERROR)) {
             is UpdatePurchaseStatusUseCase.Result.Updated,
             is UpdatePurchaseStatusUseCase.Result.Unchanged,
             -> gatewayResult
@@ -88,4 +93,5 @@ class StartPaymentUseCaseImpl(
                 )
             }
         }
+    }
 }

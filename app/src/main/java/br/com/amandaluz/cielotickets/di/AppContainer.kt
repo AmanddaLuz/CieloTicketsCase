@@ -6,6 +6,7 @@ import br.com.amandaluz.cielotickets.feature.receipt.usecase.BuildTicketQrConten
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.CreatePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.feature.events.usecase.GetAvailableEventsUseCase
 import br.com.amandaluz.cielotickets.feature.receipt.usecase.GetPurchaseAttemptUseCase
+import br.com.amandaluz.cielotickets.feature.receipt.usecase.ObservePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.feature.history.usecase.GetSalesHistoryUseCase
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.SavePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.StartPaymentUseCase
@@ -24,6 +25,7 @@ interface AppContainer {
     val buildTicketQrContent: BuildTicketQrContentUseCase
     val createPurchaseAttempt: CreatePurchaseAttemptUseCase
     val getPurchaseAttempt: GetPurchaseAttemptUseCase
+    val observePurchaseAttempt: ObservePurchaseAttemptUseCase
     val savePurchaseAttempt: SavePurchaseAttemptUseCase
     val startPayment: StartPaymentUseCase
     val updatePurchaseStatus: UpdatePurchaseStatusUseCase

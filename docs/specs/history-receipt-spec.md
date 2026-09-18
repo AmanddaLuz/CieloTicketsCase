@@ -4,7 +4,8 @@
 
 The history observes persisted `PurchaseAttempt` snapshots through
 `GetSalesHistoryUseCase`. Records remain ordered from newest to oldest and show
-all states, including attempts that are still `CREATED` or `PROCESSING`.
+all states, including `CREATED`, `PROCESSING` and recoverable `TIMED_OUT`
+attempts.
 
 A horizontally scrollable, single-selection filter appears at the beginning of
 the page. Available values are:
@@ -14,6 +15,7 @@ the page. Available values are:
 - denied;
 - cancelled;
 - error;
+- timed out;
 - processing;
 - created.
 
@@ -22,8 +24,8 @@ repository query, persisted attempt or canonical ordering. An empty database and
 an empty filtered result use distinct messages.
 
 Selecting a history item navigates with only its purchase reference. The receipt
-reloads the snapshot through `GetPurchaseAttemptUseCase`; UI models are not used
-as navigation data.
+observes the snapshot through `ObservePurchaseAttemptUseCase`; UI models are not
+used as navigation data.
 
 An approved checkout also navigates directly to the same receipt destination
 after the terminal result is persisted. Denied, cancelled and error outcomes
@@ -42,8 +44,9 @@ The receipt renders:
 Receipt headings, metadata, item fields, totals and QR instructions are centered
 to keep the proof-of-purchase hierarchy consistent on different screen widths.
 
-The receipt supports every payment state. A missing reference produces an
-explicit not-found state.
+The receipt supports every payment state and observes Room so a `TIMED_OUT`
+attempt can later render its authoritative terminal result. A missing reference
+produces an explicit not-found state.
 
 ## Approved QR Code
 

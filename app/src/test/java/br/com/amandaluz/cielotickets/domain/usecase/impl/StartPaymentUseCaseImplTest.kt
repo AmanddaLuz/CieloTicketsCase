@@ -8,6 +8,7 @@ import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.StartPaymentUseCase
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.StartPaymentUseCaseImpl
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.UpdatePurchaseStatusUseCase
+import br.com.amandaluz.cielotickets.payment.timeout.PaymentProcessingTimeoutScheduler
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -24,7 +25,8 @@ class StartPaymentUseCaseImplTest {
                 PaymentStatus.PROCESSING,
             ),
         )
-        val useCase = StartPaymentUseCaseImpl(gateway, updateStatus)
+        val timeoutScheduler = FakeTimeoutScheduler()
+        val useCase = useCase(gateway, updateStatus, timeoutScheduler)
         val attempt = attempt()
 
         assertEquals(
@@ -32,6 +34,7 @@ class StartPaymentUseCaseImplTest {
             useCase(attempt),
         )
         assertEquals(listOf(PaymentStatus.PROCESSING), updateStatus.requestedStatuses)
+        assertEquals(listOf(REFERENCE), timeoutScheduler.references)
         assertEquals(attempt, gateway.launchedAttempt)
     }
 
@@ -44,13 +47,15 @@ class StartPaymentUseCaseImplTest {
                 PaymentStatus.PROCESSING,
             ),
         )
-        val useCase = StartPaymentUseCaseImpl(gateway, updateStatus)
+        val timeoutScheduler = FakeTimeoutScheduler()
+        val useCase = useCase(gateway, updateStatus, timeoutScheduler)
 
         assertEquals(
             StartPaymentUseCase.Result.AlreadyProcessing(REFERENCE),
             useCase(attempt()),
         )
         assertNull(gateway.launchedAttempt)
+        assertEquals(emptyList<String>(), timeoutScheduler.references)
     }
 
     @Test
@@ -66,7 +71,7 @@ class StartPaymentUseCaseImplTest {
                 PaymentStatus.ERROR,
             ),
         )
-        val useCase = StartPaymentUseCaseImpl(gateway, updateStatus)
+        val useCase = useCase(gateway, updateStatus)
 
         assertEquals(
             StartPaymentUseCase.Result.AppNotAvailable(REFERENCE),
@@ -84,7 +89,7 @@ class StartPaymentUseCaseImplTest {
         val updateStatus = FakeUpdateStatusUseCase(
             UpdatePurchaseStatusUseCase.Result.NotFound(REFERENCE),
         )
-        val useCase = StartPaymentUseCaseImpl(gateway, updateStatus)
+        val useCase = useCase(gateway, updateStatus)
 
         assertEquals(
             StartPaymentUseCase.Result.NotFound(REFERENCE),
@@ -103,7 +108,7 @@ class StartPaymentUseCaseImplTest {
                 requestedStatus = PaymentStatus.PROCESSING,
             ),
         )
-        val useCase = StartPaymentUseCaseImpl(gateway, updateStatus)
+        val useCase = useCase(gateway, updateStatus)
 
         assertEquals(
             StartPaymentUseCase.Result.InvalidStatus(
@@ -128,7 +133,7 @@ class StartPaymentUseCaseImplTest {
                 PaymentStatus.ERROR,
             ),
         )
-        val useCase = StartPaymentUseCaseImpl(gateway, updateStatus)
+        val useCase = useCase(gateway, updateStatus)
 
         assertEquals(
             StartPaymentUseCase.Result.TechnicalFailure(REFERENCE),
@@ -137,6 +142,74 @@ class StartPaymentUseCaseImplTest {
         assertEquals(
             listOf(PaymentStatus.PROCESSING, PaymentStatus.ERROR),
             updateStatus.requestedStatuses,
+        )
+    }
+
+    @Test
+    fun marksAttemptAsErrorWhenCredentialsAreNotConfigured() = runTest {
+        val gateway = FakePaymentGateway(
+            PaymentGateway.Result.CredentialsNotConfigured,
+        )
+        val updateStatus = FakeUpdateStatusUseCase(
+            UpdatePurchaseStatusUseCase.Result.Updated(
+                REFERENCE,
+                PaymentStatus.PROCESSING,
+            ),
+            UpdatePurchaseStatusUseCase.Result.Updated(
+                REFERENCE,
+                PaymentStatus.ERROR,
+            ),
+        )
+        val useCase = useCase(gateway, updateStatus)
+
+        assertEquals(
+            StartPaymentUseCase.Result.CredentialsNotConfigured(REFERENCE),
+            useCase(attempt()),
+        )
+        assertEquals(
+            listOf(PaymentStatus.PROCESSING, PaymentStatus.ERROR),
+            updateStatus.requestedStatuses,
+        )
+    }
+
+    @Test
+    fun reportsMissingAttemptWhenGatewayFailureCannotBePersisted() = runTest {
+        val gateway = FakePaymentGateway(PaymentGateway.Result.AppNotAvailable)
+        val updateStatus = FakeUpdateStatusUseCase(
+            UpdatePurchaseStatusUseCase.Result.Updated(
+                REFERENCE,
+                PaymentStatus.PROCESSING,
+            ),
+            UpdatePurchaseStatusUseCase.Result.NotFound(REFERENCE),
+        )
+
+        assertEquals(
+            StartPaymentUseCase.Result.NotFound(REFERENCE),
+            useCase(gateway, updateStatus)(attempt()),
+        )
+    }
+
+    @Test
+    fun reportsCurrentStatusWhenGatewayFailureTransitionIsRejected() = runTest {
+        val gateway = FakePaymentGateway(PaymentGateway.Result.TechnicalFailure)
+        val updateStatus = FakeUpdateStatusUseCase(
+            UpdatePurchaseStatusUseCase.Result.Updated(
+                REFERENCE,
+                PaymentStatus.PROCESSING,
+            ),
+            UpdatePurchaseStatusUseCase.Result.InvalidTransition(
+                reference = REFERENCE,
+                currentStatus = PaymentStatus.APPROVED,
+                requestedStatus = PaymentStatus.ERROR,
+            ),
+        )
+
+        assertEquals(
+            StartPaymentUseCase.Result.InvalidStatus(
+                REFERENCE,
+                PaymentStatus.APPROVED,
+            ),
+            useCase(gateway, updateStatus)(attempt()),
         )
     }
 
@@ -156,12 +229,24 @@ class StartPaymentUseCaseImplTest {
         updatedAt = 100L,
     )
 
+    private fun useCase(
+        gateway: PaymentGateway,
+        updateStatus: UpdatePurchaseStatusUseCase,
+        timeoutScheduler: PaymentProcessingTimeoutScheduler = FakeTimeoutScheduler(),
+    ) = StartPaymentUseCaseImpl(
+        paymentGateway = gateway,
+        updatePurchaseStatus = updateStatus,
+        processingTimeoutScheduler = timeoutScheduler,
+    )
+
     private class FakePaymentGateway(
         private val result: PaymentGateway.Result,
     ) : PaymentGateway {
         var launchedAttempt: PurchaseAttempt? = null
 
-        override fun initiatePayment(attempt: PurchaseAttempt): PaymentGateway.Result {
+        override suspend fun initiatePayment(
+            attempt: PurchaseAttempt,
+        ): PaymentGateway.Result {
             launchedAttempt = attempt
             return result
         }
@@ -180,6 +265,15 @@ class StartPaymentUseCaseImplTest {
             assertEquals(REFERENCE, reference)
             requestedStatuses += newStatus
             return pendingResults.removeFirst()
+        }
+
+    }
+
+    private class FakeTimeoutScheduler : PaymentProcessingTimeoutScheduler {
+        val references = mutableListOf<String>()
+
+        override suspend fun schedule(reference: String) {
+            references += reference
         }
     }
 

@@ -24,10 +24,23 @@ show a persisted receipt with a QR Code for approved purchases.
 - A UUID reference is persisted before Cielo is opened.
 - Duplicate callbacks are idempotent.
 - Unknown references are rejected as technical errors.
-- Missing callbacks remain pending and are not retried automatically.
+- Callbacks are persisted after process recreation through durable background
+  work; reference-less errors use the active reference saved before launch.
+- A callback reopens the application and presents the persisted transaction
+  result.
+- Missing callbacks remain pending and never trigger an automatic charge
+  retry.
+- A `PROCESSING` attempt becomes recoverable `TIMED_OUT` after one minute.
+- A late callback may replace `TIMED_OUT` with the real terminal result.
+- A new sale is allowed while an older result is unknown; the older active
+  attempt becomes `TIMED_OUT` before the new Cielo session starts.
 - Credentials and payment data never appear in logs or QR Codes.
 - Receipt navigation reloads persisted data by purchase reference.
 
 ## Payment states
 
-`CREATED -> PROCESSING -> APPROVED | DENIED | CANCELLED | ERROR`
+```text
+CREATED -> PROCESSING
+PROCESSING -> TIMED_OUT | APPROVED | DENIED | CANCELLED | ERROR
+TIMED_OUT -> APPROVED | DENIED | CANCELLED | ERROR
+```

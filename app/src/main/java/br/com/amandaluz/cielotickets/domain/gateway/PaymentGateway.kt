@@ -8,7 +8,7 @@ import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
  * A implementação deve apenas abrir a cobrança. A reivindicação atômica da
  * tentativa e as transições de status pertencem aos casos de uso.
  */
-interface PaymentGateway {
+fun interface PaymentGateway {
     sealed interface Result {
         data object Initiated : Result
         data object AppNotAvailable : Result
@@ -16,5 +16,5 @@ interface PaymentGateway {
         data object TechnicalFailure : Result
     }
 
-    fun initiatePayment(attempt: PurchaseAttempt): Result
+    suspend fun initiatePayment(attempt: PurchaseAttempt): Result
 }

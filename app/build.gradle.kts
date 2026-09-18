@@ -119,6 +119,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.zxing.core)
     ksp(libs.room.compiler)
 
@@ -132,6 +133,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.room.testing)
+    androidTestImplementation(libs.androidx.work.testing)
 }
 
 detekt {
@@ -178,8 +180,14 @@ kover {
                     "*.data.local.entity.*",
                     "*.data.local.repository.RoomPurchaseRepositoryImpl",
                     "*.payment.cielo.CieloCallbackUriParser",
+                    "*.payment.cielo.CieloActivePaymentStoreImpl",
+                    "*.payment.cielo.CieloPaymentCallbackScheduler",
+                    "*.payment.cielo.CieloPaymentCallbackWorker",
+                    "*.payment.cielo.CieloPaymentResultObserverImpl",
                     "*.payment.cielo.CieloPaymentIntentLauncherImpl",
                     "*.payment.cielo.CieloPaymentRequestEncoderImpl",
+                    "*.payment.timeout.PaymentProcessingTimeoutSchedulerImpl",
+                    "*.payment.timeout.PaymentProcessingTimeoutWorker",
                     "*.feature.receipt.QrCodeBitmapRenderer",
                     "*.di.*",
                     "*.navigation.*",
@@ -190,7 +198,7 @@ kover {
         }
         verify {
             rule("MVVM and Clean Architecture line coverage") {
-                minBound(75)
+                minBound(80)
             }
         }
     }

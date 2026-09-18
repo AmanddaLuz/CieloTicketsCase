@@ -6,10 +6,20 @@ import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 /**
  * Reivindica uma tentativa persistida e inicia no máximo uma cobrança externa.
  */
-interface StartPaymentUseCase {
+fun interface StartPaymentUseCase {
     sealed interface Result {
-        data class Started(val reference: String) : Result
-        data class AlreadyProcessing(val reference: String) : Result
+        sealed interface Processing : Result {
+            val reference: String
+        }
+
+        data class Started(
+            override val reference: String,
+        ) : Processing
+
+        data class AlreadyProcessing(
+            override val reference: String,
+        ) : Processing
+
         data class AppNotAvailable(val reference: String) : Result
         data class CredentialsNotConfigured(val reference: String) : Result
         data class TechnicalFailure(val reference: String) : Result

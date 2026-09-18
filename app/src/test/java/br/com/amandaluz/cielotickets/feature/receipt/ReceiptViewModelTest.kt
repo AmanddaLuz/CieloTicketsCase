@@ -5,9 +5,11 @@ import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 import br.com.amandaluz.cielotickets.domain.model.PurchaseItem
 import br.com.amandaluz.cielotickets.feature.receipt.usecase.BuildTicketQrContentUseCase
-import br.com.amandaluz.cielotickets.feature.receipt.usecase.GetPurchaseAttemptUseCase
+import br.com.amandaluz.cielotickets.feature.receipt.usecase.ObservePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.feature.receipt.viewmodel.ReceiptViewModel
 import br.com.amandaluz.cielotickets.testutil.MainDispatcherRule
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -46,12 +48,31 @@ class ReceiptViewModelTest {
         assertTrue(viewModel.uiState.value is ReceiptUiState.NotFound)
     }
 
+    @Test
+    fun updatesReceiptWhenPersistedStatusChanges() {
+        val attempts = MutableStateFlow<PurchaseAttempt?>(
+            attempt(PaymentStatus.PROCESSING),
+        )
+        val viewModel = viewModel(attempts)
+
+        attempts.value = attempt(PaymentStatus.APPROVED)
+
+        val receipt = (viewModel.uiState.value as ReceiptUiState.Content).receipt
+        assertEquals(PaymentStatus.APPROVED, receipt.status)
+        assertEquals("ticket:${receipt.reference}", receipt.qrContent)
+    }
+
     private fun viewModel(attempt: PurchaseAttempt?): ReceiptViewModel =
+        viewModel(MutableStateFlow(attempt))
+
+    private fun viewModel(
+        attempts: Flow<PurchaseAttempt?>,
+    ): ReceiptViewModel =
         ReceiptViewModel(
             reference = "receipt-reference",
-            getPurchaseAttempt = object : GetPurchaseAttemptUseCase {
-                override suspend fun invoke(reference: String): PurchaseAttempt? =
-                    attempt
+            observePurchaseAttempt = object : ObservePurchaseAttemptUseCase {
+                override fun invoke(reference: String): Flow<PurchaseAttempt?> =
+                    attempts
             },
             uiMapper = ReceiptUiMapper(
                 formatCurrency = { "$it cents" },

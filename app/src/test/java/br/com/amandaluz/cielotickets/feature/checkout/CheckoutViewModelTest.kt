@@ -114,6 +114,32 @@ class CheckoutViewModelTest {
     }
 
     @Test
+    fun dismissingProcessingCheckoutAllowsAnotherAttempt() {
+        val observer = FakePaymentResultObserver()
+        var createCalls = 0
+        val viewModel = viewModel(
+            observer = observer,
+            create = { _, _ ->
+                createCalls += 1
+                PurchaseAttempt.create(
+                    reference = "reference-$createCalls",
+                    cart = cart,
+                    paymentMethod = PaymentMethod.CREDIT_CASH,
+                    createdAt = createCalls.toLong(),
+                )
+            },
+        )
+        viewModel.start(cart, PaymentMethod.CREDIT_CASH)
+
+        viewModel.reset()
+        viewModel.start(cart, PaymentMethod.CREDIT_CASH)
+
+        assertEquals(2, createCalls)
+        assertEquals(CheckoutPhase.PROCESSING, viewModel.uiState.value.phase)
+        assertEquals("reference-2", viewModel.uiState.value.reference)
+    }
+
+    @Test
     fun appliesReferenceLessCallbackToCurrentAttempt() {
         val observer = FakePaymentResultObserver()
         val updates = mutableListOf<Pair<String, PaymentStatus>>()
@@ -178,6 +204,33 @@ class CheckoutViewModelTest {
         assertEquals(0, updateCalls)
         assertEquals(CheckoutPhase.PROCESSING, viewModel.uiState.value.phase)
         assertNull(viewModel.uiState.value.terminalStatus)
+    }
+
+    @Test
+    fun presentsRecoverableProcessingTimeout() {
+        val observer = FakePaymentResultObserver()
+        val viewModel = viewModel(
+            observer = observer,
+            update = { reference, status ->
+                UpdatePurchaseStatusUseCase.Result.Unchanged(reference, status)
+            },
+        )
+        viewModel.start(cart, PaymentMethod.CREDIT_CASH)
+
+        observer.emit(
+            PaymentResult(
+                reference = REFERENCE,
+                status = PaymentStatus.TIMED_OUT,
+                errorMessage = null,
+            ),
+        )
+
+        assertEquals(CheckoutPhase.TERMINAL, viewModel.uiState.value.phase)
+        assertEquals(
+            PaymentStatus.TIMED_OUT,
+            viewModel.uiState.value.terminalStatus,
+        )
+        assertFalse(viewModel.uiState.value.receiptNavigationPending)
     }
 
     @Test

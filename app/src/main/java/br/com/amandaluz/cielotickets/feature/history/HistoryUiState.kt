@@ -16,6 +16,7 @@ enum class HistoryStatusFilter(
     DENIED(PaymentStatus.DENIED),
     CANCELLED(PaymentStatus.CANCELLED),
     ERROR(PaymentStatus.ERROR),
+    TIMED_OUT(PaymentStatus.TIMED_OUT),
     PROCESSING(PaymentStatus.PROCESSING),
     CREATED(PaymentStatus.CREATED),
 }

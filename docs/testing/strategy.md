@@ -22,7 +22,21 @@
 - Process recreation with a pending attempt.
 - Multi-item Cielo payload and callback reference correlation.
 - Rejection of malformed, mismatched and amount-inconsistent approvals.
-- Cielo callback parsing and package-scoped broadcast delivery.
+- Cielo callback parsing, durable persistence and package-scoped broadcast
+  delivery.
+- Referenced callback recovery without an active checkout observer.
+- Reference-less callback recovery from the persisted active payment.
+- Callback result routing when the main application task is backgrounded or
+  absent.
+- Receipt/result observation while WorkManager changes `PROCESSING` to a
+  terminal status.
+- Unique one-minute processing timeout scheduling.
+- `PROCESSING -> TIMED_OUT` only while the attempt remains pending.
+- Late terminal callback recovery from `TIMED_OUT`.
+- Active-checkout timeout presentation without automatic payment retry.
+- Safe active-payment rollover: previous `PROCESSING` becomes `TIMED_OUT`
+  before a new reference is activated.
+- Credential or request failures do not expire the previous active payment.
 - XML destination navigation and back-stack behavior.
 - Fragment binding usage across view recreation.
 - Reusable loading, message and action-state rendering.
@@ -32,7 +46,7 @@
 - Catalog-to-BottomSheet synchronization.
 - Distinct approved, denied, cancelled and error rendering.
 - Persist-before-pay ordering and duplicate checkout tap rejection.
-- Reference-less current callbacks and rejection of foreign callbacks.
+- Reference-less callbacks and rejection of foreign callbacks.
 - Callback observer registration across the external Cielo application.
 - Cart cleanup only after a persisted terminal callback.
 - QR Code restricted to approved purchases.
@@ -44,7 +58,7 @@
 
 ## Gates
 
-Android Lint and Detekt fail on errors. Kover requires at least 75% eligible line
+Android Lint and Detekt fail on errors. Kover requires at least 80% eligible line
 coverage; Activities, Fragments, Views, adapters and Android wiring are excluded.
 Generated ViewBinding classes are also excluded. Tests must protect behavior
 rather than inflate metrics.

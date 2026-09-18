@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Cielo Tickets</string>
-    <string name="foundation_status">Fundação XML pronta para evolução incremental</string>
     <string name="home_subtitle">Venda de ingressos via Cielo</string>
     <string name="action_sell">Vender</string>
     <string name="action_sales_history">Histórico de vendas</string>
     <string name="action_back">Voltar</string>
     <string name="events_title">Eventos</string>
     <string name="history_title">Histórico de vendas</string>
-    <string name="catalog_next_title">Catálogo preparado</string>
-    <string name="catalog_next_message">A lista de eventos e o carrinho serão conectados na próxima etapa.</string>
-    <string name="history_next_title">Histórico preparado</string>
-    <string name="history_next_message">As vendas persistidas serão exibidas na etapa de histórico e recibo.</string>
     <string name="loading_events">Carregando eventos…</string>
     <string name="empty_events_title">Nenhum evento disponível</string>
     <string name="empty_events_message">Não há ingressos disponíveis no momento.</string>
@@ -37,6 +32,8 @@
     <string name="checkout_cancelled_title">Pagamento cancelado</string>
     <string name="checkout_cancelled_message">Você cancelou o pagamento. Nenhuma cobrança foi concluída.</string>
     <string name="checkout_error_title">Erro no pagamento</string>
+    <string name="checkout_timed_out_title">Pagamento ainda não confirmado</string>
+    <string name="checkout_timed_out_message">A Cielo não respondeu em até 1 minuto. Consulte o histórico; um retorno tardio ainda poderá atualizar esta transação.</string>
     <string name="checkout_callback_error_message">A Cielo retornou um erro para este pagamento.</string>
     <string name="checkout_app_unavailable">O app Cielo não está disponível neste dispositivo.</string>
     <string name="checkout_credentials_missing">As credenciais da Cielo não estão configuradas.</string>
@@ -50,11 +47,13 @@
     <string name="filter_all">Todos</string>
     <string name="status_created">Criado</string>
     <string name="status_processing">Processando</string>
+    <string name="status_timed_out">Tempo esgotado</string>
     <string name="status_approved">Aprovado</string>
     <string name="status_denied">Negado</string>
     <string name="status_cancelled">Cancelado</string>
     <string name="status_error">Erro</string>
     <string name="receipt_title">Recibo</string>
+    <string name="payment_result_title">Resultado do pagamento</string>
     <string name="loading_receipt">Carregando recibo…</string>
     <string name="receipt_not_found_title">Recibo não encontrado</string>
     <string name="receipt_not_found_message">Esta compra não está disponível no histórico local.</string>
