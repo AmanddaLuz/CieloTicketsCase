@@ -21,6 +21,7 @@ consulte
 - Approved, denied, cancelled, authentication and technical errors are distinct.
 - Unknown or missing callbacks never trigger an automatic retry.
 - Credentials come from untracked local configuration.
+- Clear-text network traffic is explicitly disabled in the Android manifest.
 - Logs and QR Codes exclude credentials, PAN and payment-sensitive data.
 - The custom URI scheme does not authenticate the sender. Production financial
   fulfillment requires trusted backend/Cielo reconciliation.

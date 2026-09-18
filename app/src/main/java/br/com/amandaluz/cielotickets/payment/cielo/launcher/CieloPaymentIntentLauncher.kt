@@ -1,6 +1,6 @@
 package br.com.amandaluz.cielotickets.payment.cielo.launcher
 
-interface CieloPaymentIntentLauncher {
+fun interface CieloPaymentIntentLauncher {
     sealed interface Result {
         data object Launched : Result
         data object AppNotAvailable : Result

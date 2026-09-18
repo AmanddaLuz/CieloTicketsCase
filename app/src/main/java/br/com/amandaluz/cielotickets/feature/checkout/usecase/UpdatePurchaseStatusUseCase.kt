@@ -5,7 +5,7 @@ import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 /**
  * Aplica uma transição válida de pagamento sem sobrescrever estados terminais.
  */
-interface UpdatePurchaseStatusUseCase {
+fun interface UpdatePurchaseStatusUseCase {
     sealed interface Result {
         data class Updated(
             val reference: String,

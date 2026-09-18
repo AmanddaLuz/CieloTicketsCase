@@ -1,5 +1,5 @@
 package br.com.amandaluz.cielotickets.payment.timeout
 
-interface PaymentProcessingTimeoutScheduler {
+fun interface PaymentProcessingTimeoutScheduler {
     suspend fun schedule(reference: String)
 }

@@ -3,7 +3,7 @@ package br.com.amandaluz.cielotickets.feature.checkout.usecase
 import br.com.amandaluz.cielotickets.domain.model.PaymentStatus
 import br.com.amandaluz.cielotickets.domain.model.PurchaseAttempt
 
-interface SavePurchaseAttemptUseCase {
+fun interface SavePurchaseAttemptUseCase {
     sealed interface Result {
         data class Saved(val attempt: PurchaseAttempt) : Result
         data class DuplicateReference(val reference: String) : Result
@@ -12,4 +12,3 @@ interface SavePurchaseAttemptUseCase {
 
     suspend operator fun invoke(attempt: PurchaseAttempt): Result
 }
-

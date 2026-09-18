@@ -98,11 +98,7 @@ class CheckoutViewModel(
 
     private fun handleStartResult(result: StartPaymentUseCase.Result) {
         mutableUiState.value = when (result) {
-            is StartPaymentUseCase.Result.Started -> CheckoutUiState(
-                phase = CheckoutPhase.PROCESSING,
-                reference = result.reference,
-            )
-            is StartPaymentUseCase.Result.AlreadyProcessing -> CheckoutUiState(
+            is StartPaymentUseCase.Result.Processing -> CheckoutUiState(
                 phase = CheckoutPhase.PROCESSING,
                 reference = result.reference,
             )
