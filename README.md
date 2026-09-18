@@ -4,7 +4,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AmanddaLuz_CieloTicketsCase&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=AmanddaLuz_CieloTicketsCase)
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-7F52FF)
 ![Android](https://img.shields.io/badge/Android-API%2024%2B-3DDC84)
-![Coverage](https://img.shields.io/badge/coverage-%E2%89%A575%25-0061A4)
+![Coverage](https://img.shields.io/badge/coverage-%E2%89%A580%25-0061A4)
 
 Aplicativo Android para venda de ingressos de eventos locais com pagamento pelo
 ecossistema Cielo Smart, persistência do histórico e geração de QR Code para
@@ -176,8 +176,10 @@ presentation -> contrato de use case <- implementação
                                    -> contrato de gateway <- adapter Cielo
 ```
 
+<!-- markdownlint-disable MD013 -->
+
 | Camada | Responsabilidade |
-|---|---|
+| --- | --- |
 | `domain/model` | Entidades e invariantes puras |
 | `domain/usecase` | Contratos das operações de negócio |
 | `domain/usecase/impl` | Implementações dos casos de uso |
@@ -188,6 +190,8 @@ presentation -> contrato de use case <- implementação
 | `feature` | ViewModels, estados imutáveis, Fragments e adapters |
 | `ui` | Componentes XML reutilizáveis e utilitários de lifecycle |
 | `di` | Composition root e injeção manual |
+
+<!-- markdownlint-enable MD013 -->
 
 As Views apenas exibem estado e encaminham ações. Totais, limites, persistência
 e transições de pagamento não são calculados por Fragments, adapters ou custom
@@ -225,8 +229,10 @@ liberação do ingresso.
 
 ## Bibliotecas
 
+<!-- markdownlint-disable MD013 -->
+
 | Biblioteca | Uso e justificativa |
-|---|---|
+| --- | --- |
 | AndroidX AppCompat, Fragment e Core | Compatibilidade e infraestrutura de telas |
 | Navigation Component | Grafo e back stack em uma única Activity |
 | ViewBinding | Acesso seguro às Views XML sem buscas manuais |
@@ -238,6 +244,8 @@ liberação do ingresso.
 | ZXing Core | Geração local do QR Code sem tela externa |
 | JUnit e Coroutines Test | Testes JVM determinísticos |
 | AndroidX Test e Espresso | Testes de Room, navegação e fluxos XML |
+
+<!-- markdownlint-enable MD013 -->
 | Detekt | Análise estática Kotlin |
 | Android Lint | Validação do projeto Android |
 | Kover | Cobertura mínima automatizada |
@@ -283,7 +291,7 @@ Os testes críticos cobrem:
 - recibos e QR Code somente para compras aprovadas;
 - navegação e componentes XML.
 
-Kover exige ao menos 75% de cobertura nas classes JVM elegíveis. Código de
+Kover exige ao menos 80% de cobertura nas classes JVM elegíveis. Código de
 framework Android é validado por testes instrumentados.
 
 ## Integração contínua
@@ -351,11 +359,10 @@ Não é necessário criar commits ou tags diretamente nas branches protegidas.
   separados em módulos Gradle.
 - **Injeção manual:** torna dependências explícitas sem adicionar um framework
   para uma base pequena. Um projeto maior poderia adotar Hilt.
-  DI - AppContainer manual reduz complexidade de setup para um módulo único; 
-  Hilt exigiria kapt/KSP extra e mais boilerplate para o escopo do desafio;
+  O `AppContainer` manual reduz a complexidade de setup para um módulo único;
+  Hilt exigiria KSP adicional e mais boilerplate para o escopo do desafio.
 - **Catálogo local:** atende ao escopo sem backend. Produção exigiria API,
   sincronização, disponibilidade e política de preços.
-  Room (SQLite local)
 - **Callback por custom scheme:** é compatível com o emulador, mas não comprova
   criptograficamente a origem. Produção exige reconciliação por backend ou API
   confiável da Cielo.
@@ -366,25 +373,27 @@ Não é necessário criar commits ou tags diretamente nas branches protegidas.
   deveria filtrar e paginar no banco.
 - **QR opaco:** minimiza exposição de dados, mas depende de validação confiável
   da referência.
-- **Integração Cielo:**	Deep Link (lio://)	SDK proprietário
-- **Deep Link:** É o modelo recomendado pela Cielo para Android e evita dependência de biblioteca fechada
-- **Módulo único:**	Pacotes por feature	Módulos Gradle separados	Adequado ao tamanho atual; limites de responsabilidade mantidos por pacote
-- **targetSdk 29:**	Android 10	Android mais recente - Compatibilidade com terminais Cielo Smart que rodam Android 10
-- **KDocs em português:**	PT-BR	EN	Projeto criado para avaliação facilitando revisão de código
+- **Integração Cielo por Deep Link:** segue o modelo recomendado pela Cielo
+  para Android e evita dependência de biblioteca proprietária.
+- **Módulo único com pacotes por feature:** adequado ao tamanho atual; os
+  limites de responsabilidade permanecem explícitos.
+- **targetSdk 29:** mantém compatibilidade com terminais Cielo Smart que
+  executam Android 10.
+- **KDocs em português:** facilitam a avaliação e a revisão do projeto.
 
 ## O que faria com mais tempo
 
 - backend para catálogo, preços e reconciliação Cielo;
-- autenticação do operador - Login para identificar quem vendeu cada ingresso
+- autenticação do operador para identificar quem vendeu cada ingresso;
 - recuperação automática de tentativas pendentes;
 - paginação do histórico;
 - criptografia adicional para dados locais;
 - testes end-to-end em uma matriz de dispositivos;
 - modularização Gradle;
 - observabilidade sem dados sensíveis;
-- hilt - Substituir AppContainer por DI declarativo, facilitando testes com módulos falsos;
-- analytics / Crashlytics - Rastrear erros de integração em produção;
-- acessibilidade - TalkBack, fontes dinâmicas;
+- substituir `AppContainer` por Hilt, facilitando testes com módulos falsos;
+- adicionar analytics e Crashlytics para rastrear erros de integração;
+- acessibilidade com TalkBack e fontes dinâmicas;
 
 ## Uso de IA e documentação
 

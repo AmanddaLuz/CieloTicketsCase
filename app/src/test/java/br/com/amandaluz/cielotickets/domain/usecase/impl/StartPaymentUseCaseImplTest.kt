@@ -145,6 +145,74 @@ class StartPaymentUseCaseImplTest {
         )
     }
 
+    @Test
+    fun marksAttemptAsErrorWhenCredentialsAreNotConfigured() = runTest {
+        val gateway = FakePaymentGateway(
+            PaymentGateway.Result.CredentialsNotConfigured,
+        )
+        val updateStatus = FakeUpdateStatusUseCase(
+            UpdatePurchaseStatusUseCase.Result.Updated(
+                REFERENCE,
+                PaymentStatus.PROCESSING,
+            ),
+            UpdatePurchaseStatusUseCase.Result.Updated(
+                REFERENCE,
+                PaymentStatus.ERROR,
+            ),
+        )
+        val useCase = useCase(gateway, updateStatus)
+
+        assertEquals(
+            StartPaymentUseCase.Result.CredentialsNotConfigured(REFERENCE),
+            useCase(attempt()),
+        )
+        assertEquals(
+            listOf(PaymentStatus.PROCESSING, PaymentStatus.ERROR),
+            updateStatus.requestedStatuses,
+        )
+    }
+
+    @Test
+    fun reportsMissingAttemptWhenGatewayFailureCannotBePersisted() = runTest {
+        val gateway = FakePaymentGateway(PaymentGateway.Result.AppNotAvailable)
+        val updateStatus = FakeUpdateStatusUseCase(
+            UpdatePurchaseStatusUseCase.Result.Updated(
+                REFERENCE,
+                PaymentStatus.PROCESSING,
+            ),
+            UpdatePurchaseStatusUseCase.Result.NotFound(REFERENCE),
+        )
+
+        assertEquals(
+            StartPaymentUseCase.Result.NotFound(REFERENCE),
+            useCase(gateway, updateStatus)(attempt()),
+        )
+    }
+
+    @Test
+    fun reportsCurrentStatusWhenGatewayFailureTransitionIsRejected() = runTest {
+        val gateway = FakePaymentGateway(PaymentGateway.Result.TechnicalFailure)
+        val updateStatus = FakeUpdateStatusUseCase(
+            UpdatePurchaseStatusUseCase.Result.Updated(
+                REFERENCE,
+                PaymentStatus.PROCESSING,
+            ),
+            UpdatePurchaseStatusUseCase.Result.InvalidTransition(
+                reference = REFERENCE,
+                currentStatus = PaymentStatus.APPROVED,
+                requestedStatus = PaymentStatus.ERROR,
+            ),
+        )
+
+        assertEquals(
+            StartPaymentUseCase.Result.InvalidStatus(
+                REFERENCE,
+                PaymentStatus.APPROVED,
+            ),
+            useCase(gateway, updateStatus)(attempt()),
+        )
+    }
+
     private fun attempt() = PurchaseAttempt.restore(
         reference = REFERENCE,
         items = listOf(

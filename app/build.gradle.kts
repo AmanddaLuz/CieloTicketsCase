@@ -198,7 +198,7 @@ kover {
         }
         verify {
             rule("MVVM and Clean Architecture line coverage") {
-                minBound(75)
+                minBound(80)
             }
         }
     }

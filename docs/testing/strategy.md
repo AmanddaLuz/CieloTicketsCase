@@ -58,7 +58,7 @@
 
 ## Gates
 
-Android Lint and Detekt fail on errors. Kover requires at least 75% eligible line
+Android Lint and Detekt fail on errors. Kover requires at least 80% eligible line
 coverage; Activities, Fragments, Views, adapters and Android wiring are excluded.
 Generated ViewBinding classes are also excluded. Tests must protect behavior
 rather than inflate metrics.

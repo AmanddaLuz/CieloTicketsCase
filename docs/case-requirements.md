@@ -4,8 +4,10 @@ Fonte auditada: `Case_Android.pdf`, disponibilizado com o desafio técnico.
 
 ## Resultado
 
+<!-- markdownlint-disable MD013 -->
+
 | Requisito | Status | Evidência principal |
-|---|---|---|
+| --- | --- | --- |
 | Listar eventos disponíveis | Atendido | `LocalEventRepositoryImpl`, `EventsFragment` e `EventAdapter` |
 | Selecionar quantidade de ingressos | Atendido | `QuantitySelectorView`, `EventsViewModel` e `BuildCartUseCaseImpl` |
 | Iniciar pagamento pela Cielo | Atendido | `StartPaymentUseCaseImpl` e `CieloPaymentGatewayImpl` |
@@ -35,6 +37,8 @@ Fonte auditada: `Case_Android.pdf`, disponibilizado com o desafio técnico.
 | Análise contínua de qualidade | Atendido | `.github/workflows/sonarcloud.yml` |
 | Tag de release sem commit direto | Atendido | `.github/workflows/release-tag.yml` |
 
+<!-- markdownlint-enable MD013 -->
+
 ## Requisitos adicionais implementados
 
 - carrinho com vários eventos;
@@ -43,7 +47,7 @@ Fonte auditada: `Case_Android.pdf`, disponibilizado com o desafio técnico.
 - snapshots dos itens para preservar o recibo;
 - prevenção de overflow monetário;
 - schema Room versionado;
-- cobertura mínima automatizada de 75%;
+- cobertura mínima automatizada de 80%;
 - Android Lint, Detekt e CI;
 - GitFlow com branches principais protegidas;
 - QR Code opaco sem dados financeiros.

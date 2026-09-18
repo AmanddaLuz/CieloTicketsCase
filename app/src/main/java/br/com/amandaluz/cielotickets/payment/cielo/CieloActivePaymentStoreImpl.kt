@@ -18,7 +18,7 @@ class CieloActivePaymentStoreImpl(
             when {
                 current != null && current != reference -> false
                 else -> {
-                    preferences.edit {
+                    preferences.edit(commit = true) {
                         putString(KEY_REFERENCE, reference)
                     }
                     true
@@ -45,7 +45,7 @@ class CieloActivePaymentStoreImpl(
             if (currentReference() != expectedReference) {
                 false
             } else {
-                preferences.edit {
+                preferences.edit(commit = true) {
                     putString(KEY_REFERENCE, newReference)
                 }
                 true
@@ -57,7 +57,7 @@ class CieloActivePaymentStoreImpl(
         require(reference.isNotBlank()) { "Payment reference must not be blank" }
         synchronized(lock) {
             if (currentReference() == reference) {
-                preferences.edit {
+                preferences.edit(commit = true) {
                     remove(KEY_REFERENCE)
                 }
             }

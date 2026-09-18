@@ -32,24 +32,65 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      - name: Report missing SonarCloud token
-        if: env.SONAR_TOKEN == ''
+      - name: Validate SonarCloud token
         run: |
-          echo "::warning::Configure the SONAR_TOKEN repository secret to enable analysis."
+          if [[ -z "$SONAR_TOKEN" ]]; then
+            echo "::error::Configure the SONAR_TOKEN repository secret to enable analysis."
+            exit 1
+          fi
 
-      - name: Generate analysis reports
-        if: env.SONAR_TOKEN != ''
-        run: >
-          ./gradlew
-          testDebugUnitTest
-          lintDebug
-          detekt
-          koverXmlReportDebug
-          assembleDebug
-          --stacktrace
+      - name: Unit tests for SonarCloud
+        run: ./gradlew testDebugUnitTest --console=plain --stacktrace
+
+      - name: Android Lint report for SonarCloud
+        run: ./gradlew lintDebug --console=plain --stacktrace
+
+      - name: Print Android Lint findings
+        if: failure()
+        run: |
+          if [[ -f app/build/reports/lint-results-debug.txt ]]; then
+            cat app/build/reports/lint-results-debug.txt
+          else
+            echo "::warning::Android Lint text report was not generated."
+          fi
+
+      - name: Detekt report for SonarCloud
+        run: ./gradlew detekt --console=plain --stacktrace
+
+      - name: Kover coverage report for SonarCloud
+        run: ./gradlew koverXmlReportDebug --console=plain --stacktrace
+
+      - name: Verify analysis inputs
+        run: |
+          set -euo pipefail
+          for report in \
+            app/build/reports/kover/reportDebug.xml \
+            app/build/reports/lint-results-debug.xml \
+            app/build/reports/detekt/detekt.xml
+          do
+            if [[ ! -s "$report" ]]; then
+              echo "::error file=$report::Required SonarCloud report is missing or empty."
+              exit 1
+            fi
+            echo "Found $report ($(wc -c < "$report") bytes)"
+          done
+
+      - name: Assemble debug classes for SonarCloud
+        run: ./gradlew assembleDebug --console=plain --stacktrace
 
       - name: Analyze with SonarCloud
-        if: env.SONAR_TOKEN != ''
         uses: SonarSource/sonarqube-scan-action@v8.2.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Upload SonarCloud input reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonarcloud-input-reports
+          if-no-files-found: warn
+          path: |
+            app/build/reports/kover/reportDebug.xml
+            app/build/reports/lint-results-debug.*
+            app/build/reports/detekt/
+            app/build/test-results/testDebugUnitTest/
