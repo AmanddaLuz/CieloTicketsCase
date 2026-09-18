@@ -59,6 +59,9 @@ class RoomPurchaseRepositoryImpl(
     override suspend fun findByReference(reference: String): PurchaseAttempt? =
         purchaseAttemptDao.findByReference(reference)?.toDomain()
 
+    override fun observeByReference(reference: String): Flow<PurchaseAttempt?> =
+        purchaseAttemptDao.observeByReference(reference).map { it?.toDomain() }
+
     override fun observeHistory(): Flow<List<PurchaseAttempt>> =
         purchaseAttemptDao.observeAll().map { attempts ->
             attempts.map { it.toDomain() }

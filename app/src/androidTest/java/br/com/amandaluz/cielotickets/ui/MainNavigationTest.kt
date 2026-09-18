@@ -1,6 +1,7 @@
 package br.com.amandaluz.cielotickets.ui
 
 import android.view.View
+import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -133,13 +134,42 @@ class MainNavigationTest {
         }
     }
 
+    @Test
+    fun opensPersistedPaymentResultFromCallbackIntent() {
+        val eventName = "Callback Event ${System.nanoTime()}"
+        val reference = insertAttempt(eventName, PaymentStatus.DENIED)
+        val context = ApplicationProvider.getApplicationContext<
+            CieloTicketsApplication
+        >()
+        val intent = Intent(context, MainActivity::class.java).apply {
+            putExtra(MainActivity.EXTRA_PAYMENT_RESULT_REFERENCE, reference)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        ActivityScenario.launch<MainActivity>(intent).use {
+            onView(withText(R.string.payment_result_title))
+                .check(matches(isDisplayed()))
+            onView(withText(R.string.status_denied))
+                .check(matches(isDisplayed()))
+            onView(withText(eventName)).check(matches(isDisplayed()))
+        }
+    }
+
     private fun insertApprovedAttempt(eventName: String) {
+        insertAttempt(eventName, PaymentStatus.APPROVED)
+    }
+
+    private fun insertAttempt(
+        eventName: String,
+        status: PaymentStatus,
+    ): String {
         val application = ApplicationProvider.getApplicationContext<
             CieloTicketsApplication
         >()
         val timestamp = System.currentTimeMillis()
+        val reference = "instrumented-$timestamp"
         val attempt = PurchaseAttempt.restore(
-            reference = "instrumented-$timestamp",
+            reference = reference,
             items = listOf(
                 PurchaseItem(
                     eventId = "instrumented-event-$timestamp",
@@ -148,7 +178,7 @@ class MainNavigationTest {
                     unitPriceInCents = 1_000L,
                 ),
             ),
-            status = PaymentStatus.APPROVED,
+            status = status,
             paymentMethod = PaymentMethod.CREDIT_CASH,
             createdAt = timestamp,
             updatedAt = timestamp,
@@ -156,6 +186,7 @@ class MainNavigationTest {
         runBlocking {
             application.appContainer.purchaseRepository.insert(attempt)
         }
+        return reference
     }
 
     private fun View.centerX(): Int = left + (width / 2)

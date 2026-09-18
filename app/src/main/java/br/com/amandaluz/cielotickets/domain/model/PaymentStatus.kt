@@ -11,6 +11,7 @@ package br.com.amandaluz.cielotickets.domain.model
 enum class PaymentStatus {
     CREATED,
     PROCESSING,
+    TIMED_OUT,
     APPROVED,
     DENIED,
     CANCELLED,
@@ -22,7 +23,8 @@ enum class PaymentStatus {
 
     fun canTransitionTo(newStatus: PaymentStatus): Boolean = when {
         this == CREATED -> newStatus == PROCESSING
-        this == PROCESSING -> newStatus.isTerminal
+        this == PROCESSING -> newStatus == TIMED_OUT || newStatus.isTerminal
+        this == TIMED_OUT -> newStatus.isTerminal
         else -> false
     }
 

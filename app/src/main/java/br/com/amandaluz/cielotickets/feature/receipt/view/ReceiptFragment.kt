@@ -32,7 +32,7 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
             (requireActivity().application as CieloTicketsApplication).appContainer
         ReceiptViewModelFactory(
             reference = reference,
-            getPurchaseAttempt = container.getPurchaseAttempt,
+            observePurchaseAttempt = container.observePurchaseAttempt,
             buildTicketQrContent = container.buildTicketQrContent,
         )
     }
@@ -66,6 +66,13 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
         receiptContent.isVisible = state is ReceiptUiState.Content
         statePanel.render(state.toPanelModel())
         if (state is ReceiptUiState.Content) {
+            toolbar.setTitle(
+                if (state.receipt.status == PaymentStatus.APPROVED) {
+                    R.string.receipt_title
+                } else {
+                    R.string.payment_result_title
+                },
+            )
             renderReceipt(state.receipt)
         }
     }
@@ -106,6 +113,7 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
     private fun PaymentStatus.labelRes(): Int = when (this) {
         PaymentStatus.CREATED -> R.string.status_created
         PaymentStatus.PROCESSING -> R.string.status_processing
+        PaymentStatus.TIMED_OUT -> R.string.status_timed_out
         PaymentStatus.APPROVED -> R.string.status_approved
         PaymentStatus.DENIED -> R.string.status_denied
         PaymentStatus.CANCELLED -> R.string.status_cancelled
@@ -118,6 +126,7 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
         PaymentStatus.ERROR,
         -> R.color.status_error
         PaymentStatus.CANCELLED -> R.color.status_cancelled
+        PaymentStatus.TIMED_OUT -> R.color.status_timed_out
         PaymentStatus.CREATED,
         PaymentStatus.PROCESSING,
         -> R.color.status_processing

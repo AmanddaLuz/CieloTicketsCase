@@ -14,10 +14,21 @@ class PaymentStatusTest {
 
     @Test
     fun processingTransitionsToEveryTerminalStatus() {
+        assertTrue(PaymentStatus.PROCESSING.canTransitionTo(PaymentStatus.TIMED_OUT))
         assertTrue(PaymentStatus.PROCESSING.canTransitionTo(PaymentStatus.APPROVED))
         assertTrue(PaymentStatus.PROCESSING.canTransitionTo(PaymentStatus.DENIED))
         assertTrue(PaymentStatus.PROCESSING.canTransitionTo(PaymentStatus.CANCELLED))
         assertTrue(PaymentStatus.PROCESSING.canTransitionTo(PaymentStatus.ERROR))
+    }
+
+    @Test
+    fun timedOutAcceptsARealLatePaymentResult() {
+        assertFalse(PaymentStatus.TIMED_OUT.isTerminal)
+        assertTrue(PaymentStatus.TIMED_OUT.canTransitionTo(PaymentStatus.APPROVED))
+        assertTrue(PaymentStatus.TIMED_OUT.canTransitionTo(PaymentStatus.DENIED))
+        assertTrue(PaymentStatus.TIMED_OUT.canTransitionTo(PaymentStatus.CANCELLED))
+        assertTrue(PaymentStatus.TIMED_OUT.canTransitionTo(PaymentStatus.ERROR))
+        assertFalse(PaymentStatus.TIMED_OUT.canTransitionTo(PaymentStatus.PROCESSING))
     }
 
     @Test

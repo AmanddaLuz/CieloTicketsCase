@@ -28,6 +28,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addButton"
+            style="@style/Widget.Material3.Button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:insetTop="0dp"
@@ -39,4 +40,3 @@
     </LinearLayout>
 
 </merge>
-

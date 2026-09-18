@@ -16,5 +16,5 @@ interface PaymentGateway {
         data object TechnicalFailure : Result
     }
 
-    fun initiatePayment(attempt: PurchaseAttempt): Result
+    suspend fun initiatePayment(attempt: PurchaseAttempt): Result
 }

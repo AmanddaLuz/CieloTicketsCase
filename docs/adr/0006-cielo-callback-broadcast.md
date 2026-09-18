@@ -1,6 +1,6 @@
 # ADR 0006: Cielo callback broadcast
 
-**Status:** Accepted
+**Status:** Superseded by ADR 0004
 
 ## Decision
 
@@ -13,6 +13,11 @@ urlCallback=order://payment
 `CieloResponseActivity` decodes the response and sends a package-scoped broadcast.
 The active checkout ViewModel will persist the result through
 `UpdatePurchaseStatusUseCase`.
+
+This decision was superseded after process-death testing confirmed that the
+dynamic receiver cannot provide durable delivery. ADR 0004 restores a
+WorkManager handoff while preserving the same callback URI and broadcast for
+active UI delivery.
 
 ## Rationale
 

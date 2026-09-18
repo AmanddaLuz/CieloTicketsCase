@@ -76,7 +76,7 @@ class CheckoutViewModel(
     }
 
     fun reset() {
-        if (mutableUiState.value.phase in ACTIVE_PHASES ||
+        if (mutableUiState.value.phase == CheckoutPhase.STARTING ||
             mutableUiState.value.receiptNavigationPending
         ) {
             return

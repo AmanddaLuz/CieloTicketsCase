@@ -116,6 +116,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
             R.id.filterDenied to HistoryStatusFilter.DENIED,
             R.id.filterCancelled to HistoryStatusFilter.CANCELLED,
             R.id.filterError to HistoryStatusFilter.ERROR,
+            R.id.filterTimedOut to HistoryStatusFilter.TIMED_OUT,
             R.id.filterProcessing to HistoryStatusFilter.PROCESSING,
             R.id.filterCreated to HistoryStatusFilter.CREATED,
         )

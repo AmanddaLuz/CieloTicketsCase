@@ -94,6 +94,13 @@ abstract class PurchaseAttemptDao {
     @Query("SELECT * FROM purchase_attempts WHERE reference = :reference LIMIT 1")
     abstract suspend fun findByReference(reference: String): PurchaseAttemptWithItems?
 
+    /** Observa uma tentativa específica e suas mudanças de status. */
+    @Transaction
+    @Query("SELECT * FROM purchase_attempts WHERE reference = :reference LIMIT 1")
+    abstract fun observeByReference(
+        reference: String,
+    ): Flow<PurchaseAttemptWithItems?>
+
     /**
      * Observa tentativas e itens em ordem decrescente de criação.
      *

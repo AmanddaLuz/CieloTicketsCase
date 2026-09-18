@@ -18,10 +18,20 @@ For each accepted checkout action:
    the chosen `PaymentMethod` alongside the cart items.
 2. `SavePurchaseAttemptUseCase` persists the attempt before external work.
 3. `StartPaymentUseCase` atomically changes `CREATED` to `PROCESSING`.
-4. Only the caller that owns that transition launches Cielo.
+4. The owner schedules a unique one-minute timeout.
+5. Only that caller launches Cielo.
 
 `STARTING` and `PROCESSING` reject repeated taps, so one visible checkout creates
 at most one attempt.
+
+Dismissing a `PROCESSING` BottomSheet detaches only its in-memory presentation.
+The persisted attempt and timeout remain active, while the cart becomes
+available for another checkout. Starting the next Cielo session performs the
+safe active-reference rollover described below.
+
+If the timeout worker persists `TIMED_OUT`, an active checkout presents that
+the result is still unknown and directs the operator to history. It does not
+open the approved receipt or initiate another charge.
 
 `CieloPaymentRequestEncoderImpl` maps `attempt.paymentMethod` to the Cielo
 `paymentCode` field (`CREDITO_AVISTA` or `DEBITO_AVISTA`); see
@@ -34,11 +44,26 @@ The checkout ViewModel observes the package-scoped result through the
 registration and remains active while the Events ViewModel exists, including
 while the Cielo application is in the foreground.
 
+Callbacks containing a purchase reference are also handed to WorkManager by
+`CieloResponseActivity`. This durable path updates Room even when the process
+that initiated Cielo no longer exists. The broadcast remains the immediate UI
+path.
+
 - A matching reference updates the current processing attempt.
 - A blank reference is accepted only for the current processing attempt.
 - A different reference is ignored.
-- Only terminal statuses reach `UpdatePurchaseStatusUseCase`.
+- Cielo terminal statuses and the recoverable local timeout reach
+  `UpdatePurchaseStatusUseCase`.
 - Persistent compare-and-set rules make repeated callbacks idempotent.
+- A blank-reference callback is resolved from the active payment reference
+  persisted before Cielo was opened.
+- Starting another valid external payment first changes the previous
+  `PROCESSING` attempt to `TIMED_OUT`, then activates the new reference.
+
+After accepting the durable handoff, the callback adapter brings
+`MainActivity` to the foreground. The transaction result surface observes Room
+by reference: approvals expose the receipt and QR Code; denied, cancelled and
+error outcomes expose the persisted status without a QR Code.
 
 The terminal state is retained in `StateFlow`, so returning to a stopped XML
 surface still clears the cart after rendering the persisted result. Gateway

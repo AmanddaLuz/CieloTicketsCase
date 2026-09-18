@@ -12,6 +12,7 @@ import br.com.amandaluz.cielotickets.feature.receipt.usecase.BuildTicketQrConten
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.CreatePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.feature.events.usecase.GetAvailableEventsUseCase
 import br.com.amandaluz.cielotickets.feature.receipt.usecase.GetPurchaseAttemptUseCase
+import br.com.amandaluz.cielotickets.feature.receipt.usecase.ObservePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.feature.history.usecase.GetSalesHistoryUseCase
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.SavePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.StartPaymentUseCase
@@ -21,19 +22,26 @@ import br.com.amandaluz.cielotickets.feature.receipt.usecase.BuildTicketQrConten
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.CreatePurchaseAttemptUseCaseImpl
 import br.com.amandaluz.cielotickets.feature.events.usecase.GetAvailableEventsUseCaseImpl
 import br.com.amandaluz.cielotickets.feature.receipt.usecase.GetPurchaseAttemptUseCaseImpl
+import br.com.amandaluz.cielotickets.feature.receipt.usecase.ObservePurchaseAttemptUseCaseImpl
 import br.com.amandaluz.cielotickets.feature.history.usecase.GetSalesHistoryUseCaseImpl
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.SavePurchaseAttemptUseCaseImpl
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.StartPaymentUseCaseImpl
 import br.com.amandaluz.cielotickets.feature.checkout.usecase.UpdatePurchaseStatusUseCaseImpl
 import br.com.amandaluz.cielotickets.payment.cielo.CieloPaymentGatewayImpl
+import br.com.amandaluz.cielotickets.payment.cielo.CieloActivePaymentStoreImpl
+import br.com.amandaluz.cielotickets.payment.cielo.CieloActivePaymentCoordinatorImpl
 import br.com.amandaluz.cielotickets.payment.cielo.launcher.CieloPaymentIntentLauncherImpl
 import br.com.amandaluz.cielotickets.payment.cielo.encoder.CieloPaymentRequestEncoderImpl
+import br.com.amandaluz.cielotickets.payment.timeout.PaymentProcessingTimeoutSchedulerImpl
 
 class AppContainerImpl(
     context: Context,
 ) : AppContainer {
     private val applicationContext = context.applicationContext
     private val eventRepository: EventRepository = LocalEventRepositoryImpl()
+    private val activePaymentStore by lazy {
+        CieloActivePaymentStoreImpl(applicationContext)
+    }
 
     override val purchaseRepository: PurchaseRepository by lazy {
         val dao = AppDatabase.getInstance(applicationContext).purchaseAttemptDao()
@@ -60,6 +68,10 @@ class AppContainerImpl(
         GetPurchaseAttemptUseCaseImpl(purchaseRepository)
     }
 
+    override val observePurchaseAttempt: ObservePurchaseAttemptUseCase by lazy {
+        ObservePurchaseAttemptUseCaseImpl(purchaseRepository)
+    }
+
     override val savePurchaseAttempt: SavePurchaseAttemptUseCase by lazy {
         SavePurchaseAttemptUseCaseImpl(purchaseRepository)
     }
@@ -74,8 +86,18 @@ class AppContainerImpl(
             accessToken = BuildConfig.CIELO_ACCESS_TOKEN,
             requestEncoder = CieloPaymentRequestEncoderImpl(),
             intentLauncher = CieloPaymentIntentLauncherImpl(applicationContext),
+            activePaymentCoordinator = CieloActivePaymentCoordinatorImpl(
+                activePaymentStore = activePaymentStore,
+                updatePurchaseStatus = updatePurchaseStatus,
+            ),
         )
-        StartPaymentUseCaseImpl(paymentGateway, updatePurchaseStatus)
+        StartPaymentUseCaseImpl(
+            paymentGateway = paymentGateway,
+            updatePurchaseStatus = updatePurchaseStatus,
+            processingTimeoutScheduler = PaymentProcessingTimeoutSchedulerImpl(
+                applicationContext,
+            ),
+        )
     }
 
     override val getSalesHistory: GetSalesHistoryUseCase by lazy {

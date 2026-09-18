@@ -3,14 +3,14 @@ package br.com.amandaluz.cielotickets.feature.receipt.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import br.com.amandaluz.cielotickets.feature.receipt.usecase.BuildTicketQrContentUseCase
-import br.com.amandaluz.cielotickets.feature.receipt.usecase.GetPurchaseAttemptUseCase
+import br.com.amandaluz.cielotickets.feature.receipt.usecase.ObservePurchaseAttemptUseCase
 import br.com.amandaluz.cielotickets.feature.common.BrazilianCurrencyFormatter
 import br.com.amandaluz.cielotickets.feature.common.BrazilianDateTimeFormatter
 import br.com.amandaluz.cielotickets.feature.receipt.ReceiptUiMapper
 
 class ReceiptViewModelFactory(
     private val reference: String,
-    private val getPurchaseAttempt: GetPurchaseAttemptUseCase,
+    private val observePurchaseAttempt: ObservePurchaseAttemptUseCase,
     private val buildTicketQrContent: BuildTicketQrContentUseCase,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -22,7 +22,7 @@ class ReceiptViewModelFactory(
         @Suppress("UNCHECKED_CAST")
         return ReceiptViewModel(
             reference = reference,
-            getPurchaseAttempt = getPurchaseAttempt,
+            observePurchaseAttempt = observePurchaseAttempt,
             uiMapper = ReceiptUiMapper(
                 formatCurrency = currencyFormatter::format,
                 formatDate = dateFormatter::format,
