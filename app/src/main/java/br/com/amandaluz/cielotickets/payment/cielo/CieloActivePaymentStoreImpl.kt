@@ -1,6 +1,7 @@
 package br.com.amandaluz.cielotickets.payment.cielo
 
 import android.content.Context
+import androidx.core.content.edit
 
 class CieloActivePaymentStoreImpl(
     context: Context,
@@ -16,9 +17,12 @@ class CieloActivePaymentStoreImpl(
             val current = currentReference()
             when {
                 current != null && current != reference -> false
-                else -> preferences.edit()
-                    .putString(KEY_REFERENCE, reference)
-                    .commit()
+                else -> {
+                    preferences.edit {
+                        putString(KEY_REFERENCE, reference)
+                    }
+                    true
+                }
             }
         }
     }
@@ -41,9 +45,10 @@ class CieloActivePaymentStoreImpl(
             if (currentReference() != expectedReference) {
                 false
             } else {
-                preferences.edit()
-                    .putString(KEY_REFERENCE, newReference)
-                    .commit()
+                preferences.edit {
+                    putString(KEY_REFERENCE, newReference)
+                }
+                true
             }
         }
     }
@@ -52,7 +57,9 @@ class CieloActivePaymentStoreImpl(
         require(reference.isNotBlank()) { "Payment reference must not be blank" }
         synchronized(lock) {
             if (currentReference() == reference) {
-                preferences.edit().remove(KEY_REFERENCE).commit()
+                preferences.edit {
+                    remove(KEY_REFERENCE)
+                }
             }
         }
     }

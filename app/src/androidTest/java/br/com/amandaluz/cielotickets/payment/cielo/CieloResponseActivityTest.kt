@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
+import android.os.Build
 import android.util.Base64
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
@@ -48,10 +49,17 @@ class CieloResponseActivityTest {
                 callbackReceived.countDown()
             }
         }
-        context.registerReceiver(
-            receiver,
-            IntentFilter(CieloResponseActivity.ACTION_PAYMENT_RESULT),
-        )
+        val filter = IntentFilter(CieloResponseActivity.ACTION_PAYMENT_RESULT)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(
+                receiver,
+                filter,
+                Context.RECEIVER_NOT_EXPORTED,
+            )
+        } else {
+            @Suppress("UnspecifiedRegisterReceiverFlag")
+            context.registerReceiver(receiver, filter)
+        }
 
         try {
             val scenario = launchCallback(context, "reference-activity")

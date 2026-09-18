@@ -183,6 +183,7 @@ kover {
                     "*.payment.cielo.CieloActivePaymentStoreImpl",
                     "*.payment.cielo.CieloPaymentCallbackScheduler",
                     "*.payment.cielo.CieloPaymentCallbackWorker",
+                    "*.payment.cielo.CieloPaymentResultObserverImpl",
                     "*.payment.cielo.CieloPaymentIntentLauncherImpl",
                     "*.payment.cielo.CieloPaymentRequestEncoderImpl",
                     "*.payment.timeout.PaymentProcessingTimeoutSchedulerImpl",
